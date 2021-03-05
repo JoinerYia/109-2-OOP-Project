@@ -1,0 +1,9 @@
+diff a/ConsoleApplication1/ConsoleApplication1/ConsoleApplication1.cpp b/ConsoleApplication1/ConsoleApplication1/ConsoleApplication1.cpp	(rejected hunks)
+@@ -5,7 +5,6 @@
+ using namespace System; 
+  
+ bool Guess(int number) { 
+-	return false; 
+ 
+ } 
+  
