@@ -186,84 +186,13 @@ void CGameStateOver::OnShow()
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 /////////////////////////////////////////////////////////////////////////////
-Ctest::Ctest()
-{
-	testX = testY = 0;	//重設座標
-}
-
-void Ctest::OnMove()
-{
-	if(testX <= SIZE_Y)		//若還未超過底下的邊緣時
-	{
-		testX += 3;
-		testY += 3;
-	}
-	else
-	{
-		testX = testY = 0;	//重設座標
-	}
-}
-
-void Ctest::LoadBitmap()
-{
-	test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));	
-}
-
-void Ctest::OnShow()
-{
-	test.SetTopLeft(testX, testY);
-	test.ShowBitmap();
-}
-
-CGameMap::CGameMap() : testX(20), testY(40), MW(48), MH(48)	//給予地圖左上角座標及每張圖寬高
-{
-	//地圖陣列初值
-	int map_init[4][5] =
-	{
-		{0, 0, 1, 0, 0},
-		{0, 1, 2, 1, 0}, 
-		{1, 2, 1, 2, 1}, 
-		{2, 1, 2, 1, 2}
-	};
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 5; j++)
-			map[i][j] = map_init[i][j];
-}
-
-void CGameMap::LoadBitmap()
-{
-	blue.LoadBitmap(IDB_BLUE);	//讀藍色圖片
-	green.LoadBitmap(IDB_GREEN);//讀綠色圖片
-}
-
-void CGameMap::OnShow()
-{
-	for (int i = 0; i < 5; i++)		//往右顯示五張圖
-		for (int j = 0; j < 4; j++)	//往下顯示四張圖
-		{
-			switch (map[j][i])
-			{
-				case 0:
-					break;
-				case 1:
-					blue.SetTopLeft(testX + (MW * i), testY + (MH * j));	//設定座標
-					blue.ShowBitmap();			//顯示
-					break;
-				case 2:
-					green.SetTopLeft(testX + (MW * i), testY + (MH * j));	//設定座標
-					green.ShowBitmap();			//顯示
-					break;
-				default:
-					ASSERT(0);	//陣列異常
-			}
-		}
-}
 
 CGameStateRun::CGameStateRun(CGame *g)
 : CGameState(g), NUMBALLS(28)
 {
 	ball = new CBall [NUMBALLS];
-	testX = testY = 0;
+	//testX = testY = 0;
+	player1 = Player(3);
 }
 
 CGameStateRun::~CGameStateRun()
@@ -311,6 +240,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		background.SetTopLeft(60 ,-background.Height());
 	background.SetTopLeft(background.Left(),background.Top()+1);
 	//test.SetTopLeft(10, 10);
+	/*
 	if(testX <= SIZE_Y)		//若還未超過底下的邊緣時
 	{
 		testX += 5;
@@ -321,6 +251,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		testX = testY = 0;	//重設座標
 	}
 	test.SetTopLeft(testX, testY);
+	*/
 	//
 	// 移動球
 	//
@@ -352,7 +283,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	// 移動彈跳的球
 	//
 	bball.OnMove();
-	c_test.OnMove();
+	//c_test.OnMove();
+	player1.OnMove();
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -370,9 +302,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		ball[i].LoadBitmap();								// 載入第i個球的圖形
 	eraser.LoadBitmap();
 	background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
-	test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));			// 練習時用的圖片
-	c_test.LoadBitmap();
-	gameMap.LoadBitmap();
+	//test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));			// 練習時用的圖片
+	
+	//c_test.LoadBitmap();
+	player1.LoadBitmapPlayer("RES/playerMove_1_", 6);
+	//gameMap.LoadBitmap();
 	//
 	// 完成部分Loading動作，提高進度
 	//
@@ -401,13 +335,25 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
 	if (nChar == KEY_LEFT)
+	{
 		eraser.SetMovingLeft(true);
+		player1.SetMovingLeft(true);
+	}
 	if (nChar == KEY_RIGHT)
+	{
 		eraser.SetMovingRight(true);
+		player1.SetMovingRight(true);
+	}
 	if (nChar == KEY_UP)
+	{
 		eraser.SetMovingUp(true);
+		player1.SetMovingUp(true);
+	}
 	if (nChar == KEY_DOWN)
+	{
 		eraser.SetMovingDown(true);
+		player1.SetMovingDown(true);
+	}
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -417,13 +363,25 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
 	if (nChar == KEY_LEFT)
+	{
 		eraser.SetMovingLeft(false);
+		player1.SetMovingLeft(false);
+	}
 	if (nChar == KEY_RIGHT)
+	{
 		eraser.SetMovingRight(false);
+		player1.SetMovingRight(false);
+	}
 	if (nChar == KEY_UP)
+	{
 		eraser.SetMovingUp(false);
+		player1.SetMovingUp(false);
+	}
 	if (nChar == KEY_DOWN)
+	{
 		eraser.SetMovingDown(false);
+		player1.SetMovingDown(false);
+	}
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -475,8 +433,9 @@ void CGameStateRun::OnShow()
 	corner.ShowBitmap();
 	corner.SetTopLeft(SIZE_X-corner.Width(), SIZE_Y-corner.Height());
 	corner.ShowBitmap();
-	test.ShowBitmap();
-	c_test.OnShow();
-	gameMap.OnShow();
+	//test.ShowBitmap();
+	//c_test.OnShow();
+	player1.OnShow();
+	//gameMap.OnShow();
 }
 }

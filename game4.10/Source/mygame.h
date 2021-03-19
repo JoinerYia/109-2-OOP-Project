@@ -41,6 +41,7 @@
 #include "CEraser.h"
 #include "CBall.h"
 #include "CBouncingBall.h"
+#include "Player.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -75,31 +76,7 @@ namespace game_framework {
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
-	class Ctest
-	{
-	public:
-		Ctest();
-		void LoadBitmap();
-		void OnMove();
-		void OnShow();
-	private:
-		CMovingBitmap	test;		// 練習時用的圖片
-		int				testX, testY;//練習用移動距離
-	};
 
-	class CGameMap
-	{
-	public:
-		CGameMap();
-		void LoadBitmap();
-		void OnShow();
-	private:
-		CMovingBitmap	blue, green;		// 藍綠兩地圖
-		int map[4][5];//地圖矩陣 index
-		const int				testX, testY;//座標
-		const int MW, MH;//地圖寬高
-	};
-	
 	class CGameStateRun : public CGameState {
 	public:
 		CGameStateRun(CGame *g);
@@ -125,10 +102,11 @@ namespace game_framework {
 		CEraser			eraser;		// 拍子
 		CInteger		hits_left;	// 剩下的撞擊數
 		CBouncingBall   bball;		// 反覆彈跳的球
-		CMovingBitmap	test;		// 練習時用的圖片
-		int				testX, testY;//練習用移動距離
-		Ctest			c_test;
-		CGameMap		gameMap;	//地圖
+		//CMovingBitmap	test;		// 練習時用的圖片
+		//int				testX, testY;//練習用移動距離
+		//Ctest			c_test;
+		//CGameMap		gameMap;	//地圖
+		Player			player1;		//玩家
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
