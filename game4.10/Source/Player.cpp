@@ -40,80 +40,137 @@ namespace game_framework
 	}
 	*/
 
-	Player::Player()
+	Player::Player()									// 設定動畫播放速度為 10(越大越慢)
 	{
 		_pointX = _pointY = 0;	//重設座標
 		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
+		_player_left.SetDelayCount(10);
+		_player_right.SetDelayCount(10);
 	}
 
-	Player::Player(int DelayCount)
+	Player::Player(int DelayCount)						// 設定動畫播放速度的常數(越大越慢)
 	{
 		_pointX = _pointY = 0;	//重設座標
 		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
-		_player.SetDelayCount(DelayCount);
+		_player_left.SetDelayCount(DelayCount);
+		_player_right.SetDelayCount(DelayCount);
 	}
 
 	Player::~Player()
 	{
 	}
 
-	void Player::LoadBitmapPlayer(string file, int n)
+	void Player::LoadBitmapPlayer(string file, int n)	// 從路徑 "file(1 ~ n)" 新增 n 張圖形
 	{
 		for (int i = 1; i <= n; i++)
 		{
-			stringstream fileString;
-			fileString << file << i << ".bmp";
-			char* fileChar = new char[100];
-			fileString >> fileChar;
-			_player.AddBitmap(fileChar, RGB(255, 255, 255));		//設白色為透明
+			//讀取往左動畫圖片
+			stringstream fileString1;
+			fileString1 << file << i << "_left.bmp";
+			char* fileChar1 = new char[100];
+			fileString1 >> fileChar1;
+			_player_left.AddBitmap(fileChar1, RGB(255, 255, 255));		//設白色為透明
+
+			//讀取往右動畫圖片
+			stringstream fileString2;
+			fileString2 << file << i << "_right.bmp";
+			char* fileChar2 = new char[100];
+			fileString2 >> fileChar2;
+			_player_right.AddBitmap(fileChar2, RGB(255, 255, 255));		//設白色為透明
 		}
 	}
 
-	void Player::OnMove()
+	void Player::OnMove()								// 玩家依頻率更換bitmap
 	{
 		const int STEP_SIZE = 5;
 		if (_isMovingLeft)
+		{
 			_pointX -= STEP_SIZE;
+			_endLeftRight = true;
+		}
 		if (_isMovingRight)
+		{
 			_pointX += STEP_SIZE;
+			_endLeftRight = false;
+		}
 		if (_isMovingUp)
 			_pointY -= STEP_SIZE;
 		if (_isMovingDown)
 			_pointY += STEP_SIZE;
+		//有往任意方向移動
+		if ((_isMovingDown || _isMovingLeft || _isMovingRight || _isMovingUp) == true)
+		{
+			_player_left.OnMove();
+			_player_right.OnMove();
+		}
 		//完全沒移動
-		if (_isMovingDown == _isMovingLeft && _isMovingLeft == _isMovingRight && _isMovingRight == _isMovingUp && _isMovingUp == false)
-			;
 		else
-			_player.OnMove();
+		{
+			_player_left.Reset();
+			_player_right.Reset();
+		}
 	}
 
-	void Player::OnShow()
+	void Player::OnShow()								// 玩家顯示
 	{
-		_player.SetTopLeft(_pointX, _pointY);
-		_player.OnShow();
+		//往左走
+		if (_isMovingLeft)
+		{
+			//顯示往左動畫
+			_player_left.SetTopLeft(_pointX, _pointY);
+			_player_left.OnShow();
+			//不顯示往右動畫
+			//_player_right.SetTopLeft(-_pointX, -_pointY);
+		}
+		//往右走
+		else if (_isMovingRight)
+		{
+			//不顯示往左動畫
+			//_player_left.SetTopLeft(-_pointX, -_pointY);
+			//顯示往右動畫
+			_player_right.SetTopLeft(_pointX, _pointY);
+			_player_right.OnShow();
+		}
+		//停下或往上下
+		{
+			//最後往左
+			if (_endLeftRight)
+			{
+				//顯示往左動畫
+				_player_left.SetTopLeft(_pointX, _pointY);
+				_player_left.OnShow();
+			}
+			//最後往右
+			else
+			{
+				//顯示往右動畫
+				_player_right.SetTopLeft(_pointX, _pointY);
+				_player_right.OnShow();
+			}
+		}
 	}
 
-	void Player::SetMovingDown(bool flag)
+	void Player::SetMovingDown(bool flag)				// 設定是否正在往下移動
 	{
 		_isMovingDown = flag;
 	}
 
-	void Player::SetMovingLeft(bool flag)
+	void Player::SetMovingLeft(bool flag)				// 設定是否正在往左移動
 	{
 		_isMovingLeft = flag;
 	}
 
-	void Player::SetMovingRight(bool flag)
+	void Player::SetMovingRight(bool flag)				// 設定是否正在往右移動
 	{
 		_isMovingRight = flag;
 	}
 
-	void Player::SetMovingUp(bool flag)
+	void Player::SetMovingUp(bool flag)				// 設定是否正在往上移動
 	{
 		_isMovingUp = flag;
 	}
 
-	void Player::SetXY(int x, int y)
+	void Player::SetXY(int x, int y)					// 設定玩家左上角座標
 	{
 		/*	if(testX <= SIZE_Y)		//若還未超過底下的邊緣時
 		{
@@ -128,12 +185,12 @@ namespace game_framework
 		_pointY = y;
 	}
 
-	int Player::GetX()
+	int Player::GetX()									// 取得玩家 X 座標
 	{
 		return _pointX;
 	}
 
-	int Player::GetY()
+	int Player::GetY()									// 取得玩家 Y 座標
 	{
 		return _pointY;
 	}
