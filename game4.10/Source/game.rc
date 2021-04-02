@@ -106,7 +106,7 @@ IDB_LOADING             BITMAP                  "..\\res\\loading.bmp"
 
 IDB_HELLO               BITMAP                  "..\\res\\bitmap3.bmp"
 
-IDB_TIGER               BITMAP                  "E:\\X\\臺北科技大學\\109-2-OOP-Project\\game4.10\\RES\\未命名.bmp"
+IDB_TIGER               BITMAP                  "..\\res\\未命名.bmp"
 
 IDB_BLUE                BITMAP                  "..\\res\\bmp00001.bmp"
 

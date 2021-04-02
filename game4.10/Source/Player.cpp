@@ -81,10 +81,10 @@ namespace game_framework
 		if (_isMovingDown)
 			_pointY += STEP_SIZE;
 		//完全沒移動
-		if (_isMovingDown == _isMovingLeft && _isMovingLeft == _isMovingRight && _isMovingRight == _isMovingUp && _isMovingUp == false)
-			;
-		else
+		if (_isMovingDown || _isMovingLeft || _isMovingRight || _isMovingUp)
 			_player.OnMove();
+		else
+			;
 	}
 
 	void Player::OnShow()
