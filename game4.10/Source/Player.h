@@ -40,12 +40,13 @@ namespace game_framework
 		int GetX();									// 取得玩家 X 座標
 		int GetY();									// 取得玩家 Y 座標
 	private:
-		CAnimation		_player;				// 玩家動畫
+		CAnimation		_player_left, _player_right;// 玩家動畫
 		int				_pointX, _pointY;		// 玩家座標
 		bool			_isMovingDown;			// 是否正在往下移動
 		bool			_isMovingLeft;			// 是否正在往左移動
 		bool			_isMovingRight;			// 是否正在往右移動
 		bool			_isMovingUp;			// 是否正在往上移動
+		bool			_endLeftRight;			// 最後是往左還是往右(true 表示左)
 	};
 	/*
 	class CGameMap

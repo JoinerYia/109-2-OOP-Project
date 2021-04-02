@@ -80,7 +80,7 @@ void CGameStateInit::OnInit()
 	// 開始載入資料
 	//
 	logo.LoadBitmap(IDB_BACKGROUND);
-	Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
@@ -161,7 +161,7 @@ void CGameStateOver::OnInit()
 	//
 	// 開始載入資料
 	//
-	Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 最終進度為100%
 	//
@@ -311,7 +311,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// 完成部分Loading動作，提高進度
 	//
 	ShowInitProgress(50);
-	Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 繼續載入其他資料
 	//
