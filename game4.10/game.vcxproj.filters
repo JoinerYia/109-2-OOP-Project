@@ -129,8 +129,15 @@
     <ClCompile Include="Source\CBouncingBall.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Floor.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -169,13 +176,22 @@
     <ClInclude Include="Source\CBouncingBall.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Player.h" />
-    <ClInclude Include="Shape.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="Source\Player.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Floor.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Shape.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\game.rc">
       <Filter>MFC</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\bitmap3.bmp">
@@ -188,6 +204,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\bitmap4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\BackGround.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Floor.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

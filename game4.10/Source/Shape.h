@@ -1,7 +1,7 @@
 #pragma once
 #include <cmath>
 
-class Shape
+class ShapeF
 {
 
 private:
@@ -11,10 +11,10 @@ protected:
 	float _x, _y;
 
 public:
-	Shape();
-	Shape(float x, float y);
-	Shape(const Shape &shape);
-	~Shape();
+	ShapeF();
+	ShapeF(float x, float y);
+	ShapeF(const ShapeF &shape);
+	~ShapeF();
 
 	float GetX() const;
 	float GetY() const;
@@ -26,7 +26,7 @@ public:
 	virtual bool isPointInside(float x, float y) const;
 	virtual bool isLinePass(float m, float c) const;
 	virtual bool isLinePass(float m, float c, float x1, float x2) const;
-	virtual bool isShapeCover(Shape &shape) const;
+	bool isShapeFCover(ShapeF &shape) const;
 
 	virtual float GetMax(float vectorX, float vectorY) const;
 	virtual float GetMin(float vectorX, float vectorY) const;
@@ -37,7 +37,7 @@ public:
 	virtual float GetBottom() const;
 };
 
-class Circle :public Shape
+class CircleF :public ShapeF
 {
 
 private:
@@ -46,16 +46,18 @@ private:
 	void Init(float x, float y, float radius);
 
 public:
-	Circle();
-	Circle(float radius);
-	Circle(float x, float y);
-	Circle(float x, float y, float radius);
-	Circle(const Circle &Circle);
+	CircleF();
+	CircleF(float radius);
+	CircleF(float x, float y);
+	CircleF(float x, float y, float radius);
+	CircleF(const CircleF &circle);
+
+	float GetRadius() const;
 
 	bool isPointInside(float x, float y) const override;
 	bool isLinePass(float m, float c) const override;
 	bool isLinePass(float m, float c, float x1, float x2) const override;
-//	bool isShapeCover(Shape &shape) const override;
+	//	bool isShapeFCover(ShapeF &shape) const override;
 
 	float GetMax(float vectorX, float vectorY) const override;
 	float GetMin(float vectorX, float vectorY) const override;
@@ -66,7 +68,7 @@ public:
 	float GetBottom() const override;
 };
 
-class Rectangle :public Shape
+class RectangleF :public ShapeF
 {
 
 private:
@@ -75,16 +77,18 @@ private:
 	void Init(float x, float y, float width, float height);
 
 public:
-	Rectangle();
-	Rectangle(float width, float height);
-	Rectangle(float x, float y, float width, float height);
-	Rectangle(const Rectangle &Rectangle);
+	RectangleF();
+	RectangleF(float width, float height);
+	RectangleF(float x, float y, float width, float height);
+	RectangleF(const RectangleF &rectangle);
 
+	float GetWidth() const;
+	float GetHeight() const;
 
 	bool isPointInside(float x, float y) const override;
 	bool isLinePass(float m, float c) const override;
 	bool isLinePass(float m, float c, float x1, float x2) const override;
-//	bool isShapeCover(Shape &shape) const override;
+	//	bool isShapeFCover(ShapeF &shape) const override;
 
 	float GetMax(float vectorX, float vectorY) const override;
 	float GetMin(float vectorX, float vectorY) const override;

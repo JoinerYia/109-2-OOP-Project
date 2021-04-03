@@ -42,7 +42,7 @@ namespace game_framework
 
 	Player::Player()									// 設定動畫播放速度為 10(越大越慢)
 	{
-		_pointX = _pointY = 0;	//重設座標
+		_shape = RectangleF(45, 50);	//重設座標
 		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
 		_player_left.SetDelayCount(10);
 		_player_right.SetDelayCount(10);
@@ -50,15 +50,13 @@ namespace game_framework
 
 	Player::Player(int DelayCount)						// 設定動畫播放速度的常數(越大越慢)
 	{
-		_pointX = _pointY = 0;	//重設座標
+		_shape = RectangleF(45, 50);	//重設座標
 		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
 		_player_left.SetDelayCount(DelayCount);
 		_player_right.SetDelayCount(DelayCount);
 	}
 
-	Player::~Player()
-	{
-	}
+	Player::~Player() {	}
 
 	void Player::LoadBitmapPlayer(string file, int n)	// 從路徑 "file(1 ~ n)" 新增 n 張圖形
 	{
@@ -85,18 +83,18 @@ namespace game_framework
 		const int STEP_SIZE = 5;
 		if (_isMovingLeft)
 		{
-			_pointX -= STEP_SIZE;
+			Offset(-STEP_SIZE, 0);
 			_endLeftRight = true;
 		}
 		if (_isMovingRight)
 		{
-			_pointX += STEP_SIZE;
+			Offset(STEP_SIZE, 0);
 			_endLeftRight = false;
 		}
 		if (_isMovingUp)
-			_pointY -= STEP_SIZE;
+			Offset(0, -STEP_SIZE);
 		if (_isMovingDown)
-			_pointY += STEP_SIZE;
+			Offset(0, STEP_SIZE);
 		//有往任意方向移動
 		if ((_isMovingDown || _isMovingLeft || _isMovingRight || _isMovingUp) == true)
 		{
@@ -116,7 +114,7 @@ namespace game_framework
 		if (_isMovingLeft)
 		{
 			//顯示往左動畫
-			_player_left.SetTopLeft(_pointX, _pointY);
+			_player_left.SetTopLeft(GetX(), GetY());
 			_player_left.OnShow();
 			//不顯示往右動畫
 			//_player_right.SetTopLeft(-_pointX, -_pointY);
@@ -127,7 +125,7 @@ namespace game_framework
 			//不顯示往左動畫
 			//_player_left.SetTopLeft(-_pointX, -_pointY);
 			//顯示往右動畫
-			_player_right.SetTopLeft(_pointX, _pointY);
+			_player_right.SetTopLeft(GetX(), GetY());
 			_player_right.OnShow();
 		}
 		//停下或往上下
@@ -136,14 +134,14 @@ namespace game_framework
 			if (_endLeftRight)
 			{
 				//顯示往左動畫
-				_player_left.SetTopLeft(_pointX, _pointY);
+				_player_left.SetTopLeft(GetX(), GetY());
 				_player_left.OnShow();
 			}
 			//最後往右
 			else
 			{
 				//顯示往右動畫
-				_player_right.SetTopLeft(_pointX, _pointY);
+				_player_right.SetTopLeft(GetX(), GetY());
 				_player_right.OnShow();
 			}
 		}
@@ -169,6 +167,10 @@ namespace game_framework
 		_isMovingUp = flag;
 	}
 
+	void Player::Offset(int dx, int dy) {
+		_shape.Offset((float)dx, (float)dy);
+	}
+
 	void Player::SetXY(int x, int y)					// 設定玩家左上角座標
 	{
 		/*	if(testX <= SIZE_Y)		//若還未超過底下的邊緣時
@@ -180,18 +182,17 @@ namespace game_framework
 		{
 			testX = testY = 0;	//重設座標
 		}*/
-		_pointX = x;
-		_pointY = y;
+		_shape.Offset((float)(x - GetX()), (float)(y - GetY()));
 	}
 
 	int Player::GetX()									// 取得玩家 X 座標
 	{
-		return _pointX;
+		return (int)_shape.GetLeft();
 	}
 
 	int Player::GetY()									// 取得玩家 Y 座標
 	{
-		return _pointY;
+		return (int)_shape.GetTop();
 	}
 
 	/*

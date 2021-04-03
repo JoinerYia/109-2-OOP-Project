@@ -66,8 +66,6 @@ IDB_BALL                BITMAP                  "..\\res\\ball.bmp"
 
 IDB_ERASER1             BITMAP                  "..\\res\\eraser1.bmp"
 
-IDB_BACKGROUND          BITMAP                  "..\\res\\ntutcsie.bmp"
-
 IDB_CORNER              BITMAP                  "..\\res\\corner.bmp"
 
 IDB_0                   BITMAP                  "..\\res\\bmp0.bmp"
@@ -111,6 +109,10 @@ IDB_TIGER               BITMAP                  "..\\res\\¥¼©R¦W.bmp"
 IDB_BLUE                BITMAP                  "..\\res\\bmp00001.bmp"
 
 IDB_GREEN               BITMAP                  "..\\res\\bitmap4.bmp"
+
+IDB_BACKGROUND          BITMAP                  "..\\res\\BackGround.bmp"
+
+IDB_FLOOR               BITMAP                  "..\\RES\\Floor.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

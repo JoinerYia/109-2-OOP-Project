@@ -2,9 +2,7 @@
 
 #include <string>
 #include <sstream>
-#include "CEraser.h"
-#include "CBall.h"
-#include "CBouncingBall.h"
+#include "Shape.h"
 
 namespace game_framework
 {
@@ -36,17 +34,19 @@ namespace game_framework
 		void SetMovingLeft(bool flag);				// 設定是否正在往左移動
 		void SetMovingRight(bool flag);				// 設定是否正在往右移動
 		void SetMovingUp(bool flag);				// 設定是否正在往上移動
+		void Offset(int dx, int dy);				// 移動玩家座標
 		void SetXY(int x, int y);					// 設定玩家左上角座標
 		int GetX();									// 取得玩家 X 座標
 		int GetY();									// 取得玩家 Y 座標
 	private:
+		RectangleF		 _shape;				// 玩家的中心座標及大小
 		CAnimation		_player_left, _player_right;// 玩家動畫
-		int				_pointX, _pointY;		// 玩家座標
 		bool			_isMovingDown;			// 是否正在往下移動
 		bool			_isMovingLeft;			// 是否正在往左移動
 		bool			_isMovingRight;			// 是否正在往右移動
 		bool			_isMovingUp;			// 是否正在往上移動
 		bool			_endLeftRight;			// 最後是往左還是往右(true 表示左)
+		float			_gravity;				// 玩家所受的重力加速度
 	};
 	/*
 	class CGameMap

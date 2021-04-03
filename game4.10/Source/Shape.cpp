@@ -1,5 +1,7 @@
 #include "Shape.h"
 
+
+
 float distanceToPoint(float x1, float y1, float x2, float y2) {
 	float dx = x2 - x1, dy = y2 - y1;
 	return sqrt(dx*dx + dy * dy);
@@ -16,44 +18,44 @@ bool isValueBetween(float value, float limit1, float limit2) {
 	return (value - limit1)*(value - limit2) < 0;
 }
 
-#pragma region Shape
+#pragma region ShapeF
 
-void Shape::Init(float x, float y) {
+void ShapeF::Init(float x, float y) {
 	_x = x;
 	_y = y;
 }
 
-Shape::Shape() { Init(0, 0); }
-Shape::Shape(float x, float y) { Init(x, y); }
-Shape::Shape(const Shape &shape) { Init(shape._x, shape._y); }
-Shape::~Shape() {}
+ShapeF::ShapeF() { Init(0, 0); }
+ShapeF::ShapeF(float x, float y) { Init(x, y); }
+ShapeF::ShapeF(const ShapeF &shape) { Init(shape._x, shape._y); }
+ShapeF::~ShapeF() {}
 
-float Shape::GetX() const { return _x; }
-float Shape::GetY() const { return _y; }
-void Shape::SetX(float value) { _x = value; }
-void Shape::SetY(float value) { _y = value; }
+float ShapeF::GetX() const { return _x; }
+float ShapeF::GetY() const { return _y; }
+void ShapeF::SetX(float value) { _x = value; }
+void ShapeF::SetY(float value) { _y = value; }
 
-void Shape::Offset(float dx, float dy) {
+void ShapeF::Offset(float dx, float dy) {
 	_x += dx;
 	_y += dy;
 }
 
-bool Shape::isPointInside(float x, float y) const {
+bool ShapeF::isPointInside(float x, float y) const {
 	return distanceToPoint(_x, _y, x, y) == 0;
 }
 
-bool Shape::isLinePass(float m, float c) const {
+bool ShapeF::isLinePass(float m, float c) const {
 	return distanceToLine(_x, _y, m, c) == 0;
 }
 
-bool Shape::isLinePass(float m, float c, float x1, float x2) const {
+bool ShapeF::isLinePass(float m, float c, float x1, float x2) const {
 	float y1 = m * x1 + c,
 		y2 = m * x2 + c;
 	if ((!isValueBetween(_x, x1, x2)) || (!isValueBetween(_y, y1, y2))) return false;
 	return isLinePass(m, c);
 }
 
-bool Shape::isShapeCover(Shape &shape)const {
+bool ShapeF::isShapeFCover(ShapeF &shape)const {
 	/*
 	float dx = shape._x - this->_x,
 		dy = shape._y - this->_y;
@@ -64,48 +66,50 @@ bool Shape::isShapeCover(Shape &shape)const {
 	return checkX && checkY;
 }
 
-float Shape::GetMax(float vectorX, float vectorY) const {
+float ShapeF::GetMax(float vectorX, float vectorY) const {
 	float temp = _x * vectorX + _y * vectorY;
 	float len = sqrt(vectorX*vectorX + vectorY * vectorY);
 	return temp / len;
 }
 
-float Shape::GetMin(float vectorX, float vectorY) const {
+float ShapeF::GetMin(float vectorX, float vectorY) const {
 	float temp = _x * vectorX + _y * vectorY;
 	float len = sqrt(vectorX*vectorX + vectorY * vectorY);
 	return temp / len;
 }
 
-float Shape::GetLeft() const { return _x; }
-float Shape::GetRight() const { return _x; }
-float Shape::GetTop() const { return _y; }
-float Shape::GetBottom() const { return _y; }
+float ShapeF::GetLeft() const { return _x; }
+float ShapeF::GetRight() const { return _x; }
+float ShapeF::GetTop() const { return _y; }
+float ShapeF::GetBottom() const { return _y; }
 
 #pragma endregion
 
-#pragma region Circle
+#pragma region CircleF
 
-void Circle::Init(float x, float y, float radius) {
+void CircleF::Init(float x, float y, float radius) {
 	_x = x;
 	_y = y;
 	_radius = radius;
 }
 
-Circle::Circle() { Init(0, 0, 0); }
-Circle::Circle(float radius) { Init(0, 0, radius); }
-Circle::Circle(float x, float y) { Init(x, y, 0); }
-Circle::Circle(float x, float y, float radius) { Init(x, y, radius); };
-Circle::Circle(const Circle &Circle) { Init(Circle._x, Circle._y, Circle._radius); }
+CircleF::CircleF() { Init(0, 0, 0); }
+CircleF::CircleF(float radius) { Init(0, 0, radius); }
+CircleF::CircleF(float x, float y) { Init(x, y, 0); }
+CircleF::CircleF(float x, float y, float radius) { Init(x, y, radius); };
+CircleF::CircleF(const CircleF &circle) { Init(circle._x, circle._y, circle._radius); }
 
-bool Circle::isPointInside(float x, float y) const {
+float CircleF::GetRadius() const { return _radius; }
+
+bool CircleF::isPointInside(float x, float y) const {
 	return distanceToPoint(_x, _y, x, y) <= _radius;
 }
 
-bool Circle::isLinePass(float m, float c) const {
+bool CircleF::isLinePass(float m, float c) const {
 	return distanceToLine(_x, _y, m, c) <= _radius;
 }
 
-bool Circle::isLinePass(float m, float c, float x1, float x2) const {
+bool CircleF::isLinePass(float m, float c, float x1, float x2) const {
 	float y1 = m * x1 + c,
 		y2 = m * x2 + c;
 	if (isPointInside(x1, y1) || isPointInside(x1, y1)) return true;
@@ -117,46 +121,49 @@ bool Circle::isLinePass(float m, float c, float x1, float x2) const {
 	return isValueBetween(closestX, x1, x2);
 }
 
-//bool Circle::isShapeCover(Shape &shape) const;
+//bool CircleF::isShapeFCover(ShapeF &shape) const;
 
-float Circle::GetMax(float vectorX, float vectorY) const {
+float CircleF::GetMax(float vectorX, float vectorY) const {
 	float temp = _x * vectorX + _y * vectorY;
 	float len = sqrt(vectorX*vectorX + vectorY * vectorY);
 	return temp / len + _radius;
 }
 
-float Circle::GetMin(float vectorX, float vectorY) const {
+float CircleF::GetMin(float vectorX, float vectorY) const {
 	float temp = _x * vectorX + _y * vectorY;
 	float len = sqrt(vectorX*vectorX + vectorY * vectorY);
 	return temp / len - _radius;
 }
 
-float Circle::GetLeft() const { return _x - _radius; }
-float Circle::GetRight() const { return _x + _radius; }
-float Circle::GetTop() const { return _y - _radius; }
-float Circle::GetBottom() const { return _y + _radius; }
+float CircleF::GetLeft() const { return _x - _radius; }
+float CircleF::GetRight() const { return _x + _radius; }
+float CircleF::GetTop() const { return _y - _radius; }
+float CircleF::GetBottom() const { return _y + _radius; }
 
 #pragma endregion
 
-#pragma region Rectangle
+#pragma region RectangleF
 
-void Rectangle::Init(float x, float y, float width, float height) {
+void RectangleF::Init(float x, float y, float width, float height) {
 	_x = x;
 	_y = y;
 	_halfWidth = width / 2;
 	_halfHeight = height / 2;
 }
 
-Rectangle::Rectangle() { Init(0, 0, 0, 0); }
-Rectangle::Rectangle(float width, float height) { Init(0, 0, width, height); }
-Rectangle::Rectangle(float x, float y, float width, float height) { Init(x, y, width, height); }
-Rectangle::Rectangle(const Rectangle &rectangle) { Init(rectangle._x, rectangle._y, rectangle._halfWidth * 2, rectangle._halfHeight * 2); }
+RectangleF::RectangleF() { Init(0, 0, 0, 0); }
+RectangleF::RectangleF(float width, float height) { Init(0, 0, width, height); }
+RectangleF::RectangleF(float x, float y, float width, float height) { Init(x, y, width, height); }
+RectangleF::RectangleF(const RectangleF &rectangle) { Init(rectangle._x, rectangle._y, rectangle._halfWidth * 2, rectangle._halfHeight * 2); }
 
-bool Rectangle::isPointInside(float x, float y) const {
+float RectangleF::GetWidth() const { return _halfWidth * 2; }
+float RectangleF::GetHeight() const { return _halfHeight * 2; }
+
+bool RectangleF::isPointInside(float x, float y) const {
 	return abs(x - _x) <= _halfWidth && abs(y - _y) <= _halfWidth;
 }
 
-bool Rectangle::isLinePass(float m, float c) const {
+bool RectangleF::isLinePass(float m, float c) const {
 	//mx-y+c=0
 	float xUpper, xLower, yLeft, yRight;
 
@@ -173,7 +180,7 @@ bool Rectangle::isLinePass(float m, float c) const {
 	return false;
 }
 
-bool Rectangle::isLinePass(float m, float c, float x1, float x2) const {
+bool RectangleF::isLinePass(float m, float c, float x1, float x2) const {
 	float y1 = m * x1 + c, y2 = m * x2 + c;
 	if (isPointInside(x1, y1) || isPointInside(x2, y2)) return true;
 
@@ -196,9 +203,9 @@ bool Rectangle::isLinePass(float m, float c, float x1, float x2) const {
 	return false;
 }
 
-//bool Circle::isShapeCover(Shape &shape) const;
+//bool CircleF::isShapeFCover(ShapeF &ShapeF) const;
 
-float Rectangle::GetMax(float vectorX, float vectorY) const {
+float RectangleF::GetMax(float vectorX, float vectorY) const {
 	float max = GetLeft() * vectorX + GetTop() * vectorY, temp;
 
 	temp = GetRight() * vectorX + GetTop() * vectorY;
@@ -213,7 +220,7 @@ float Rectangle::GetMax(float vectorX, float vectorY) const {
 	return max / sqrt(vectorX * vectorX + vectorY * vectorY);
 }
 
-float Rectangle::GetMin(float vectorX, float vectorY) const {
+float RectangleF::GetMin(float vectorX, float vectorY) const {
 	float min = GetLeft() * vectorX + GetTop() * vectorY, temp;
 
 	temp = GetRight() * vectorX + GetTop() * vectorY;
@@ -228,9 +235,11 @@ float Rectangle::GetMin(float vectorX, float vectorY) const {
 	return min / sqrt(vectorX * vectorX + vectorY * vectorY);
 }
 
-float Rectangle::GetLeft() const { return _x - _halfWidth; }
-float Rectangle::GetRight() const { return _x + _halfWidth; }
-float Rectangle::GetTop() const { return _y - _halfHeight; }
-float Rectangle::GetBottom() const { return _y + _halfHeight; }
+float RectangleF::GetLeft() const { return _x - _halfWidth; }
+float RectangleF::GetRight() const { return _x + _halfWidth; }
+float RectangleF::GetTop() const { return _y - _halfHeight; }
+float RectangleF::GetBottom() const { return _y + _halfHeight; }
 
 #pragma endregion
+
+
