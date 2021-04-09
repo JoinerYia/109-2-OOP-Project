@@ -42,7 +42,7 @@ namespace game_framework
 
 	Player::Player()									// 設定動畫播放速度為 10(越大越慢)
 	{
-		_shape = RectangleF(45, 50);	//重設座標
+		_shape = RectangleF(45, 50);					//重設座標
 		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
 		_player_left.SetDelayCount(10);
 		_player_right.SetDelayCount(10);
@@ -50,7 +50,7 @@ namespace game_framework
 
 	Player::Player(int DelayCount)						// 設定動畫播放速度的常數(越大越慢)
 	{
-		_shape = RectangleF(45, 50);	//重設座標
+		_shape = RectangleF(45, 50);					//重設座標
 		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
 		_player_left.SetDelayCount(DelayCount);
 		_player_right.SetDelayCount(DelayCount);
@@ -67,18 +67,18 @@ namespace game_framework
 			fileString1 << file << i << "_left.bmp";
 			char* fileChar1 = new char[100];
 			fileString1 >> fileChar1;
-			_player_left.AddBitmap(fileChar1, RGB(255, 255, 255));		//設白色為透明
+			_player_left.AddBitmap(fileChar1, RGB(255, 255, 255));				//設白色為透明
 
 			//讀取往右動畫圖片
 			stringstream fileString2;
 			fileString2 << file << i << "_right.bmp";
 			char* fileChar2 = new char[100];
 			fileString2 >> fileChar2;
-			_player_right.AddBitmap(fileChar2, RGB(255, 255, 255));		//設白色為透明
+			_player_right.AddBitmap(fileChar2, RGB(255, 255, 255));				//設白色為透明
 		}
 	}
 
-	void Player::OnMove()								// 玩家依頻率更換bitmap
+	void Player::OnMove()														// 玩家依頻率更換bitmap
 	{
 		const int STEP_SIZE = 5;
 		if (_isMovingLeft)
@@ -162,7 +162,7 @@ namespace game_framework
 		_isMovingRight = flag;
 	}
 
-	void Player::SetMovingUp(bool flag)				// 設定是否正在往上移動
+	void Player::SetMovingUp(bool flag)					// 設定是否正在往上移動
 	{
 		_isMovingUp = flag;
 	}
@@ -180,7 +180,7 @@ namespace game_framework
 		}
 		else
 		{
-			testX = testY = 0;	//重設座標
+			testX = testY = 0;		//重設座標
 		}*/
 		_shape.Offset((float)(x - GetX()), (float)(y - GetY()));
 	}
