@@ -21,6 +21,6 @@ namespace game_framework
 		int GetY();									// 取得門 Y 座標
 	private:
 		RectangleF		 _shape;					// 門的中心座標及大小
-		CAnimation		_Gate;// 門動畫
+		CAnimation		_Gate;						// 門動畫
 	};
 }

@@ -44,8 +44,8 @@ namespace game_framework
 	{
 		_shape = RectangleF(45, 50);					//重設座標
 		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
-		_player_left.SetDelayCount(10);
-		_player_right.SetDelayCount(10);
+		_player_left.SetDelayCount(3);					//預設值
+		_player_right.SetDelayCount(3);					//預設值
 	}
 
 	Player::Player(int DelayCount)						// 設定動畫播放速度的常數(越大越慢)
@@ -98,11 +98,13 @@ namespace game_framework
 		//有往任意方向移動
 		if ((_isMovingDown || _isMovingLeft || _isMovingRight || _isMovingUp) == true)
 		{
+			//移動的動畫
 			_player_left.OnMove();
 			_player_right.OnMove();
 		}
 		else
 		{
+			//站著不動的狀態
 			_player_left.Reset();
 			_player_right.Reset();
 		}
@@ -117,13 +119,11 @@ namespace game_framework
 			_player_left.SetTopLeft(GetX(), GetY());
 			_player_left.OnShow();
 			//不顯示往右動畫
-			//_player_right.SetTopLeft(-_pointX, -_pointY);
 		}
 		//往右走
 		else if (_isMovingRight)
 		{
 			//不顯示往左動畫
-			//_player_left.SetTopLeft(-_pointX, -_pointY);
 			//顯示往右動畫
 			_player_right.SetTopLeft(GetX(), GetY());
 			_player_right.OnShow();

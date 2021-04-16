@@ -40,6 +40,7 @@
 
 #include "CBouncingBall.h"
 #include "Player.h"
+#include "Gate.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -92,17 +93,18 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		const int		NUMBALLS;	// 球的總數
-		CMovingBitmap	background;	// 背景圖
-		CMovingBitmap	help;		// 說明圖
-		CMovingBitmap	corner;		// 角落圖
-		CInteger		hits_left;	// 剩下的撞擊數
-		CBouncingBall   bball;		// 反覆彈跳的球
-		//CMovingBitmap	test;		// 練習時用的圖片
-		//int				testX, testY;//練習用移動距離
+		const int		NUMBALLS;		// 球的總數
+		CMovingBitmap	background;		// 背景圖
+		CMovingBitmap	help;			// 說明圖
+		CMovingBitmap	corner;			// 角落圖
+		CInteger		hits_left;		// 剩下的撞擊數
+		CBouncingBall   bball;			// 反覆彈跳的球
+		//CMovingBitmap	test;			// 練習時用的圖片
+		//int			testX, testY;	//練習用移動距離
 		//Ctest			c_test;
-		//CGameMap		gameMap;	//地圖
+		//CGameMap		gameMap;		//地圖
 		Player			player1;		//玩家
+		Gate			gate1;			//傳送門1
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

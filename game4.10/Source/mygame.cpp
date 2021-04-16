@@ -193,7 +193,9 @@ namespace game_framework {
 	{
 		//ball = new CBall [NUMBALLS];
 		//testX = testY = 0;
-		player1 = Player(3);
+		player1 = Player();					// 玩家動畫播放速度的常數用預設值(越大越慢)
+		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
+		gate1.SetXY(10, 10);
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -253,6 +255,7 @@ namespace game_framework {
 		bball.OnMove();
 		//c_test.OnMove();
 		player1.OnMove();
+		gate1.OnMove();
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -274,6 +277,7 @@ namespace game_framework {
 
 		//c_test.LoadBitmap();
 		player1.LoadBitmapPlayer("RES/playerMove_1_", 6);
+		gate1.LoadBitmapGate("RES/gate_1_", 5);
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度
@@ -416,6 +420,7 @@ namespace game_framework {
 		//test.ShowBitmap();
 		//c_test.OnShow();
 		player1.OnShow();
+		gate1.OnShow();
 		//gameMap.OnShow();
 	}
 }

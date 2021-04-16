@@ -12,7 +12,7 @@ namespace game_framework
 	Gate::Gate()										// 設定動畫播放速度為 10(越大越慢)
 	{
 		_shape = RectangleF(210, 60);					//重設座標
-		_Gate.SetDelayCount(10);
+		_Gate.SetDelayCount(10);						//預設值
 	}
 
 	Gate::Gate(int DelayCount)							// 設定動畫播放速度的常數(越大越慢)
