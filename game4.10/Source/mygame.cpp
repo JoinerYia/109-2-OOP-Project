@@ -276,8 +276,8 @@ namespace game_framework {
 		//test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));			// 練習時用的圖片
 
 		//c_test.LoadBitmap();
-		player1.LoadBitmapPlayer("RES/playerMove_1_", 6);
-		gate1.LoadBitmapGate("RES/gate_1_", 5);
+		player1.LoadBitmapPlayer("RES/playerMove/playerMove_1_", 6);
+		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度
