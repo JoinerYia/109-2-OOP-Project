@@ -169,6 +169,7 @@ namespace game_framework
 
 	void Player::Offset(int dx, int dy) {
 		_shape.Offset((float)dx, (float)dy);
+		SIZE_Y;
 	}
 
 	void Player::SetXY(int x, int y)					// 設定玩家左上角座標
