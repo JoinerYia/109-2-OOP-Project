@@ -194,6 +194,7 @@ namespace game_framework {
 		//ball = new CBall [NUMBALLS];
 		//testX = testY = 0;
 		player1 = Player();					// 玩家動畫播放速度的常數用預設值(越大越慢)
+		player2 = Player();					// 玩家動畫播放速度的常數用預設值(越大越慢)
 		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
 		gate1.SetXY(10, 10);
 	}
@@ -255,6 +256,7 @@ namespace game_framework {
 		bball.OnMove();
 		//c_test.OnMove();
 		player1.OnMove();
+		player2.OnMove();
 		gate1.OnMove();
 	}
 
@@ -277,6 +279,7 @@ namespace game_framework {
 
 		//c_test.LoadBitmap();
 		player1.LoadBitmapPlayer("RES/playerMove/playerMove_1_", 6);
+		player2.LoadBitmapPlayer("RES/playerMove/playerMove_2_", 5);
 		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
 		//gameMap.LoadBitmap();
 		//
@@ -305,10 +308,14 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) //處理鍵盤按鍵釋放的動作
 	{
-		const char KEY_LEFT = 0x25; // keyboard左箭頭
-		const char KEY_UP = 0x26; // keyboard上箭頭
-		const char KEY_RIGHT = 0x27; // keyboard右箭頭
-		const char KEY_DOWN = 0x28; // keyboard下箭頭
+		const char KEY_LEFT = 0x25;		// keyboard左箭頭
+		const char KEY_UP = 0x26;		// keyboard上箭頭
+		const char KEY_RIGHT = 0x27;	// keyboard右箭頭
+		const char KEY_DOWN = 0x28;		// keyboard下箭頭
+		const char KEY_W = 0x57;		// keyboard W
+		const char KEY_S = 0x53;		// keyboard S
+		const char KEY_A = 0x41;		// keyboard A
+		const char KEY_D = 0x44;		// keyboard D
 		if (nChar == KEY_LEFT)
 		{
 			//eraser.SetMovingLeft(true);
@@ -329,14 +336,34 @@ namespace game_framework {
 			//eraser.SetMovingDown(true);
 			player1.SetMovingDown(true);
 		}
+		if (nChar == KEY_W)
+		{
+			player2.SetMovingUp(true);
+		}
+		if (nChar == KEY_S)
+		{
+			player2.SetMovingDown(true);
+		}
+		if (nChar == KEY_A)
+		{
+			player2.SetMovingLeft(true);
+		}
+		if (nChar == KEY_D)
+		{
+			player2.SetMovingRight(true);
+		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) //處理鍵盤按鍵釋放的動作 
 	{
-		const char KEY_LEFT = 0x25; // keyboard左箭頭
-		const char KEY_UP = 0x26; // keyboard上箭頭
-		const char KEY_RIGHT = 0x27; // keyboard右箭頭
-		const char KEY_DOWN = 0x28; // keyboard下箭頭
+		const char KEY_LEFT = 0x25;		// keyboard左箭頭
+		const char KEY_UP = 0x26;		// keyboard上箭頭
+		const char KEY_RIGHT = 0x27;	// keyboard右箭頭
+		const char KEY_DOWN = 0x28;		// keyboard下箭頭
+		const char KEY_W = 0x57;		// keyboard W
+		const char KEY_S = 0x53;		// keyboard S
+		const char KEY_A = 0x41;		// keyboard A
+		const char KEY_D = 0x44;		// keyboard D
 		if (nChar == KEY_LEFT)
 		{
 			//eraser.SetMovingLeft(false);
@@ -356,6 +383,22 @@ namespace game_framework {
 		{
 			//eraser.SetMovingDown(false);
 			player1.SetMovingDown(false);
+		}
+		if (nChar == KEY_W)
+		{
+			player2.SetMovingUp(false);
+		}
+		if (nChar == KEY_S)
+		{
+			player2.SetMovingDown(false);
+		}
+		if (nChar == KEY_A)
+		{
+			player2.SetMovingLeft(false);
+		}
+		if (nChar == KEY_D)
+		{
+			player2.SetMovingRight(false);
 		}
 	}
 
@@ -420,6 +463,7 @@ namespace game_framework {
 		//test.ShowBitmap();
 		//c_test.OnShow();
 		player1.OnShow();
+		player2.OnShow();
 		gate1.OnShow();
 		//gameMap.OnShow();
 	}
