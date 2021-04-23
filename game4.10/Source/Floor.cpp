@@ -18,9 +18,7 @@ namespace game_framework
 	Floor::Floor(float x, float y, float width, float height) { Init(x, y, width, height); }
 	Floor::~Floor() {}
 
-	void Floor::Offset(float dx, float dy) { _shape.Offset(dx, dy); }
-	void Floor::SetLeftTop(float x, float y) { _shape.Offset(x - _shape.GetLeft(), y - _shape.GetTop()); }
-	bool Floor::isCollision(ShapeF& shape) const { return _shape.isShapeFCover(shape); }
+	bool Floor::isCollision(ShapeF& shape) { return _shape.isShapeCoverWithDepart(shape, 2); }
 	void Floor::OnShow()				// ¦aªOÅã¥Ü
 	{
 

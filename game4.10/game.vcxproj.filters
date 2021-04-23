@@ -141,6 +141,9 @@
     <ClCompile Include="Source\Gate.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MapItem.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -183,10 +186,13 @@
     <ClInclude Include="Source\Player.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Floor.h">
+    <ClInclude Include="Source\Shape.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Shape.h">
+    <ClInclude Include="Source\MapItem.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Floor.h">
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Gate.h">

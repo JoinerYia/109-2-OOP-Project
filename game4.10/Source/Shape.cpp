@@ -18,6 +18,12 @@ bool isValueBetween(float value, float limit1, float limit2) {
 	return (value - limit1)*(value - limit2) < 0;
 }
 
+float abs(float number) {
+	if (number < 0)
+		return -number;
+	else return number;
+}
+
 #pragma region ShapeF
 
 void ShapeF::Init(float x, float y) {
@@ -64,6 +70,58 @@ bool ShapeF::isShapeFCover(ShapeF &shape)const {
 	bool checkX = this->GetLeft() < shape.GetRight() && shape.GetLeft() < this->GetRight(),
 		checkY = this->GetTop() < shape.GetBottom() && shape.GetTop() < this->GetBottom();
 	return checkX && checkY;
+}
+
+bool ShapeF::isShapeCoverWithDepart(ShapeF shape, int mode) {
+	bool checkX = this->GetLeft() < shape.GetRight() && shape.GetLeft() < this->GetRight(),
+		checkY = this->GetTop() < shape.GetBottom() && shape.GetTop() < this->GetBottom(),
+		check = checkX && checkY;
+
+	if (check)
+	{
+		float dx, dy;
+
+		if (abs(shape.GetRight() - this->GetLeft()) < abs(shape.GetLeft() - this->GetRight()))
+			dx = shape.GetRight() - this->GetLeft();
+		else dx = shape.GetLeft() - this->GetRight();
+
+		if (abs(shape.GetBottom() - this->GetTop()) < abs(shape.GetTop() - this->GetBottom()))
+			dy = shape.GetBottom() - this->GetTop();
+		else dy = shape.GetTop() - this->GetBottom();
+
+		dx -= dx / abs(dx);
+		dy -= dy / abs(dy);
+
+		switch (mode)
+		{
+		case 1:
+			if (abs(dx) < abs(dy))
+				this->Offset(dx, 0);
+			else this->Offset(0, dy);
+			break;
+		case 2:
+			if (abs(dx) < abs(dy))
+				shape.Offset(-dx, 0);
+			else shape.Offset(0, -dy);
+			break;
+		case 3:
+			if (abs(dx) < abs(dy))
+			{
+				this->Offset(dx / 2, 0);
+				shape.Offset(-dx / 2, 0);
+			}
+			else
+			{
+				this->Offset(0, dy / 2);
+				shape.Offset(0, -dy / 2);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	return check;
 }
 
 float ShapeF::GetMax(float vectorX, float vectorY) const {

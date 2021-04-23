@@ -1,15 +1,14 @@
 #pragma once
-
+#include "MapItem.h"
 #include "Shape.h"
 
 namespace game_framework
 {
-	class Floor
+	class Floor : MapItem
 	{
 
 	private:
 
-		RectangleF _shape;							// 地板的中心座標及大小
 		void Init(float x, float y, float width, float height);
 
 	public:
@@ -18,9 +17,9 @@ namespace game_framework
 		Floor(float x, float y, float width, float height);
 		~Floor();
 
-		void Offset(float dx, float dy);
-		void SetLeftTop(float x, float y);
-		bool isCollision(ShapeF& shape) const;
+		//Offset 移動地板座標
+		//SetXY 設定地板座標
+		bool isCollision(ShapeF& shape);		//判斷是否碰到地板
 		void OnShow();								// 地板顯示
 	};
 }
