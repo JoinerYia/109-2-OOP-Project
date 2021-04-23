@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include "Shape.h"
+#include "Entity.h"
 
 namespace game_framework
 {
@@ -21,32 +22,40 @@ namespace game_framework
 	*/
 
 	// 玩家物件
-	class Player
+	class Player : Entity
 	{
 	public:
 		Player();									// 設定動畫播放速度為 10(越大越慢)
-		Player(int DelayCount);						// 設定動畫播放速度的常數(越大越慢)
+		Player(int type);							// 設定玩家類別 及 動畫播放速度為 10(越大越慢)
+		Player(int type, int DelayCount);			// 設定玩家類別 及 動畫播放速度的常數(越大越慢)
 		~Player();
+
 		void LoadBitmapPlayer(string file, int n);	// 從路徑 "file(1 ~ n)" 新增 n 張圖形
-		void OnMove();								// 玩家依頻率更換bitmap
-		void OnShow();								// 玩家顯示
-		void SetMovingDown(bool flag);				// 設定是否正在往下移動
+		void OnMove() override;						// 玩家依頻率更換bitmap
+		void OnShow() override;						// 玩家顯示
+
 		void SetMovingLeft(bool flag);				// 設定是否正在往左移動
 		void SetMovingRight(bool flag);				// 設定是否正在往右移動
-		void SetMovingUp(bool flag);				// 設定是否正在往上移動
-		void Offset(int dx, int dy);				// 移動玩家座標
-		void SetXY(int x, int y);					// 設定玩家左上角座標
-		int GetX();									// 取得玩家 X 座標
-		int GetY();									// 取得玩家 Y 座標
+		void SetJumping(bool flag);					// 設定是否正在跳躍
+		void SetGrounded(bool flag);				// 設定是否已經落地
+		void SetPassed(bool flag);					// 設定是否已經通過傳送門
+
+		void ChangeGravity();						// 反轉重力
 	private:
 		RectangleF		 _shape;					// 玩家的中心座標及大小
 		CAnimation		_player_left, _player_right;// 玩家動畫
-		bool			_isMovingDown;				// 是否正在往下移動
 		bool			_isMovingLeft;				// 是否正在往左移動
 		bool			_isMovingRight;				// 是否正在往右移動
-		bool			_isMovingUp;				// 是否正在往上移動
+		bool			_isJumping;					// 是否正在跳躍
+		bool			_isGrounded;				// 是否已經落地
+		bool			_isPassed;					// 是否已經通過傳送門
 		bool			_endLeftRight;				// 最後是往左還是往右(true 表示左)
-		float			_gravity;					// 玩家所受的重力加速度
+		int				_type;						// 是幾號玩家
+		void Init(int x, int y, int type, int DelayCount);//初始化設定
+		//Offset									//移動玩家座標
+		//SetXY										//設定玩家座標
+		//GetX										//取得玩家X座標
+		//GetY										//取得玩家Y座標
 	};
 	/*
 	class CGameMap

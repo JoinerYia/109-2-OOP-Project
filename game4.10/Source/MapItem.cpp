@@ -3,11 +3,11 @@
 #include "MapItem.h"
 
 void MapItem::Offset(int dx, int dy) {
-	_shape.Offset(dx, dy);
+	_shape.Offset((float)dx, (float)dy);
 }
 
 void MapItem::SetXY(int x, int y) {
-	_shape.Offset(x - GetX(), y - GetY());
+	_shape.Offset((float)(x - GetX()), (float)(y - GetY()));
 }
 
 int MapItem::GetX() const { return (int)_shape.GetLeft(); }

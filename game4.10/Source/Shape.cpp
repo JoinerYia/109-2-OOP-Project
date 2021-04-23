@@ -18,10 +18,11 @@ bool isValueBetween(float value, float limit1, float limit2) {
 	return (value - limit1)*(value - limit2) < 0;
 }
 
-float abs(float number) {
-	if (number < 0)
-		return -number;
-	else return number;
+float Abs(float value)
+{
+	if (value < 0)
+		return -value;
+	else return value;
 }
 
 #pragma region ShapeF
@@ -40,6 +41,7 @@ float ShapeF::GetX() const { return _x; }
 float ShapeF::GetY() const { return _y; }
 void ShapeF::SetX(float value) { _x = value; }
 void ShapeF::SetY(float value) { _y = value; }
+void ShapeF::SetXY(float x, float y) { _x = x; _y = y; }
 
 void ShapeF::Offset(float dx, float dy) {
 	_x += dx;
@@ -81,31 +83,31 @@ bool ShapeF::isShapeCoverWithDepart(ShapeF shape, int mode) {
 	{
 		float dx, dy;
 
-		if (abs(shape.GetRight() - this->GetLeft()) < abs(shape.GetLeft() - this->GetRight()))
+		if (Abs(shape.GetRight() - this->GetLeft()) < Abs(shape.GetLeft() - this->GetRight()))
 			dx = shape.GetRight() - this->GetLeft();
 		else dx = shape.GetLeft() - this->GetRight();
 
-		if (abs(shape.GetBottom() - this->GetTop()) < abs(shape.GetTop() - this->GetBottom()))
+		if (Abs(shape.GetBottom() - this->GetTop()) < Abs(shape.GetTop() - this->GetBottom()))
 			dy = shape.GetBottom() - this->GetTop();
 		else dy = shape.GetTop() - this->GetBottom();
 
-		dx -= dx / abs(dx);
-		dy -= dy / abs(dy);
+		dx -= dx / Abs(dx);
+		dy -= dy / Abs(dy);
 
 		switch (mode)
 		{
 		case 1:
-			if (abs(dx) < abs(dy))
+			if (Abs(dx) < Abs(dy))
 				this->Offset(dx, 0);
 			else this->Offset(0, dy);
 			break;
 		case 2:
-			if (abs(dx) < abs(dy))
+			if (Abs(dx) < Abs(dy))
 				shape.Offset(-dx, 0);
 			else shape.Offset(0, -dy);
 			break;
 		case 3:
-			if (abs(dx) < abs(dy))
+			if (Abs(dx) < Abs(dy))
 			{
 				this->Offset(dx / 2, 0);
 				shape.Offset(-dx / 2, 0);
@@ -140,6 +142,7 @@ float ShapeF::GetLeft() const { return _x; }
 float ShapeF::GetRight() const { return _x; }
 float ShapeF::GetTop() const { return _y; }
 float ShapeF::GetBottom() const { return _y; }
+void ShapeF::SetLeftTop(float x, float y) { Offset(x - GetLeft(), y - GetTop()); }
 
 #pragma endregion
 
@@ -218,7 +221,7 @@ float RectangleF::GetWidth() const { return _halfWidth * 2; }
 float RectangleF::GetHeight() const { return _halfHeight * 2; }
 
 bool RectangleF::isPointInside(float x, float y) const {
-	return abs(x - _x) <= _halfWidth && abs(y - _y) <= _halfWidth;
+	return Abs(x - _x) <= _halfWidth && Abs(y - _y) <= _halfWidth;
 }
 
 bool RectangleF::isLinePass(float m, float c) const {
