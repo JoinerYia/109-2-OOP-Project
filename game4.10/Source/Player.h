@@ -22,7 +22,7 @@ namespace game_framework
 	*/
 
 	// 玩家物件
-	class Player : Entity
+	class Player : public Entity
 	{
 	public:
 		Player();									// 設定動畫播放速度為 10(越大越慢)
@@ -50,7 +50,7 @@ namespace game_framework
 		bool			_isGrounded;				// 是否已經落地
 		bool			_isPassed;					// 是否已經通過傳送門
 		bool			_endLeftRight;				// 最後是往左還是往右(true 表示左)
-		int				_type;						// 是幾號玩家
+		//int			_type;						// 是幾號玩家
 		void Init(int x, int y, int type, int DelayCount);//初始化設定
 		//Offset									//移動玩家座標
 		//SetXY										//設定玩家座標

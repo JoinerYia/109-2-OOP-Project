@@ -8,6 +8,7 @@ protected:
 	ShapeF _shape;
 	int _speedX, _speedY;
 	int _maxSpeed, _acceleration, _gravity;
+	int _type = 0;
 public:
 	virtual void OnShow();
 	virtual void OnMove();

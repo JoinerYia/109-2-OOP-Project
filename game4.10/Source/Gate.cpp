@@ -9,16 +9,22 @@
 
 namespace game_framework
 {
+	void Gate::Init(int x, int y, int width, int height, int DelayCount)
+	{
+		_type = 0;
+		_shape = RectangleF((float)width, (float)height);				//重設碰撞箱
+		_shape.SetLeftTop((float)x, (float)y);			//重設座標
+		_Gate.SetDelayCount(DelayCount);				//預設值
+	}
+
 	Gate::Gate()										// 設定動畫播放速度為 10(越大越慢)
 	{
-		_shape = RectangleF(210, 60);					//重設座標
-		_Gate.SetDelayCount(10);						//預設值
+		Init(0, 0, 210, 60, 10);
 	}
 
 	Gate::Gate(int DelayCount)							// 設定動畫播放速度的常數(越大越慢)
 	{
-		_shape = RectangleF(210, 60);					//重設座標
-		_Gate.SetDelayCount(DelayCount);
+		Init(0, 0, 210, 60, DelayCount);
 	}
 
 	Gate::~Gate() {	}
@@ -48,18 +54,8 @@ namespace game_framework
 		_Gate.OnShow();
 	}
 
-	void Gate::SetXY(int x, int y)						// 設定門左上角座標
+	bool Gate::isCollision(Entity entity)
 	{
-		_shape.Offset((float)(x - GetX()), (float)(y - GetY()));
-	}
-
-	int Gate::GetX()									// 取得門 X 座標
-	{
-		return (int)_shape.GetLeft();
-	}
-
-	int Gate::GetY()									// 取得門 Y 座標
-	{
-		return (int)_shape.GetTop();
+		return _shape.isShapeCoverWithDepart(entity.GetShape(), 2);
 	}
 }
