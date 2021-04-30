@@ -9,18 +9,29 @@
 
 namespace game_framework
 {
-	void Floor::Init(float x, float y, float width, float height) {
-		_shape = RectangleF(x + width / 2, y + height / 2, width, height);
+	void Floor::Init(int x, int y, int width, int height) {
+		_shape = RectangleF((float)(x + width / 2), (float)(y + height / 2), (float)width, (float)height);
+		_x = x;
+		_y = y;
+		_width = width;
+		_height = height;
 	}
 
 	Floor::Floor() { Init(0, 0, 0, 0); }
-	Floor::Floor(float width, float height) { Init(0, 0, width, height); }
-	Floor::Floor(float x, float y, float width, float height) { Init(x, y, width, height); }
+	Floor::Floor(int width, int height) { Init(0, 0, width, height); }
+	Floor::Floor(int x, int y, int width, int height) { Init(x, y, width, height); }
 	Floor::~Floor() {}
 
+	void Floor::LoadBitmapPlayer(char* file)
+	{
+		GenerateBitmap generateBmp = GenerateBitmap();
+		generateBmp.CreateBitmapFile(file, _width, _height);/*
+		_floor.LoadBitmapA(file);
+		_floor.SetTopLeft(10, 10);*/
+	}
 	bool Floor::isCollision(ShapeF& shape) { return _shape.isShapeCoverWithDepart(shape, 2); }
 	void Floor::OnShow()				// ¦aªOÅã¥Ü
 	{
-
+		//_floor.ShowBitmap();
 	}
 }

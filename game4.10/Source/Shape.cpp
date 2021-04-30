@@ -16,11 +16,18 @@ bool isValueBetween(float value, float limit1, float limit2) {
 	return (value - limit1)*(value - limit2) < 0;
 }
 
+<<<<<<< HEAD
+float Abs(float number) {
+	if (number < 0)
+		return -number;
+	else return number;
+=======
 float Abs(float value)
 {
 	if (value < 0)
 		return -value;
 	else return value;
+>>>>>>> 179357744740751674687d4182febba0fdd0b767
 }
 
 #pragma region ShapeF
