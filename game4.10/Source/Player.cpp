@@ -49,6 +49,7 @@ namespace game_framework
 		_shape.SetLeftTop((float)x, (float)y);			//重設座標
 
 		_isMovingLeft = _isMovingRight = _isJumping = false;//初始化移動方向
+		_isPassed = false;								//初始化傳送門穿越狀態
 		_isGrounded = true;								//初始化落地狀態
 		_player_left.SetDelayCount(DelayCount);			//預設值
 		_player_right.SetDelayCount(DelayCount);		//預設值
@@ -102,6 +103,11 @@ namespace game_framework
 
 	void Player::OnMove()														// 玩家依頻率更換bitmap
 	{
+		if (_type == 1 && _isJumping)
+		{
+			_type = 1;
+		}
+
 		if (!(_isMovingLeft || _isMovingRight))
 		{
 			if (_speedX != 0)
@@ -222,6 +228,11 @@ namespace game_framework
 	void Player::SetJumping(bool flag)					// 設定是否正在跳躍
 	{
 		_isJumping = flag;
+	}
+
+	void Player::SetGrounded(bool flag)
+	{
+		_isGrounded = flag;
 	}
 
 	void Player::SetPassed(bool flag)				// 設定是否已經通過傳送門

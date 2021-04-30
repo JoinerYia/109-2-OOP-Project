@@ -59,7 +59,6 @@
 #include "gamelib.h"
 #include "mygame.h"
 #include <iostream>
-#include "Monster.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -194,8 +193,8 @@ namespace game_framework {
 	{
 		//ball = new CBall [NUMBALLS];
 		//testX = testY = 0;
-		Monster1 = Monster(1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
-		Monster2 = Monster(2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
+		player1 = Player(1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
+		player2 = Player(2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
 		gate1.SetXY(10, 10);
 		floor1 = Floor();
@@ -226,7 +225,7 @@ namespace game_framework {
 		eraser.Initialize();//*/
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-		hits_left.SetInteger(Monster1.GetX());					// 指定剩下的撞擊數
+		hits_left.SetInteger(player1.GetX());					// 指定剩下的撞擊數
 		hits_left.SetTopLeft(HITS_LEFT_X, HITS_LEFT_Y);		// 指定剩下撞擊數的座標
 		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
@@ -257,10 +256,10 @@ namespace game_framework {
 		//
 		bball.OnMove();
 		//c_test.OnMove();
-		//Monster1.SetGrounded(true);//Monster1.GetY() > SIZE_Y);
-		//Monster2.SetGrounded(true);//Monster2.GetY() > SIZE_Y);
-		Monster1.OnMove();
-		Monster2.OnMove();
+		player1.SetGrounded(player1.GetY() > SIZE_Y/2);
+		player2.SetGrounded(player2.GetY() > SIZE_Y/2);
+		player1.OnMove();
+		player2.OnMove();
 		gate1.OnMove();
 	}
 
@@ -282,8 +281,8 @@ namespace game_framework {
 		//test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));			// 練習時用的圖片
 
 		//c_test.LoadBitmap();
-		Monster1.LoadBitmapMonster("RES/MonsterMove/MonsterMove_1_", 6);
-		Monster2.LoadBitmapMonster("RES/MonsterMove/MonsterMove_2_", 5);
+		player1.LoadBitmapPlayer("RES/MonsterMove/MonsterMove_1_", 6);
+		player2.LoadBitmapPlayer("RES/MonsterMove/MonsterMove_2_", 5);
 		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
 		floor1.LoadBitmapMonster("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
 		//gameMap.LoadBitmap();
@@ -324,38 +323,38 @@ namespace game_framework {
 		if (nChar == KEY_LEFT)
 		{
 			//eraser.SetMovingLeft(true);
-			Monster1.SetMovingLeft(true);
+			player1.SetMovingLeft(true);
 		}
 		if (nChar == KEY_RIGHT)
 		{
 			//eraser.SetMovingRight(true);
-			Monster1.SetMovingRight(true);
+			player1.SetMovingRight(true);
 		}
 		if (nChar == KEY_UP)
 		{
 			//eraser.SetMovingUp(true);
-			Monster1.SetJumping(true);
+			player1.SetJumping(true);
 		}
 		if (nChar == KEY_DOWN)
 		{
 			//eraser.SetMovingDown(true);
-			Monster1.SetJumping(true);
+			player1.SetJumping(true);
 		}
 		if (nChar == KEY_W)
 		{
-			Monster2.SetJumping(true);
+			player2.SetJumping(true);
 		}
 		if (nChar == KEY_S)
 		{
-			Monster2.SetJumping(true);
+			player2.SetJumping(true);
 		}
 		if (nChar == KEY_A)
 		{
-			Monster2.SetMovingLeft(true);
+			player2.SetMovingLeft(true);
 		}
 		if (nChar == KEY_D)
 		{
-			Monster2.SetMovingRight(true);
+			player2.SetMovingRight(true);
 		}
 	}
 
@@ -372,38 +371,38 @@ namespace game_framework {
 		if (nChar == KEY_LEFT)
 		{
 			//eraser.SetMovingLeft(false);
-			Monster1.SetMovingLeft(false);
+			player1.SetMovingLeft(false);
 		}
 		if (nChar == KEY_RIGHT)
 		{
 			//eraser.SetMovingRight(false);
-			Monster1.SetMovingRight(false);
+			player1.SetMovingRight(false);
 		}
 		if (nChar == KEY_UP)
 		{
 			//eraser.SetMovingUp(false);
-			Monster1.SetJumping(false);
+			player1.SetJumping(false);
 		}
 		if (nChar == KEY_DOWN)
 		{
 			//eraser.SetMovingDown(false);
-			Monster1.SetJumping(false);
+			player1.SetJumping(false);
 		}
 		if (nChar == KEY_W)
 		{
-			Monster2.SetJumping(false);
+			player2.SetJumping(false);
 		}
 		if (nChar == KEY_S)
 		{
-			Monster2.SetJumping(false);
+			player2.SetJumping(false);
 		}
 		if (nChar == KEY_A)
 		{
-			Monster2.SetMovingLeft(false);
+			player2.SetMovingLeft(false);
 		}
 		if (nChar == KEY_D)
 		{
-			Monster2.SetMovingRight(false);
+			player2.SetMovingRight(false);
 		}
 	}
 
@@ -467,8 +466,8 @@ namespace game_framework {
 		corner.ShowBitmap();
 		//test.ShowBitmap();
 		//c_test.OnShow();
-		Monster1.OnShow();
-		Monster2.OnShow();
+		player1.OnShow();
+		player2.OnShow();
 		gate1.OnShow();
 		//gameMap.OnShow();
 		floor1.OnShow();
