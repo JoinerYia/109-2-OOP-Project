@@ -20,6 +20,7 @@ public:
 	float GetY() const;
 	void SetX(float value);
 	void SetY(float value);
+	void SetXY(float x, float y);
 
 	void Offset(float dx, float dy);
 
@@ -36,6 +37,7 @@ public:
 	virtual float GetRight() const;
 	virtual float GetTop() const;
 	virtual float GetBottom() const;
+	void SetLeftTop(float x, float y);
 };
 
 class CircleF :public ShapeF

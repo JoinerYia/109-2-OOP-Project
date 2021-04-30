@@ -144,7 +144,11 @@
     <ClCompile Include="Source\MapItem.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Source\GenerateBitmap.cpp">
+=======
+    <ClCompile Include="Source\Entity.cpp">
+>>>>>>> 179357744740751674687d4182febba0fdd0b767
       <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -201,7 +205,11 @@
     <ClInclude Include="Source\Gate.h">
       <Filter>MyGame</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Source\GenerateBitmap.h">
+=======
+    <ClInclude Include="Source\Entity.h">
+>>>>>>> 179357744740751674687d4182febba0fdd0b767
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>

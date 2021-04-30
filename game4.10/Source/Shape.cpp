@@ -18,10 +18,18 @@ bool isValueBetween(float value, float limit1, float limit2) {
 	return (value - limit1)*(value - limit2) < 0;
 }
 
+<<<<<<< HEAD
 float Abs(float number) {
 	if (number < 0)
 		return -number;
 	else return number;
+=======
+float Abs(float value)
+{
+	if (value < 0)
+		return -value;
+	else return value;
+>>>>>>> 179357744740751674687d4182febba0fdd0b767
 }
 
 #pragma region ShapeF
@@ -40,6 +48,7 @@ float ShapeF::GetX() const { return _x; }
 float ShapeF::GetY() const { return _y; }
 void ShapeF::SetX(float value) { _x = value; }
 void ShapeF::SetY(float value) { _y = value; }
+void ShapeF::SetXY(float x, float y) { _x = x; _y = y; }
 
 void ShapeF::Offset(float dx, float dy) {
 	_x += dx;
@@ -140,6 +149,7 @@ float ShapeF::GetLeft() const { return _x; }
 float ShapeF::GetRight() const { return _x; }
 float ShapeF::GetTop() const { return _y; }
 float ShapeF::GetBottom() const { return _y; }
+void ShapeF::SetLeftTop(float x, float y) { Offset(x - GetLeft(), y - GetTop()); }
 
 #pragma endregion
 

@@ -193,8 +193,8 @@ namespace game_framework {
 	{
 		//ball = new CBall [NUMBALLS];
 		//testX = testY = 0;
-		player1 = Player();					// 玩家動畫播放速度的常數用預設值(越大越慢)
-		player2 = Player();					// 玩家動畫播放速度的常數用預設值(越大越慢)
+		player1 = Player(1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
+		player2 = Player(2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
 		gate1.SetXY(10, 10);
 		floor1 = Floor();
@@ -331,20 +331,20 @@ namespace game_framework {
 		if (nChar == KEY_UP)
 		{
 			//eraser.SetMovingUp(true);
-			player1.SetMovingUp(true);
+			player1.SetJumping(true);
 		}
 		if (nChar == KEY_DOWN)
 		{
 			//eraser.SetMovingDown(true);
-			player1.SetMovingDown(true);
+			player1.SetJumping(true);
 		}
 		if (nChar == KEY_W)
 		{
-			player2.SetMovingUp(true);
+			player2.SetJumping(true);
 		}
 		if (nChar == KEY_S)
 		{
-			player2.SetMovingDown(true);
+			player2.SetJumping(true);
 		}
 		if (nChar == KEY_A)
 		{
@@ -379,20 +379,20 @@ namespace game_framework {
 		if (nChar == KEY_UP)
 		{
 			//eraser.SetMovingUp(false);
-			player1.SetMovingUp(false);
+			player1.SetJumping(false);
 		}
 		if (nChar == KEY_DOWN)
 		{
 			//eraser.SetMovingDown(false);
-			player1.SetMovingDown(false);
+			player1.SetJumping(false);
 		}
 		if (nChar == KEY_W)
 		{
-			player2.SetMovingUp(false);
+			player2.SetJumping(false);
 		}
 		if (nChar == KEY_S)
 		{
-			player2.SetMovingDown(false);
+			player2.SetJumping(false);
 		}
 		if (nChar == KEY_A)
 		{

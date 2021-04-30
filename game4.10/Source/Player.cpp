@@ -40,20 +40,37 @@ namespace game_framework
 	}
 	*/
 
-	Player::Player()									// 設定動畫播放速度為 10(越大越慢)
+	void Player::Init(int x, int y, int type, int DelayCount)
 	{
-		_shape = RectangleF(45, 50);					//重設座標
-		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
-		_player_left.SetDelayCount(3);					//預設值
-		_player_right.SetDelayCount(3);					//預設值
+		_type = type;
+		if(_type == 2)
+			_shape = RectangleF(45, 60);
+		else _shape = RectangleF(45, 50);				//重設碰撞箱
+		_shape.SetLeftTop((float)x, (float)y);			//重設座標
+
+		_isMovingLeft = _isMovingRight = _isJumping = false;//初始化移動方向
+		_isGrounded = true;								//初始化落地狀態
+		_player_left.SetDelayCount(DelayCount);			//預設值
+		_player_right.SetDelayCount(DelayCount);		//預設值
+
+		_maxSpeed = 20;									//初始化最高速度
+		_acceleration = 5;								//初始化加速度
+		_gravity = 5;									//初始化重力加速度
 	}
 
-	Player::Player(int DelayCount)						// 設定動畫播放速度的常數(越大越慢)
+	Player::Player()									// 設定動畫播放速度為 10(越大越慢)
 	{
-		_shape = RectangleF(45, 50);					//重設座標
-		_isMovingDown = _isMovingLeft = _isMovingRight = _isMovingUp = false;	//初始化移動方向
-		_player_left.SetDelayCount(DelayCount);
-		_player_right.SetDelayCount(DelayCount);
+		Init(0, 0, 0, 3);
+	}
+
+	Player::Player(int type)							// 設定動畫播放速度的常數(越大越慢)
+	{
+		Init(0, 0, type, 3);
+	}
+
+	Player::Player(int type, int DelayCount)			// 設定動畫播放速度的常數(越大越慢)
+	{
+		Init(0, 0, type, DelayCount);
 	}
 
 	Player::~Player() {	}
@@ -80,23 +97,60 @@ namespace game_framework
 
 	void Player::OnMove()														// 玩家依頻率更換bitmap
 	{
-		const int STEP_SIZE = 5;
-		if (_isMovingLeft)
+		if (!(_isMovingLeft || _isMovingRight))
 		{
-			Offset(-STEP_SIZE, 0);
+			if (_speedX != 0)
+				_speedX += -_speedX / abs(_speedX);
+		}
+		else if (_isMovingLeft && _isMovingRight)
+		{
+			_speedX = 0;
+		}
+		else if (_isMovingLeft)
+		{
+			if (_speedX > -_maxSpeed)
+			{
+				_speedX -= _acceleration;
+				if (_speedX < -_maxSpeed)
+					_speedX = -_maxSpeed;
+			}
 			_endLeftRight = true;
 		}
 		if (_isMovingRight)
 		{
-			Offset(STEP_SIZE, 0);
+			if (_speedX < _maxSpeed)
+			{
+				_speedX += _acceleration;
+				if (_speedX > _maxSpeed)
+					_speedX = _maxSpeed;
+			}
 			_endLeftRight = false;
 		}
-		if (_isMovingUp)
-			Offset(0, -STEP_SIZE);
-		if (_isMovingDown)
-			Offset(0, STEP_SIZE);
+
+		if (!_isGrounded)
+		{
+			if (!_isPassed)
+				_speedY += _gravity;
+			else if (_speedY == 0)
+				_speedY += 25 * _gravity / abs(_gravity);
+		}
+		else
+		{
+			_speedY = 0;
+		}
+
+		if (_isJumping)
+		{
+			if (_isGrounded)
+			{
+				//_speedY = 5;
+				if (_gravity > 0)
+					_speedY = -50;
+				else _speedY = 50;
+			}
+		}
 		//有往任意方向移動
-		if ((_isMovingDown || _isMovingLeft || _isMovingRight || _isMovingUp) == true)
+		if (_isMovingLeft || _isMovingRight || _isJumping || (!_isGrounded))
 		{
 			//移動的動畫
 			_player_left.OnMove();
@@ -108,6 +162,8 @@ namespace game_framework
 			_player_left.Reset();
 			_player_right.Reset();
 		}
+		
+		Offset(_speedX, _speedY);
 	}
 
 	void Player::OnShow()								// 玩家顯示
@@ -147,11 +203,6 @@ namespace game_framework
 		}
 	}
 
-	void Player::SetMovingDown(bool flag)				// 設定是否正在往下移動
-	{
-		_isMovingDown = flag;
-	}
-
 	void Player::SetMovingLeft(bool flag)				// 設定是否正在往左移動
 	{
 		_isMovingLeft = flag;
@@ -162,38 +213,23 @@ namespace game_framework
 		_isMovingRight = flag;
 	}
 
-	void Player::SetMovingUp(bool flag)					// 設定是否正在往上移動
+	void Player::SetJumping(bool flag)					// 設定是否正在跳躍
 	{
-		_isMovingUp = flag;
+		_isJumping = flag;
 	}
 
-	void Player::Offset(int dx, int dy) {
-		_shape.Offset((float)dx, (float)dy);
-		SIZE_Y;
-	}
-
-	void Player::SetXY(int x, int y)					// 設定玩家左上角座標
+	void Player::SetPassed(bool flag)				// 設定是否已經通過傳送門
 	{
-		/*	if(testX <= SIZE_Y)		//若還未超過底下的邊緣時
+		if (_isPassed && (!flag) && !_isGrounded)
 		{
-			testX += 5;
-			testY += 5;
+			ChangeGravity();
 		}
-		else
-		{
-			testX = testY = 0;		//重設座標
-		}*/
-		_shape.Offset((float)(x - GetX()), (float)(y - GetY()));
+		_isPassed = flag;
 	}
 
-	int Player::GetX()									// 取得玩家 X 座標
+	void Player::ChangeGravity()								// 反轉重力
 	{
-		return (int)_shape.GetLeft();
-	}
-
-	int Player::GetY()									// 取得玩家 Y 座標
-	{
-		return (int)_shape.GetTop();
+		_gravity *= -1;
 	}
 
 	/*
