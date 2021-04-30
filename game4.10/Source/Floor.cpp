@@ -26,8 +26,8 @@ namespace game_framework
 	{
 		//GenerateBitmap generateBmp = GenerateBitmap();
 		//generateBmp.CreateBitmapFile(file, _width, _height);
-		_floor.LoadBitmapA(file);
-		_floor.SetTopLeft(_x, _y);
+		//_floor.LoadBitmapA(file);
+		//_floor.SetTopLeft(_x, _y);
 	}
 	bool Floor::isCollision(ShapeF& shape) { return _shape.isShapeCoverWithDepart(shape, 2); }
 	void Floor::OnShow()				// ¦aªOÅã¥Ü
