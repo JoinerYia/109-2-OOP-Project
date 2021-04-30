@@ -59,7 +59,6 @@
 #include "gamelib.h"
 #include "mygame.h"
 #include <iostream>
-#include "Player.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -257,8 +256,8 @@ namespace game_framework {
 		//
 		bball.OnMove();
 		//c_test.OnMove();
-		//player1.SetGrounded(true);//player1.GetY() > SIZE_Y);
-		//player2.SetGrounded(true);//player2.GetY() > SIZE_Y);
+		player1.SetGrounded(player1.GetY() > SIZE_Y/2);
+		player2.SetGrounded(player2.GetY() > SIZE_Y/2);
 		player1.OnMove();
 		player2.OnMove();
 		gate1.OnMove();

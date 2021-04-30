@@ -104,7 +104,7 @@ namespace game_framework {
 		//int			testX, testY;	//練習用移動距離
 		//Ctest			c_test;
 		//CGameMap		gameMap;		//地圖
-		Player			player1, player2;		//玩家
+		Player			player1, player2;//玩家
 		Gate			gate1;			//傳送門1
 		Floor			floor1;			//地板
 	};
