@@ -56,6 +56,6 @@ namespace game_framework
 
 	bool Gate::isCollision(Entity entity)
 	{
-		return _shape.isShapeCoverWithDepart(entity.GetShape(), 2);
+		return _shape.isShapeFCover(entity.GetShape());
 	}
 }
