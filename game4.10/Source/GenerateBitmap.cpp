@@ -40,19 +40,28 @@ namespace game_framework
 
 	void GenerateBitmap::CreateBitmapFile(char* filePath, int width, int height)
 	{
-		int i = 0, j = 0;
 		BYTE_BITMAP** pRGB = new BYTE_BITMAP*[height];	// 定義位圖數據
-		//BYTE_BITMAP pRGB[100][100];	// 定義位圖數據
+		//BYTE_BITMAP pRGB[240][480];	// 定義位圖數據
 		for (int i = 0; i < height; i++)
 		{
 			pRGB[i] = new BYTE_BITMAP[width];
+		}
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				// 設置背景為黑色
+				pRGB[i][j].r = 0x00;
+				pRGB[i][j].g = 0x00;
+				pRGB[i][j].b = 0x00;
+				
+			}
 		}
 		//memset(pRGB, 0, sizeof(pRGB));		// 設置背景為黑色
 		// 畫一個白色的矩形
 		/*
 		for (i = 0; i < height; i++) {
 			for (j = 0; j < width; j++) {
-				//	pRGB[i][j].r = 0xff;
 				pRGB[i, j].r = 0xff;
 				pRGB[i, j].g = 0xff;
 				pRGB[i, j].b = 0xff;
@@ -60,6 +69,10 @@ namespace game_framework
 		}*/
 		// 生成BMP圖片
 		generateBmp((BYTE*)pRGB, width, height, filePath);
+		/*
+		for (int i = 0; i < height; i++)
+			delete pRGB[i];
 		delete pRGB;
+		*/
 	}
 }

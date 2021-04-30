@@ -284,7 +284,7 @@ namespace game_framework {
 		player1.LoadBitmapPlayer("RES/playerMove/playerMove_1_", 6);
 		player2.LoadBitmapPlayer("RES/playerMove/playerMove_2_", 5);
 		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
-		floor1.LoadBitmapPlayer("./rgb.bmp");
+		floor1.LoadBitmapPlayer("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度

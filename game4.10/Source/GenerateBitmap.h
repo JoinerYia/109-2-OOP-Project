@@ -53,6 +53,7 @@ namespace game_framework
 			BYTE g;
 			BYTE r;
 		};
+
 		/*
 		struct BITMAP
 		{

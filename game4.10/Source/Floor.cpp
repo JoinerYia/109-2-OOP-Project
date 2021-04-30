@@ -17,18 +17,17 @@ namespace game_framework
 		_height = height;
 	}
 
-	Floor::Floor() { Init(0, 0, 0, 0); }
+	Floor::Floor() { Init(0, 0, 10, 10); }
 	Floor::Floor(int width, int height) { Init(0, 0, width, height); }
 	Floor::Floor(int x, int y, int width, int height) { Init(x, y, width, height); }
 	Floor::~Floor() {}
 
 	void Floor::LoadBitmapPlayer(char* file)
 	{
-		GenerateBitmap generateBmp = GenerateBitmap();
-		generateBmp.CreateBitmapFile(file, _width, _height);
-		/*
+		//GenerateBitmap generateBmp = GenerateBitmap();
+		//generateBmp.CreateBitmapFile(file, _width, _height);
 		_floor.LoadBitmapA(file);
-		_floor.SetTopLeft(10, 10);*/
+		_floor.SetTopLeft(_x, _y);
 	}
 	bool Floor::isCollision(ShapeF& shape) { return _shape.isShapeCoverWithDepart(shape, 2); }
 	void Floor::OnShow()				// ¦aªOÅã¥Ü
