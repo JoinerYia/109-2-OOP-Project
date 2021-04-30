@@ -25,7 +25,8 @@ namespace game_framework
 	void Floor::LoadBitmapPlayer(char* file)
 	{
 		GenerateBitmap generateBmp = GenerateBitmap();
-		generateBmp.CreateBitmapFile(file, _width, _height);/*
+		generateBmp.CreateBitmapFile(file, _width, _height);
+		/*
 		_floor.LoadBitmapA(file);
 		_floor.SetTopLeft(10, 10);*/
 	}

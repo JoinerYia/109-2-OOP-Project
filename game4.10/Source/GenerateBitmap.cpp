@@ -43,7 +43,11 @@ namespace game_framework
 		int i = 0, j = 0;
 		BYTE_BITMAP** pRGB = new BYTE_BITMAP*[height];	// 定義位圖數據
 		//BYTE_BITMAP pRGB[100][100];	// 定義位圖數據
-		memset(pRGB, 0, sizeof(pRGB));		// 設置背景為黑色
+		for (int i = 0; i < height; i++)
+		{
+			pRGB[i] = new BYTE_BITMAP[width];
+		}
+		//memset(pRGB, 0, sizeof(pRGB));		// 設置背景為黑色
 		// 畫一個白色的矩形
 		/*
 		for (i = 0; i < height; i++) {
