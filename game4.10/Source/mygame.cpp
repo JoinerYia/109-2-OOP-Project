@@ -59,6 +59,7 @@
 #include "gamelib.h"
 #include "mygame.h"
 #include <iostream>
+#include "Player.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -225,7 +226,7 @@ namespace game_framework {
 		eraser.Initialize();//*/
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-		hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
+		hits_left.SetInteger(player1.GetX());					// 指定剩下的撞擊數
 		hits_left.SetTopLeft(HITS_LEFT_X, HITS_LEFT_Y);		// 指定剩下撞擊數的座標
 		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
@@ -256,6 +257,8 @@ namespace game_framework {
 		//
 		bball.OnMove();
 		//c_test.OnMove();
+		//player1.SetGrounded(true);//player1.GetY() > SIZE_Y);
+		//player2.SetGrounded(true);//player2.GetY() > SIZE_Y);
 		player1.OnMove();
 		player2.OnMove();
 		gate1.OnMove();

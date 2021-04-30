@@ -52,15 +52,18 @@ namespace game_framework
 		_isGrounded = true;								//初始化落地狀態
 		_player_left.SetDelayCount(DelayCount);			//預設值
 		_player_right.SetDelayCount(DelayCount);		//預設值
+		//_player_left.SetTopLeft(x, y);
 
 		_maxSpeed = 20;									//初始化最高速度
+		_speedX = 0;									//初始化水平速度
+		_speedY = 0;									//初始化垂直速度
 		_acceleration = 5;								//初始化加速度
 		_gravity = 5;									//初始化重力加速度
 	}
 
 	Player::Player()									// 設定動畫播放速度為 10(越大越慢)
 	{
-		Init(0, 0, 0, 3);
+		Init(0, 0, 0, 10);
 	}
 
 	Player::Player(int type)							// 設定動畫播放速度的常數(越大越慢)
@@ -85,13 +88,15 @@ namespace game_framework
 			char* fileChar1 = new char[100];
 			fileString1 >> fileChar1;
 			_player_left.AddBitmap(fileChar1, RGB(255, 255, 255));				//設白色為透明
-
+			delete[] fileChar1;
+			
 			//讀取往右動畫圖片
 			stringstream fileString2;
 			fileString2 << file << i << "_right.bmp";
 			char* fileChar2 = new char[100];
 			fileString2 >> fileChar2;
 			_player_right.AddBitmap(fileChar2, RGB(255, 255, 255));				//設白色為透明
+			delete[] fileChar2;
 		}
 	}
 
@@ -168,6 +173,7 @@ namespace game_framework
 
 	void Player::OnShow()								// 玩家顯示
 	{
+		int x = GetX(), y = GetY();
 		//往左走
 		if (_isMovingLeft)
 		{
