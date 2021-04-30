@@ -22,7 +22,7 @@ namespace game_framework
 	Floor::Floor(int x, int y, int width, int height) { Init(x, y, width, height); }
 	Floor::~Floor() {}
 
-	void Floor::LoadBitmapPlayer(char* file)
+	void Floor::LoadBitmapMonster(char* file)
 	{
 		//GenerateBitmap generateBmp = GenerateBitmap();
 		//generateBmp.CreateBitmapFile(file, _width, _height);
