@@ -5,7 +5,7 @@
 
 namespace game_framework
 {
-	class Floor : MapItem
+	class Floor : public MapItem
 	{
 
 	private:

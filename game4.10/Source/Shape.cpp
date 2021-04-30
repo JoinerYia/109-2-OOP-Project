@@ -1,7 +1,5 @@
 #include "Shape.h"
 
-
-
 float distanceToPoint(float x1, float y1, float x2, float y2) {
 	float dx = x2 - x1, dy = y2 - y1;
 	return sqrt(dx*dx + dy * dy);

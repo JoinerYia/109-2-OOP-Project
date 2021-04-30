@@ -6,6 +6,7 @@ class MapItem
 {
 protected:
 	ShapeF _shape;
+	int _type = 0;
 
 public:
 	void Offset(int dx, int dy);
