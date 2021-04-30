@@ -197,6 +197,7 @@ namespace game_framework {
 		player2 = Player();					// 玩家動畫播放速度的常數用預設值(越大越慢)
 		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
 		gate1.SetXY(10, 10);
+		floor1 = Floor();
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -281,6 +282,7 @@ namespace game_framework {
 		player1.LoadBitmapPlayer("RES/playerMove/playerMove_1_", 6);
 		player2.LoadBitmapPlayer("RES/playerMove/playerMove_2_", 5);
 		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
+		floor1.LoadBitmapPlayer("./rgb.bmp");
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度
@@ -466,5 +468,6 @@ namespace game_framework {
 		player2.OnShow();
 		gate1.OnShow();
 		//gameMap.OnShow();
+		floor1.OnShow();
 	}
 }

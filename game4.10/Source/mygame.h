@@ -41,6 +41,7 @@
 #include "CBouncingBall.h"
 #include "Player.h"
 #include "Gate.h"
+#include "Floor.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -105,6 +106,7 @@ namespace game_framework {
 		//CGameMap		gameMap;		//地圖
 		Player			player1, player2;		//玩家
 		Gate			gate1;			//傳送門1
+		Floor			floor1;			//地板
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

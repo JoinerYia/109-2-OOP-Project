@@ -144,6 +144,9 @@
     <ClCompile Include="Source\MapItem.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GenerateBitmap.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -196,6 +199,9 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Gate.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GenerateBitmap.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>

@@ -278,6 +278,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="Source\Gate.cpp" />
+    <ClCompile Include="Source\GenerateBitmap.cpp" />
     <ClCompile Include="Source\MainFrm.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -318,6 +319,7 @@
     <ClInclude Include="Source\gameDoc.h" />
     <ClInclude Include="Source\gameView.h" />
     <ClInclude Include="Source\Gate.h" />
+    <ClInclude Include="Source\GenerateBitmap.h" />
     <ClInclude Include="Source\MainFrm.h" />
     <ClInclude Include="Source\MapItem.h" />
     <ClInclude Include="Source\Player.h" />
