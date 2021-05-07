@@ -7,20 +7,6 @@
 
 namespace game_framework
 {
-	/*
-	class Ctest
-	{
-	public:
-		Ctest();
-		void LoadBitmap();
-		void OnMove();
-		void OnShow();
-	private:
-		CMovingBitmap	test;		// 練習時用的圖片
-		int				testX, testY;//練習用移動距離
-	};
-	*/
-
 	// 玩家物件
 	class Monster : public Entity
 	{
@@ -57,18 +43,4 @@ namespace game_framework
 		//GetX										//取得玩家X座標
 		//GetY										//取得玩家Y座標
 	};
-	/*
-	class CGameMap
-	{
-	public:
-		CGameMap();
-		void LoadBitmap();
-		void OnShow();
-	private:
-		CMovingBitmap	blue, green;		// 藍綠兩地圖
-		int map[4][5];//地圖矩陣 index
-		const int				testX, testY;//座標
-		const int MW, MH;//地圖寬高
-	};
-	*/
 }

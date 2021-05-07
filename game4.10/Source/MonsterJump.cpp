@@ -5,41 +5,10 @@
 #include "audio.h"
 #include "gamelib.h"
 
-#include "Monster.h"
+#include "MonsterJump.h"
 
 namespace game_framework
 {
-	/*
-	Ctest::Ctest()
-	{
-		testX = testY = 0;	//重設座標
-	}
-
-	void Ctest::OnMove()
-	{
-		if(testX <= SIZE_Y)		//若還未超過底下的邊緣時
-		{
-			testX += 3;
-			testY += 3;
-		}
-		else
-		{
-			testX = testY = 0;	//重設座標
-		}
-	}
-
-	void Ctest::LoadBitmap()
-	{
-		test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));
-	}
-
-	void Ctest::OnShow()
-	{
-		test.SetTopLeft(testX, testY);
-		test.ShowBitmap();
-	}
-	*/
-
 	void Monster::Init(int x, int y, int type, int DelayCount)
 	{
 		_type = type;
@@ -248,50 +217,4 @@ namespace game_framework
 	{
 		_gravity *= -1;
 	}
-
-	/*
-	CGameMap::CGameMap() : testX(20), testY(40), MW(48), MH(48)	//給予地圖左上角座標及每張圖寬高
-	{
-		//地圖陣列初值
-		int map_init[4][5] =
-		{
-			{0, 0, 1, 0, 0},
-			{0, 1, 2, 1, 0},
-			{1, 2, 1, 2, 1},
-			{2, 1, 2, 1, 2}
-		};
-		for (int i = 0; i < 4; i++)
-			for (int j = 0; j < 5; j++)
-				map[i][j] = map_init[i][j];
-	}
-
-	void CGameMap::LoadBitmap()
-	{
-		blue.LoadBitmap(IDB_BLUE);	//讀藍色圖片
-		green.LoadBitmap(IDB_GREEN);//讀綠色圖片
-	}
-
-	void CGameMap::OnShow()
-	{
-		for (int i = 0; i < 5; i++)		//往右顯示五張圖
-			for (int j = 0; j < 4; j++)	//往下顯示四張圖
-			{
-				switch (map[j][i])
-				{
-					case 0:
-						break;
-					case 1:
-						blue.SetTopLeft(testX + (MW * i), testY + (MH * j));	//設定座標
-						blue.ShowBitmap();			//顯示
-						break;
-					case 2:
-						green.SetTopLeft(testX + (MW * i), testY + (MH * j));	//設定座標
-						green.ShowBitmap();			//顯示
-						break;
-					default:
-						ASSERT(0);	//陣列異常
-				}
-			}
-	}
-	*/
 }
