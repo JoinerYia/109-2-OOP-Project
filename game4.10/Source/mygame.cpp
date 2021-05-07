@@ -281,8 +281,8 @@ namespace game_framework {
 		//test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));			// 練習時用的圖片
 
 		//c_test.LoadBitmap();
-		player1.LoadBitmapPlayer("RES/MonsterMove/MonsterMove_1_", 6);
-		player2.LoadBitmapPlayer("RES/MonsterMove/MonsterMove_2_", 5);
+		player1.LoadBitmapPlayer("RES/PlayerMove/PlayerMove_1_", 6);
+		player2.LoadBitmapPlayer("RES/PlayerMove/PlayerMove_2_", 5);
 		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
 		floor1.LoadBitmapMonster("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
 		//gameMap.LoadBitmap();

@@ -9,7 +9,7 @@
 
 namespace game_framework
 {
-	void Monster::Init(int x, int y, int type, int DelayCount)
+	void MonsterJump::Init(int x, int y, int type, int DelayCount)
 	{
 		_type = type;
 		if (_type == 2)
@@ -31,24 +31,24 @@ namespace game_framework
 		_gravity = 5;									//初始化重力加速度
 	}
 
-	Monster::Monster()									// 設定動畫播放速度為 10(越大越慢)
+	MonsterJump::MonsterJump()									// 設定動畫播放速度為 10(越大越慢)
 	{
 		Init(0, 0, 0, 10);
 	}
 
-	Monster::Monster(int type)							// 設定動畫播放速度的常數(越大越慢)
+	MonsterJump::MonsterJump(int type)							// 設定動畫播放速度的常數(越大越慢)
 	{
 		Init(0, 0, type, 3);
 	}
 
-	Monster::Monster(int type, int DelayCount)			// 設定動畫播放速度的常數(越大越慢)
+	MonsterJump::MonsterJump(int type, int DelayCount)			// 設定動畫播放速度的常數(越大越慢)
 	{
 		Init(0, 0, type, DelayCount);
 	}
 
-	Monster::~Monster() {	}
+	MonsterJump::~MonsterJump() {	}
 
-	void Monster::LoadBitmapMonster(string file, int n)	// 從路徑 "file(1 ~ n)" 新增 n 張圖形
+	void MonsterJump::LoadBitmapMonster(string file, int n)	// 從路徑 "file(1 ~ n)" 新增 n 張圖形
 	{
 		for (int i = 1; i <= n; i++)
 		{
@@ -70,7 +70,7 @@ namespace game_framework
 		}
 	}
 
-	void Monster::OnMove()														// 玩家依頻率更換bitmap
+	void MonsterJump::OnMove()														// 玩家依頻率更換bitmap
 	{
 		if (_type == 1 && _isJumping)
 		{
@@ -146,7 +146,7 @@ namespace game_framework
 		Offset(_speedX, _speedY);
 	}
 
-	void Monster::OnShow()								// 玩家顯示
+	void MonsterJump::OnShow()								// 玩家顯示
 	{
 		int x = GetX(), y = GetY();
 		//往左走
@@ -184,27 +184,27 @@ namespace game_framework
 		}
 	}
 
-	void Monster::SetMovingLeft(bool flag)				// 設定是否正在往左移動
+	void MonsterJump::SetMovingLeft(bool flag)				// 設定是否正在往左移動
 	{
 		_isMovingLeft = flag;
 	}
 
-	void Monster::SetMovingRight(bool flag)				// 設定是否正在往右移動
+	void MonsterJump::SetMovingRight(bool flag)				// 設定是否正在往右移動
 	{
 		_isMovingRight = flag;
 	}
 
-	void Monster::SetJumping(bool flag)					// 設定是否正在跳躍
+	void MonsterJump::SetJumping(bool flag)					// 設定是否正在跳躍
 	{
 		_isJumping = flag;
 	}
 
-	void Monster::SetGrounded(bool flag)
+	void MonsterJump::SetGrounded(bool flag)
 	{
 		_isGrounded = flag;
 	}
 
-	void Monster::SetPassed(bool flag)				// 設定是否已經通過傳送門
+	void MonsterJump::SetPassed(bool flag)				// 設定是否已經通過傳送門
 	{
 		if (_isPassed && (!flag) && !_isGrounded)
 		{
@@ -213,7 +213,7 @@ namespace game_framework
 		_isPassed = flag;
 	}
 
-	void Monster::ChangeGravity()								// 反轉重力
+	void MonsterJump::ChangeGravity()								// 反轉重力
 	{
 		_gravity *= -1;
 	}

@@ -8,13 +8,13 @@
 namespace game_framework
 {
 	// 玩家物件
-	class Monster : public Entity
+	class MonsterJump : public Entity
 	{
 	public:
-		Monster();									// 設定動畫播放速度為 10(越大越慢)
-		Monster(int type);							// 設定玩家類別 及 動畫播放速度為 10(越大越慢)
-		Monster(int type, int DelayCount);			// 設定玩家類別 及 動畫播放速度的常數(越大越慢)
-		~Monster();
+		MonsterJump();									// 設定動畫播放速度為 10(越大越慢)
+		MonsterJump(int type);							// 設定玩家類別 及 動畫播放速度為 10(越大越慢)
+		MonsterJump(int type, int DelayCount);			// 設定玩家類別 及 動畫播放速度的常數(越大越慢)
+		~MonsterJump();
 
 		void LoadBitmapMonster(string file, int n);	// 從路徑 "file(1 ~ n)" 新增 n 張圖形
 		void OnMove() override;						// 玩家依頻率更換bitmap
