@@ -198,6 +198,13 @@ namespace game_framework {
 		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
 		gate1.SetXY(10, 10);
 		floor1 = Floor();
+
+		_monsterJump = new MonsterJump[_monsterJumpCount];
+		for (int i = 0; i < _monsterJumpCount; i++)
+		{
+			_monsterJump[i] = MonsterJump(i);
+			_monsterJump[i].Offset(1100 - i * 100, 50);
+		}
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -261,6 +268,11 @@ namespace game_framework {
 		player1.OnMove();
 		player2.OnMove();
 		gate1.OnMove();
+		for (int i = 0; i < _monsterJumpCount; i++)
+		{
+			_monsterJump[i].SetGrounded(_monsterJump[i].GetY() > SIZE_Y / 2);
+			_monsterJump[i].OnMove();
+		}
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -284,7 +296,11 @@ namespace game_framework {
 		player1.LoadBitmapPlayer("RES/PlayerMove/PlayerMove_1_", 6);
 		player2.LoadBitmapPlayer("RES/PlayerMove/PlayerMove_2_", 5);
 		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
-		floor1.LoadBitmapMonster("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
+		floor1.LoadBitmapMonster("./rgb.bmp");
+		for (int i = 0; i < _monsterJumpCount; i++)
+		{
+			_monsterJump[i].LoadBitmapMonster("./RES/monster/monster_2");
+		}
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度
@@ -471,5 +487,10 @@ namespace game_framework {
 		gate1.OnShow();
 		//gameMap.OnShow();
 		floor1.OnShow();
+		for (int i = 0; i < _monsterJumpCount; i++)
+		{
+			_monsterJump[i].OnShow();
+		}
+
 	}
 }

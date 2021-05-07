@@ -42,6 +42,7 @@
 #include "Player.h"
 #include "Gate.h"
 #include "Floor.h"
+#include "MonsterJump.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -101,12 +102,14 @@ namespace game_framework {
 		CInteger		hits_left;		// 剩下的撞擊數
 		CBouncingBall   bball;			// 反覆彈跳的球
 		//CMovingBitmap	test;			// 練習時用的圖片
-		//int			testX, testY;	//練習用移動距離
+		//int			testX, testY;	// 練習用移動距離
 		//Ctest			c_test;
-		//CGameMap		gameMap;		//地圖
+		//CGameMap		gameMap;		// 地圖
 		Player			player1, player2;//玩家
-		Gate			gate1;			//傳送門1
-		Floor			floor1;			//地板
+		Gate			gate1;			// 傳送門1
+		Floor			floor1;			// 地板
+		MonsterJump*	_monsterJump;	// 會跳躍的怪物列表
+		int				_monsterJumpCount = 4;	// 會跳躍的怪物數量
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
