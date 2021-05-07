@@ -43,12 +43,17 @@ namespace game_framework
 	void MonsterJump::LoadBitmapMonster(string file)	// 從路徑 "file" 新增圖形
 	{
 		//讀取圖片
-		stringstream fileString1;
+		stringstream fileString1, fileString2;
 		fileString1 << file << ".bmp";
 		char* fileChar1 = new char[100];
 		fileString1 >> fileChar1;
 		_Monster.LoadBitmapA(fileChar1, RGB(255, 255, 255));				//設白色為透明
+		fileString2 << file << "_ball.bmp";
+		char* fileChar2 = new char[100];
+		fileString2 >> fileChar2;
+		_MonsterBall.LoadBitmapA(fileChar2, RGB(0, 0, 0));					//設黑色為透明
 		delete[] fileChar1;
+		delete[] fileChar2;
 	}
 
 	void MonsterJump::OnMove()												// 設定怪物座標
@@ -84,6 +89,7 @@ namespace game_framework
 		{
 			//移動的動畫
 			_Monster.SetTopLeft(GetX(), GetY());
+			_MonsterBall.SetTopLeft(GetX(), SIZE_Y - GetY() + _MonsterBall.Height());
 		}
 		else
 		{
@@ -99,6 +105,8 @@ namespace game_framework
 		//顯示圖片
 		_Monster.SetTopLeft(x, y);
 		_Monster.ShowBitmap();
+		_MonsterBall.SetTopLeft(x, SIZE_Y - y + _MonsterBall.Height());
+		_MonsterBall.ShowBitmap();
 	}
 
 	void MonsterJump::SetJumping(bool flag)					// 設定是否正在跳躍

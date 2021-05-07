@@ -25,7 +25,7 @@ namespace game_framework
 		void ChangeGravity();						// 反轉重力
 	private:
 		RectangleF		 _shape;					// 怪物的中心座標及大小
-		CMovingBitmap	_Monster;					// 怪物圖片
+		CMovingBitmap	_Monster, _MonsterBall;		// 怪物圖片、與怪物對應的球圖片
 		bool			_isJumping;					// 是否正在跳躍
 		bool			_isGrounded;				// 是否已經落地
 		//int			_type;						// 是幾號怪物
