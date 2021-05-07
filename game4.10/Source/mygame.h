@@ -43,6 +43,7 @@
 #include "Gate.h"
 #include "Floor.h"
 #include "MonsterJump.h"
+#include "MonsterGo.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -109,7 +110,9 @@ namespace game_framework {
 		Gate			gate1;			// 傳送門1
 		Floor			floor1;			// 地板
 		MonsterJump*	_monsterJump;	// 會跳躍的怪物列表
+		MonsterGo*		_monsterGo;		// 會左右移動的怪物列表
 		int				_monsterJumpCount = 4;	// 會跳躍的怪物數量
+		int				_monsterGoCount = 1;	// 會左右移動的怪物數量
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -205,6 +205,13 @@ namespace game_framework {
 			_monsterJump[i] = MonsterJump(i);
 			_monsterJump[i].Offset(1100 - i * 100, 50);
 		}
+		_monsterGo = new MonsterGo[_monsterGoCount];
+		for (int i = 0; i < _monsterGoCount; i++)
+		{
+			_monsterGo[i] = MonsterGo(i);
+			_monsterGo[i].Offset(1100 - i * 100, 50);
+			_monsterGo[i].SetStartX(1100 - i * 100);
+		}
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -273,6 +280,11 @@ namespace game_framework {
 			_monsterJump[i].SetGrounded(_monsterJump[i].GetY() > SIZE_Y / 2);
 			_monsterJump[i].OnMove();
 		}
+		for (int i = 0; i < _monsterGoCount; i++)
+		{
+			_monsterGo[i].SetGrounded(_monsterGo[i].GetY() > SIZE_Y / 2);
+			_monsterGo[i].OnMove();
+		}
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -300,6 +312,10 @@ namespace game_framework {
 		for (int i = 0; i < _monsterJumpCount; i++)
 		{
 			_monsterJump[i].LoadBitmapMonster("./RES/monster/monster_2");
+		}
+		for (int i = 0; i < _monsterGoCount; i++)
+		{
+			_monsterGo[i].LoadBitmapMonster("./RES/monster/monster_1_up", 1);
 		}
 		//gameMap.LoadBitmap();
 		//
@@ -490,6 +506,10 @@ namespace game_framework {
 		for (int i = 0; i < _monsterJumpCount; i++)
 		{
 			_monsterJump[i].OnShow();
+		}
+		for (int i = 0; i < _monsterGoCount; i++)
+		{
+			_monsterGo[i].OnShow();
 		}
 
 	}

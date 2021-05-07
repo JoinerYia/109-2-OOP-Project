@@ -17,10 +17,11 @@ namespace game_framework
 		else _shape = RectangleF(45, 50);				//重設碰撞箱
 		_shape.SetLeftTop((float)x, (float)y);			//重設座標
 
-		_isMovingLeft = _isMovingRight = _isJumping = false;//初始化移動方向
+		_isMovingLeft = true;							//一開始要往左走
+		_isMovingRight = _isJumping = false;			//初始化移動方向
 		_isPassed = false;								//初始化傳送門穿越狀態
 		_isGrounded = true;								//初始化落地狀態
-		_Monster_left.SetDelayCount(DelayCount);			//預設值
+		_Monster_left.SetDelayCount(DelayCount);		//預設值
 		_Monster_right.SetDelayCount(DelayCount);		//預設值
 		//_Monster_left.SetTopLeft(x, y);
 
@@ -29,21 +30,25 @@ namespace game_framework
 		_speedY = 0;									//初始化垂直速度
 		_acceleration = 5;								//初始化加速度
 		_gravity = 5;									//初始化重力加速度
+		_startX = x;									//初始化一開始的 X 座標
 	}
 
 	MonsterGo::MonsterGo()									// 設定動畫播放速度為 10(越大越慢)
 	{
 		Init(0, 0, 0, 10);
+		_moveSpace = 150;								//初始化左右移動的距離
 	}
 
 	MonsterGo::MonsterGo(int type)							// 設定動畫播放速度的常數(越大越慢)
 	{
 		Init(0, 0, type, 3);
+		_moveSpace = 150;								//初始化左右移動的距離
 	}
 
 	MonsterGo::MonsterGo(int type, int DelayCount)			// 設定動畫播放速度的常數(越大越慢)
 	{
 		Init(0, 0, type, DelayCount);
+		_moveSpace = 150;								//初始化左右移動的距離
 	}
 
 	MonsterGo::~MonsterGo() {	}
@@ -54,7 +59,7 @@ namespace game_framework
 		{
 			//讀取往左動畫圖片
 			stringstream fileString1;
-			fileString1 << file << i << "_left.bmp";
+			fileString1 << file << "_left.bmp";
 			char* fileChar1 = new char[100];
 			fileString1 >> fileChar1;
 			_Monster_left.AddBitmap(fileChar1, RGB(255, 255, 255));				//設白色為透明
@@ -62,15 +67,15 @@ namespace game_framework
 
 			//讀取往右動畫圖片
 			stringstream fileString2;
-			fileString2 << file << i << "_right.bmp";
+			fileString2 << file << "_right.bmp";
 			char* fileChar2 = new char[100];
 			fileString2 >> fileChar2;
-			_Monster_right.AddBitmap(fileChar2, RGB(255, 255, 255));				//設白色為透明
+			_Monster_right.AddBitmap(fileChar2, RGB(255, 255, 255));			//設白色為透明
 			delete[] fileChar2;
 		}
 	}
 
-	void MonsterGo::OnMove()														// 玩家依頻率更換bitmap
+	void MonsterGo::OnMove()													// 玩家依頻率更換bitmap
 	{
 		if (_type == 1 && _isJumping)
 		{
@@ -182,6 +187,25 @@ namespace game_framework
 				_Monster_right.OnShow();
 			}
 		}
+		int moveX = abs(this->GetX() - _startX);
+		if (_isMovingLeft)
+		{
+			if (moveX > _moveSpace)
+			{
+				// 往左走到一定距離後就往右走
+				_isMovingLeft = false;
+				_isMovingRight = true;
+			}
+		}
+		else if (_isMovingRight)
+		{
+			if (moveX > _moveSpace)
+			{
+				// 往右走到一定距離後就往左走
+				_isMovingLeft = true;
+				_isMovingRight = false;
+			}
+		}
 	}
 
 	void MonsterGo::SetMovingLeft(bool flag)				// 設定是否正在往左移動
@@ -211,6 +235,11 @@ namespace game_framework
 			ChangeGravity();
 		}
 		_isPassed = flag;
+	}
+
+	void MonsterGo::SetStartX(int x)					// 設定一開始的 X 座標
+	{
+		_startX = x;
 	}
 
 	void MonsterGo::ChangeGravity()								// 反轉重力
