@@ -27,6 +27,11 @@ namespace game_framework
 		Init(0, 0, 210, 60, DelayCount);
 	}
 
+	Gate::Gate(int x, int y)							// 設定動畫播放速度為 10(越大越慢)
+	{
+		Init(x, y, 210, 60, 10);
+	}
+
 	Gate::~Gate() {	}
 
 	void Gate::LoadBitmapGate(string file, int n)		// 從路徑 "file(1 ~ n)" 新增 n 張圖形
@@ -58,4 +63,16 @@ namespace game_framework
 	{
 		return _shape.isShapeFCover(entity.GetShape());
 	}
+
+	void Gate::Offset(int dx, int dy) {
+		_shape.Offset((float)dx, (float)dy);
+	}
+
+	void Gate::SetXY(int x, int y) {
+		_shape.Offset((float)(x - GetX()), (float)(y - GetY()));
+	}
+
+	int Gate::GetX() const { return (int)_shape.GetLeft(); }
+	int Gate::GetY() const { return (int)_shape.GetTop(); }
+	ShapeF Gate::GetShapeF() { return _shape; }
 }

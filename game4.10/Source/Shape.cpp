@@ -72,7 +72,7 @@ bool ShapeF::isShapeFCover(ShapeF &shape)const {
 	return checkX && checkY;
 }
 
-bool ShapeF::isShapeCoverWithDepart(ShapeF shape, int mode) {
+bool ShapeF::isShapeCoverWithDepart(ShapeF &shape, int mode) {
 	bool checkX = this->GetLeft() < shape.GetRight() && shape.GetLeft() < this->GetRight(),
 		checkY = this->GetTop() < shape.GetBottom() && shape.GetTop() < this->GetBottom(),
 		check = checkX && checkY;

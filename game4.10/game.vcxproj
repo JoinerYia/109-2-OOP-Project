@@ -285,7 +285,6 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="Source\MapItem.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Shape.cpp" />
     <ClCompile Include="Source\StdAfx.cpp">
@@ -323,7 +322,6 @@
     <ClInclude Include="Source\Gate.h" />
     <ClInclude Include="Source\GenerateBitmap.h" />
     <ClInclude Include="Source\MainFrm.h" />
-    <ClInclude Include="Source\MapItem.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Resource.h" />
     <ClInclude Include="Source\Shape.h" />

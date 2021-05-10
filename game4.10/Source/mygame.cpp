@@ -52,6 +52,8 @@
 */
 
 #include "stdafx.h"
+//#include <iostream>
+//#include <fstream>
 #include "Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
@@ -195,9 +197,12 @@ namespace game_framework {
 		//testX = testY = 0;
 		player1 = Player(1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		player2 = Player(2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
-		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
-		gate1.SetXY(10, 10);
-		floor1 = Floor();
+		gates.push_back(Gate(300, SIZE_Y / 2 - 30));// 門動畫播放速度的常數用預設值(越大越慢)
+		gates.push_back(Gate(1350, SIZE_Y / 2 - 30));
+
+		floors.push_back(Floor(-100, SIZE_Y / 2 - 15, 400, 30));
+		floors.push_back(Floor(540, SIZE_Y / 2 - 15, 810, 30));
+		floors.push_back(Floor(1590, SIZE_Y / 2 - 15, 540, 30));
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -213,7 +218,6 @@ namespace game_framework {
 		const int HITS_LEFT = 10;
 		const int HITS_LEFT_X = 590;
 		const int HITS_LEFT_Y = 0;
-		const int BACKGROUND_X = 60;
 		const int ANIMATION_SPEED = 15;
 		/*for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
 			int x_pos = i % BALL_PER_ROW;
@@ -223,7 +227,7 @@ namespace game_framework {
 			ball[i].SetIsAlive(true);
 		}
 		eraser.Initialize();//*/
-		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
+		background.SetTopLeft(0, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 		hits_left.SetInteger(player1.GetX());					// 指定剩下的撞擊數
 		hits_left.SetTopLeft(HITS_LEFT_X, HITS_LEFT_Y);		// 指定剩下撞擊數的座標
@@ -256,12 +260,29 @@ namespace game_framework {
 		//
 		bball.OnMove();
 		//c_test.OnMove();
-		player1.SetGrounded(player1.GetY() > SIZE_Y/2);
-		player2.SetGrounded(player2.GetY() > SIZE_Y/2);
+		bool	isPlayer1Grouded = false,
+				isPlayer2Grouded = player2.GetY() > SIZE_Y / 2 - 120;//false;
+		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
+		{
+			isPlayer1Grouded |= floor->isCollision(player1.GetShape());
+		}
+		if (isPlayer2Grouded)
+		{
+			isPlayer2Grouded = true;
+		}
+		player1.SetGrounded(isPlayer1Grouded);
+		player2.SetGrounded(isPlayer2Grouded);
 		player1.OnMove();
 		player2.OnMove();
-		gate1.OnMove();
+
+		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
+		{
+			gate->OnMove();
+		}
+
 	}
+
+	
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
@@ -283,8 +304,13 @@ namespace game_framework {
 		//c_test.LoadBitmap();
 		player1.LoadBitmapPlayer("RES/playerMove/playerMove_1_", 6);
 		player2.LoadBitmapPlayer("RES/playerMove/playerMove_2_", 5);
-		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
-		floor1.LoadBitmapPlayer("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
+
+		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
+		{
+			gate->LoadBitmapGate("RES/gate/gate_1_", 5);
+		}
+
+		//floor1.LoadBitmapPlayer("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度
@@ -355,6 +381,11 @@ namespace game_framework {
 		if (nChar == KEY_D)
 		{
 			player2.SetMovingRight(true);
+		}
+		if (nChar == 'R')
+		{
+			//player1 = Player(1);
+			//player2 = Player(2);
 		}
 	}
 
@@ -468,8 +499,18 @@ namespace game_framework {
 		//c_test.OnShow();
 		player1.OnShow();
 		player2.OnShow();
-		gate1.OnShow();
+
+		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
+		{
+			gate->OnShow();
+		}
+
 		//gameMap.OnShow();
-		floor1.OnShow();
+		
+		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
+		{
+			floor->OnShow();
+		}
+
 	}
 }

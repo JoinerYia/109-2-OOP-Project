@@ -28,7 +28,7 @@ public:
 	virtual bool isLinePass(float m, float c) const;
 	virtual bool isLinePass(float m, float c, float x1, float x2) const;
 	bool isShapeFCover(ShapeF &shape) const;
-	bool isShapeCoverWithDepart(ShapeF shape, int mode);
+	bool isShapeCoverWithDepart(ShapeF &shape, int mode);
 
 	virtual float GetMax(float vectorX, float vectorY) const;
 	virtual float GetMin(float vectorX, float vectorY) const;

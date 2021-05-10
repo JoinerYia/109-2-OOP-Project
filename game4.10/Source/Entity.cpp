@@ -8,4 +8,4 @@ void Entity::SetXY(int x, int y) { _shape.Offset((float)(x - GetX()), (float)(y 
 
 int Entity::GetX() { return (int)_shape.GetLeft(); }
 int Entity::GetY() { return (int)_shape.GetTop(); }
-ShapeF Entity::GetShape() { return _shape; }
+ShapeF& Entity::GetShape() { return _shape; }

@@ -1,14 +1,14 @@
 #pragma once
-#include "MapItem.h"
 #include "Shape.h"
 #include "GenerateBitmap.h"
 
 namespace game_framework
 {
-	class Floor : public MapItem
+	class Floor
 	{
 
 	private:
+		RectangleF _shape;
 		CMovingBitmap _floor;					//地板
 		int _x;
 		int _y;
@@ -27,5 +27,12 @@ namespace game_framework
 		//SetXY 設定地板座標
 		bool isCollision(ShapeF& shape);		//判斷是否碰到地板
 		void OnShow();							// 地板顯示
+
+		void Offset(int dx, int dy);
+		void SetXY(int x, int y);
+
+		int GetX() const;
+		int GetY() const;
+		ShapeF GetShapeF();
 	};
 }

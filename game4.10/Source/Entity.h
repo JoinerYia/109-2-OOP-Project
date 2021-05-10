@@ -10,6 +10,7 @@ protected:
 	int _maxSpeed, _acceleration, _gravity;
 	int _type = 0;
 public:
+
 	virtual void OnShow();
 	virtual void OnMove();
 
@@ -18,6 +19,6 @@ public:
 
 	int GetX();
 	int GetY();
-	ShapeF GetShape();
+	ShapeF& GetShape();
 };
 
