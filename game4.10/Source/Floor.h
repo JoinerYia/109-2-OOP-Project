@@ -22,7 +22,7 @@ namespace game_framework
 		Floor(int x, int y, int width, int height);
 		~Floor();
 
-		void LoadBitmapPlayer(char* file);	// 從路徑 file 新增圖形
+		void LoadBitmapMonster(char* file);	// 從路徑 file 新增圖形
 		//Offset 移動地板座標
 		//SetXY 設定地板座標
 		bool isCollision(ShapeF& shape);		//判斷是否碰到地板

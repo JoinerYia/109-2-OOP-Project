@@ -197,12 +197,32 @@ namespace game_framework {
 		//testX = testY = 0;
 		player1 = Player(1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		player2 = Player(2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
+<<<<<<< HEAD
 		gates.push_back(Gate(300, SIZE_Y / 2 - 30));// 門動畫播放速度的常數用預設值(越大越慢)
 		gates.push_back(Gate(1350, SIZE_Y / 2 - 30));
 
 		floors.push_back(Floor(-100, SIZE_Y / 2 - 15, 400, 30));
 		floors.push_back(Floor(540, SIZE_Y / 2 - 15, 810, 30));
 		floors.push_back(Floor(1590, SIZE_Y / 2 - 15, 540, 30));
+=======
+		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
+		gate1.SetXY(10, 10);
+		floor1 = Floor();
+
+		_monsterJump = new MonsterJump[_monsterJumpCount];
+		for (int i = 0; i < _monsterJumpCount; i++)
+		{
+			_monsterJump[i] = MonsterJump(i);
+			_monsterJump[i].Offset(1100 - i * 100, 50);
+		}
+		_monsterGo = new MonsterGo[_monsterGoCount];
+		for (int i = 0; i < _monsterGoCount; i++)
+		{
+			_monsterGo[i] = MonsterGo(i);
+			_monsterGo[i].Offset(1100 - i * 100, 50);
+			_monsterGo[i].SetStartX(1100 - i * 100);
+		}
+>>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -274,12 +294,26 @@ namespace game_framework {
 		player2.SetGrounded(isPlayer2Grouded);
 		player1.OnMove();
 		player2.OnMove();
+<<<<<<< HEAD
 
 		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
 		{
 			gate->OnMove();
 		}
 
+=======
+		gate1.OnMove();
+		for (int i = 0; i < _monsterJumpCount; i++)
+		{
+			_monsterJump[i].SetGrounded(_monsterJump[i].GetY() > SIZE_Y / 2);
+			_monsterJump[i].OnMove();
+		}
+		for (int i = 0; i < _monsterGoCount; i++)
+		{
+			_monsterGo[i].SetGrounded(_monsterGo[i].GetY() > SIZE_Y / 2);
+			_monsterGo[i].OnMove();
+		}
+>>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
 	}
 
 	
@@ -302,6 +336,7 @@ namespace game_framework {
 		//test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));			// 練習時用的圖片
 
 		//c_test.LoadBitmap();
+<<<<<<< HEAD
 		player1.LoadBitmapPlayer("RES/playerMove/playerMove_1_", 6);
 		player2.LoadBitmapPlayer("RES/playerMove/playerMove_2_", 5);
 
@@ -311,6 +346,20 @@ namespace game_framework {
 		}
 
 		//floor1.LoadBitmapPlayer("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
+=======
+		player1.LoadBitmapPlayer("RES/PlayerMove/PlayerMove_1_", 6);
+		player2.LoadBitmapPlayer("RES/PlayerMove/PlayerMove_2_", 5);
+		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
+		floor1.LoadBitmapMonster("./rgb.bmp");
+		for (int i = 0; i < _monsterJumpCount; i++)
+		{
+			_monsterJump[i].LoadBitmapMonster("./RES/monster/monster_2");
+		}
+		for (int i = 0; i < _monsterGoCount; i++)
+		{
+			_monsterGo[i].LoadBitmapMonster("./RES/monster/monster_1_up", 1);
+		}
+>>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度
@@ -506,10 +555,21 @@ namespace game_framework {
 		}
 
 		//gameMap.OnShow();
+<<<<<<< HEAD
 		
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
 			floor->OnShow();
+=======
+		floor1.OnShow();
+		for (int i = 0; i < _monsterJumpCount; i++)
+		{
+			_monsterJump[i].OnShow();
+		}
+		for (int i = 0; i < _monsterGoCount; i++)
+		{
+			_monsterGo[i].OnShow();
+>>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
 		}
 
 	}
