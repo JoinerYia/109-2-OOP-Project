@@ -99,26 +99,19 @@ namespace game_framework {
 	private:
 		const int		NUMBALLS;		// 球的總數
 		CMovingBitmap	background;		// 背景圖
-		CMovingBitmap	help;			// 說明圖
-		CMovingBitmap	corner;			// 角落圖
-		CInteger		hits_left;		// 剩下的撞擊數
-		CBouncingBall   bball;			// 反覆彈跳的球
+		//CMovingBitmap	help;			// 說明圖
+		//CMovingBitmap	corner;			// 角落圖
+		//CInteger		hits_left;		// 剩下的撞擊數
+		//CBouncingBall   bball;			// 反覆彈跳的球
 		//CMovingBitmap	test;			// 練習時用的圖片
 		//int			testX, testY;	// 練習用移動距離
 		//Ctest			c_test;
 		//CGameMap		gameMap;		// 地圖
 		Player			player1, player2;//玩家
-<<<<<<< HEAD
 		vector<Gate>	gates;			//傳送門
 		vector<Floor>	floors;			//地板
-=======
-		Gate			gate1;			// 傳送門1
-		Floor			floor1;			// 地板
-		MonsterJump*	_monsterJump;	// 會跳躍的怪物列表
-		MonsterGo*		_monsterGo;		// 會左右移動的怪物列表
-		int				_monsterJumpCount = 4;	// 會跳躍的怪物數量
-		int				_monsterGoCount = 1;	// 會左右移動的怪物數量
->>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
+		vector<MonsterJump>_monsterJump;// 會跳躍的怪物列表
+		vector<MonsterGo>_monsterGo;	// 會左右移動的怪物列表
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -42,8 +42,9 @@ namespace game_framework
 
 		void ChangeGravity();						// 反轉重力
 	private:
-		RectangleF		 _shape;					// 玩家的中心座標及大小
+		//ShapeF*			_shape;						// 玩家的中心座標及大小
 		CAnimation		_player_left, _player_right;// 玩家動畫
+		CAnimation		_player_left_neg, _player_right_neg;// 玩家動畫
 		bool			_isMovingLeft;				// 是否正在往左移動
 		bool			_isMovingRight;				// 是否正在往右移動
 		bool			_isJumping;					// 是否正在跳躍

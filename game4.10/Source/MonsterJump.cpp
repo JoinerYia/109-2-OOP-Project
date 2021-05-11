@@ -9,15 +9,12 @@
 
 namespace game_framework
 {
-	void MonsterJump::Init(int x, int y, int type)
+	void MonsterJump::Init(int x, int y)
 	{
-		_type = type;
-		if (_type == 2)
-			_shape = RectangleF(45, 60);
-		else _shape = RectangleF(45, 50);				// 重設碰撞箱
-		_shape.SetLeftTop((float)x, (float)y);			// 重設座標
+		_shape = new CircleF(31);						// 重設碰撞箱
+		_shape->SetLeftTop((float)x, (float)y);			// 重設座標
+		_yCenter = SIZE_Y / 2;
 
-		_isJumping = true;								// 預設一直跳躍
 		_isGrounded = true;								// 初始化落地狀態
 		//_Monster_left.SetTopLeft(x, y);
 
@@ -30,12 +27,12 @@ namespace game_framework
 
 	MonsterJump::MonsterJump()							// 預設設定
 	{
-		Init(0, 0, 0);
+		Init(0, 0);
 	}
 
-	MonsterJump::MonsterJump(int type)					// 設定怪物類別
+	MonsterJump::MonsterJump(int x, int y)	// 設定怪物類別
 	{
-		Init(0, 0, type);
+		Init(x, y);
 	}
 
 	MonsterJump::~MonsterJump() {	}
@@ -58,50 +55,28 @@ namespace game_framework
 
 	void MonsterJump::OnMove()												// 設定怪物座標
 	{
-		if (_type == 1 && _isJumping)
+		_isGrounded = GetY() > SIZE_Y / 2 - 15;
+		if (_isGrounded)
 		{
-			_type = 1;
+			//_speedY = 5;
+			if (_gravity > 0)
+				_speedY = -50;
+			else _speedY = 50;
 		}
-		
-		if (!_isGrounded)
+		else
 		{
 			_speedY += _gravity;
-			if (_speedY == 0)
-				_speedY += 25 * _gravity / abs(_gravity);
 		}
-		else
-		{
-			_speedY = 0;
-		}
+		//移動的動畫
+		_Monster.SetTopLeft(_shape->GetX(), _shape->GetY());
+		_MonsterBall.SetTopLeft(_shape->GetX(), SIZE_Y - _shape->GetY() + _MonsterBall.Height());
 
-		if (_isJumping)
-		{
-			if (_isGrounded)
-			{
-				//_speedY = 5;
-				if (_gravity > 0)
-					_speedY = -50;
-				else _speedY = 50;
-			}
-		}
-		//有往任意方向移動
-		if (_isJumping || (!_isGrounded))
-		{
-			//移動的動畫
-			_Monster.SetTopLeft(GetX(), GetY());
-			_MonsterBall.SetTopLeft(GetX(), SIZE_Y - GetY() + _MonsterBall.Height());
-		}
-		else
-		{
-			//站著不動的狀態
-		}
-
-		Offset(_speedX, _speedY);
+		_shape->Offset((float)_speedX, (float)_speedY);
 	}
 
 	void MonsterJump::OnShow()								// 怪物顯示
 	{
-		int x = GetX(), y = GetY();
+		int x = _shape->GetX(), y = _shape->GetY();
 		//顯示圖片
 		_Monster.SetTopLeft(x, y);
 		_Monster.ShowBitmap();
@@ -109,18 +84,8 @@ namespace game_framework
 		_MonsterBall.ShowBitmap();
 	}
 
-	void MonsterJump::SetJumping(bool flag)					// 設定是否正在跳躍
-	{
-		_isJumping = flag;
-	}
-
 	void MonsterJump::SetGrounded(bool flag)
 	{
 		_isGrounded = flag;
-	}
-
-	void MonsterJump::ChangeGravity()								// 反轉重力
-	{
-		_gravity *= -1;
 	}
 }

@@ -35,8 +35,8 @@ ShapeF::ShapeF(float x, float y) { Init(x, y); }
 ShapeF::ShapeF(const ShapeF &shape) { Init(shape._x, shape._y); }
 ShapeF::~ShapeF() {}
 
-float ShapeF::GetX() const { return _x; }
-float ShapeF::GetY() const { return _y; }
+int ShapeF::GetX() const { return (int)_x; }
+int ShapeF::GetY() const { return (int)_y; }
 void ShapeF::SetX(float value) { _x = value; }
 void ShapeF::SetY(float value) { _y = value; }
 void ShapeF::SetXY(float x, float y) { _x = x; _y = y; }
@@ -61,33 +61,33 @@ bool ShapeF::isLinePass(float m, float c, float x1, float x2) const {
 	return isLinePass(m, c);
 }
 
-bool ShapeF::isShapeFCover(ShapeF &shape)const {
+bool ShapeF::isShapeFCover(ShapeF* shape)const {
 	/*
 	float dx = shape._x - this->_x,
 		dy = shape._y - this->_y;
 	return this->GetMin(dx, dy) < shape.GetMax(dx, dy) && shape.GetMin(dx, dy) < this->GetMax(dx, dy);
 	//*/
-	bool checkX = this->GetLeft() < shape.GetRight() && shape.GetLeft() < this->GetRight(),
-		checkY = this->GetTop() < shape.GetBottom() && shape.GetTop() < this->GetBottom();
+	bool checkX = this->GetLeft() < shape->GetRight() && shape->GetLeft() < this->GetRight(),
+		checkY = this->GetTop() < shape->GetBottom() && shape->GetTop() < this->GetBottom();
 	return checkX && checkY;
 }
 
-bool ShapeF::isShapeCoverWithDepart(ShapeF &shape, int mode) {
-	bool checkX = this->GetLeft() < shape.GetRight() && shape.GetLeft() < this->GetRight(),
-		checkY = this->GetTop() < shape.GetBottom() && shape.GetTop() < this->GetBottom(),
+bool ShapeF::isShapeCoverWithDepart(ShapeF* shape, int mode) {
+	bool checkX = this->GetLeft() < shape->GetRight() && shape->GetLeft() < this->GetRight(),
+		checkY = this->GetTop() < shape->GetBottom() && shape->GetTop() < this->GetBottom(),
 		check = checkX && checkY;
 
 	if (check)
 	{
 		float dx, dy;
 
-		if (Abs(shape.GetRight() - this->GetLeft()) < Abs(shape.GetLeft() - this->GetRight()))
-			dx = shape.GetRight() - this->GetLeft();
-		else dx = shape.GetLeft() - this->GetRight();
+		if (Abs(shape->GetRight() - this->GetLeft()) < Abs(shape->GetLeft() - this->GetRight()))
+			dx = shape->GetRight() - this->GetLeft();
+		else dx = shape->GetLeft() - this->GetRight();
 
-		if (Abs(shape.GetBottom() - this->GetTop()) < Abs(shape.GetTop() - this->GetBottom()))
-			dy = shape.GetBottom() - this->GetTop();
-		else dy = shape.GetTop() - this->GetBottom();
+		if (Abs(shape->GetBottom() - this->GetTop()) < Abs(shape->GetTop() - this->GetBottom()))
+			dy = shape->GetBottom() - this->GetTop();
+		else dy = shape->GetTop() - this->GetBottom();
 
 		dx -= dx / Abs(dx);
 		dy -= dy / Abs(dy);
@@ -101,19 +101,19 @@ bool ShapeF::isShapeCoverWithDepart(ShapeF &shape, int mode) {
 			break;
 		case 2:
 			if (Abs(dx) < Abs(dy))
-				shape.Offset(-dx, 0);
-			else shape.Offset(0, -dy);
+				shape->Offset(-dx, 0);
+			else shape->Offset(0, -dy);
 			break;
 		case 3:
 			if (Abs(dx) < Abs(dy))
 			{
 				this->Offset(dx / 2, 0);
-				shape.Offset(-dx / 2, 0);
+				shape->Offset(-dx / 2, 0);
 			}
 			else
 			{
 				this->Offset(0, dy / 2);
-				shape.Offset(0, -dy / 2);
+				shape->Offset(0, -dy / 2);
 			}
 			break;
 		default:

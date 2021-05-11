@@ -197,18 +197,29 @@ namespace game_framework {
 		//testX = testY = 0;
 		player1 = Player(1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		player2 = Player(2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
-<<<<<<< HEAD
+		player1.SetXY(0, SIZE_Y / 2 - 100);
+		player2.SetXY(0, SIZE_Y / 2 - 100);
 		gates.push_back(Gate(300, SIZE_Y / 2 - 30));// 門動畫播放速度的常數用預設值(越大越慢)
-		gates.push_back(Gate(1350, SIZE_Y / 2 - 30));
+		gates.push_back(Gate(1080, SIZE_Y / 2 - 30));
 
 		floors.push_back(Floor(-100, SIZE_Y / 2 - 15, 400, 30));
-		floors.push_back(Floor(540, SIZE_Y / 2 - 15, 810, 30));
-		floors.push_back(Floor(1590, SIZE_Y / 2 - 15, 540, 30));
-=======
-		gate1 = Gate();						// 門動畫播放速度的常數用預設值(越大越慢)
-		gate1.SetXY(10, 10);
-		floor1 = Floor();
+		floors.push_back(Floor(540, SIZE_Y / 2 - 15, 540, 30));
+		floors.push_back(Floor(1320, SIZE_Y / 2 - 15, 810, 30));
 
+		for (int i = 0; i < 4; i++)
+		{
+			_monsterJump.push_back(MonsterJump(640 + 100*i, 50));
+		}
+
+		MonsterGo tmpMonGo;
+		for (int i = 0; i < 1; i++)
+		{
+			tmpMonGo = MonsterGo(1320 - i * 100, 50);
+			tmpMonGo.SetStartX(1100 - i * 100);
+			_monsterGo.push_back(tmpMonGo);
+		}
+
+		/*
 		_monsterJump = new MonsterJump[_monsterJumpCount];
 		for (int i = 0; i < _monsterJumpCount; i++)
 		{
@@ -222,7 +233,7 @@ namespace game_framework {
 			_monsterGo[i].Offset(1100 - i * 100, 50);
 			_monsterGo[i].SetStartX(1100 - i * 100);
 		}
->>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
+		//*/
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -248,9 +259,9 @@ namespace game_framework {
 		}
 		eraser.Initialize();//*/
 		background.SetTopLeft(0, 0);				// 設定背景的起始座標
-		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-		hits_left.SetInteger(player1.GetX());					// 指定剩下的撞擊數
-		hits_left.SetTopLeft(HITS_LEFT_X, HITS_LEFT_Y);		// 指定剩下撞擊數的座標
+		//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
+		//hits_left.SetInteger(player1.GetX());					// 指定剩下的撞擊數
+		//hits_left.SetTopLeft(HITS_LEFT_X, HITS_LEFT_Y);		// 指定剩下撞擊數的座標
 		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
@@ -278,31 +289,46 @@ namespace game_framework {
 		//
 		// 移動彈跳的球
 		//
-		bball.OnMove();
+		//bball.OnMove();
 		//c_test.OnMove();
 		bool	isPlayer1Grouded = false,
-				isPlayer2Grouded = player2.GetY() > SIZE_Y / 2 - 120;//false;
+			isPlayer2Grouded = false,
+			isPlayer1Passed = false,
+			isPlayer2Passed = false;
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
-			isPlayer1Grouded |= floor->isCollision(player1.GetShape());
+			isPlayer1Grouded |= floor->isCollision(player1);
+			isPlayer2Grouded |= floor->isCollision(player2);
 		}
-		if (isPlayer2Grouded)
+		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
 		{
-			isPlayer2Grouded = true;
+			isPlayer1Passed |= gate->isCollision(player1);
+			isPlayer2Passed |= gate->isCollision(player2);
 		}
-		player1.SetGrounded(isPlayer1Grouded);
-		player2.SetGrounded(isPlayer2Grouded);
+		player1.SetGrounded(isPlayer1Grouded && !isPlayer1Passed);
+		player2.SetGrounded(isPlayer2Grouded && !isPlayer2Passed);
+		player1.SetPassed(isPlayer1Passed);
+		player2.SetPassed(isPlayer2Passed);
 		player1.OnMove();
 		player2.OnMove();
-<<<<<<< HEAD
 
 		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
 		{
 			gate->OnMove();
 		}
 
-=======
-		gate1.OnMove();
+		for (vector<MonsterJump>::iterator monJump = _monsterJump.begin(); monJump != _monsterJump.end(); monJump++)
+		{
+			//monJump->SetGrounded(monJump->GetY() > SIZE_Y / 2 - 15);
+			monJump->OnMove();
+		}
+
+		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
+		{
+			monGo->SetGrounded(monGo->GetY() > SIZE_Y / 2);
+			monGo->OnMove();
+		}
+		/*
 		for (int i = 0; i < _monsterJumpCount; i++)
 		{
 			_monsterJump[i].SetGrounded(_monsterJump[i].GetY() > SIZE_Y / 2);
@@ -312,11 +338,8 @@ namespace game_framework {
 		{
 			_monsterGo[i].SetGrounded(_monsterGo[i].GetY() > SIZE_Y / 2);
 			_monsterGo[i].OnMove();
-		}
->>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
+		}//*/
 	}
-
-	
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
@@ -336,7 +359,6 @@ namespace game_framework {
 		//test.LoadBitmap(IDB_TIGER, RGB(255, 255, 255));			// 練習時用的圖片
 
 		//c_test.LoadBitmap();
-<<<<<<< HEAD
 		player1.LoadBitmapPlayer("RES/playerMove/playerMove_1_", 6);
 		player2.LoadBitmapPlayer("RES/playerMove/playerMove_2_", 5);
 
@@ -345,21 +367,25 @@ namespace game_framework {
 			gate->LoadBitmapGate("RES/gate/gate_1_", 5);
 		}
 
+
+		for (vector<MonsterJump>::iterator monJump = _monsterJump.begin(); monJump != _monsterJump.end(); monJump++)
+		{
+			monJump->LoadBitmapMonster("./RES/monster/monster_2");
+		}
+
+		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
+		{
+			monGo->LoadBitmapMonster("./RES/monster/monster_1_up", 1);
+		}
 		//floor1.LoadBitmapPlayer("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
-=======
-		player1.LoadBitmapPlayer("RES/PlayerMove/PlayerMove_1_", 6);
-		player2.LoadBitmapPlayer("RES/PlayerMove/PlayerMove_2_", 5);
-		gate1.LoadBitmapGate("RES/gate/gate_1_", 5);
-		floor1.LoadBitmapMonster("./rgb.bmp");
-		for (int i = 0; i < _monsterJumpCount; i++)
+		/*for (int i = 0; i < _monsterJumpCount; i++)
 		{
 			_monsterJump[i].LoadBitmapMonster("./RES/monster/monster_2");
 		}
 		for (int i = 0; i < _monsterGoCount; i++)
 		{
 			_monsterGo[i].LoadBitmapMonster("./RES/monster/monster_1_up", 1);
-		}
->>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
+		}//*/
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度
@@ -369,11 +395,11 @@ namespace game_framework {
 		//
 		// 繼續載入其他資料
 		//
-		help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
-		corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
-		corner.ShowBitmap(background);							// 將corner貼到background
-		bball.LoadBitmap();										// 載入圖形
-		hits_left.LoadBitmap();
+		//help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
+		//corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
+		//corner.ShowBitmap(background);							// 將corner貼到background
+		//bball.LoadBitmap();										// 載入圖形
+		//hits_left.LoadBitmap();
 		CAudio::Instance()->Load(AUDIO_DING, "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
 		CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
 		CAudio::Instance()->Load(AUDIO_NTUT, "sounds\\ntut.mid");	// 載入編號2的聲音ntut.mid
@@ -430,11 +456,6 @@ namespace game_framework {
 		if (nChar == KEY_D)
 		{
 			player2.SetMovingRight(true);
-		}
-		if (nChar == 'R')
-		{
-			//player1 = Player(1);
-			//player2 = Player(2);
 		}
 	}
 
@@ -531,19 +552,19 @@ namespace game_framework {
 		//  貼上背景圖、撞擊數、球、擦子、彈跳的球
 		//
 		background.ShowBitmap();			// 貼上背景圖
-		help.ShowBitmap();					// 貼上說明圖
-		hits_left.ShowBitmap();
+		//help.ShowBitmap();					// 貼上說明圖
+		//hits_left.ShowBitmap();
 		//for (int i=0; i < NUMBALLS; i++)
 		//	ball[i].OnShow();				// 貼上第i號球
-		bball.OnShow();						// 貼上彈跳的球
+		//bball.OnShow();						// 貼上彈跳的球
 		//eraser.OnShow();					// 貼上擦子
 		//
 		//  貼上左上及右下角落的圖
 		//
-		corner.SetTopLeft(0, 0);
-		corner.ShowBitmap();
-		corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
-		corner.ShowBitmap();
+		//corner.SetTopLeft(0, 0);
+		//corner.ShowBitmap();
+		//corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
+		//corner.ShowBitmap();
 		//test.ShowBitmap();
 		//c_test.OnShow();
 		player1.OnShow();
@@ -555,21 +576,19 @@ namespace game_framework {
 		}
 
 		//gameMap.OnShow();
-<<<<<<< HEAD
-		
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
 			floor->OnShow();
-=======
-		floor1.OnShow();
-		for (int i = 0; i < _monsterJumpCount; i++)
-		{
-			_monsterJump[i].OnShow();
 		}
-		for (int i = 0; i < _monsterGoCount; i++)
+
+		for (vector<MonsterJump>::iterator monJump = _monsterJump.begin(); monJump != _monsterJump.end(); monJump++)
 		{
-			_monsterGo[i].OnShow();
->>>>>>> 1c5907f07b031233bbbcf397143194e17aabc0a7
+			monJump->OnShow();
+		}
+
+		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
+		{
+			monGo->OnShow();
 		}
 
 	}

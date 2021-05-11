@@ -5,7 +5,7 @@
 class Entity
 {
 protected:
-	ShapeF _shape;
+	ShapeF* _shape;
 	int _speedX, _speedY;
 	int _maxSpeed, _acceleration, _gravity;
 	int _type = 0;
@@ -19,6 +19,6 @@ public:
 
 	int GetX();
 	int GetY();
-	ShapeF& GetShape();
+	ShapeF* GetShape();
 };
 

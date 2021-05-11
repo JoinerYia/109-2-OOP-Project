@@ -4,7 +4,6 @@
 #include <ddraw.h>
 #include "audio.h"
 #include "gamelib.h"
-
 #include "Floor.h"
 
 namespace game_framework
@@ -29,10 +28,8 @@ namespace game_framework
 		//_floor.LoadBitmapA(file);
 		//_floor.SetTopLeft(_x, _y);
 	}
-	bool Floor::isCollision(ShapeF& shape) {
-		float x1 = shape.GetLeft(), y1 = shape.GetTop(),
-			x2 = shape.GetRight(), y2 = shape.GetBottom();
-		return _shape.isShapeCoverWithDepart(shape, 2);
+	bool Floor::isCollision(Entity entity) {
+		return _shape.isShapeCoverWithDepart(entity.GetShape(), 2);
 	}
 	void Floor::OnShow()				// ¦aªOÅã¥Ü
 	{

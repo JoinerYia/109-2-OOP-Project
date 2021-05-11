@@ -16,8 +16,8 @@ public:
 	ShapeF(const ShapeF &shape);
 	~ShapeF();
 
-	float GetX() const;
-	float GetY() const;
+	int GetX() const;
+	int GetY() const;
 	void SetX(float value);
 	void SetY(float value);
 	void SetXY(float x, float y);
@@ -27,8 +27,8 @@ public:
 	virtual bool isPointInside(float x, float y) const;
 	virtual bool isLinePass(float m, float c) const;
 	virtual bool isLinePass(float m, float c, float x1, float x2) const;
-	bool isShapeFCover(ShapeF &shape) const;
-	bool isShapeCoverWithDepart(ShapeF &shape, int mode);
+	bool isShapeFCover(ShapeF* shape) const;
+	bool isShapeCoverWithDepart(ShapeF* shape, int mode);
 
 	virtual float GetMax(float vectorX, float vectorY) const;
 	virtual float GetMin(float vectorX, float vectorY) const;

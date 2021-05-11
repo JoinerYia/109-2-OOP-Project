@@ -44,22 +44,24 @@ namespace game_framework
 	{
 		_type = type;
 		if(_type == 2)
-			_shape = RectangleF(45, 60);
-		else _shape = RectangleF(45, 50);				//重設碰撞箱
-		_shape.SetLeftTop((float)x, (float)y);			//重設座標
+			_shape = new RectangleF(45, 60);
+		else _shape = new RectangleF(45, 50);				//重設碰撞箱
+		_shape->SetLeftTop((float)x, (float)y);				//重設座標
 
 		_isMovingLeft = _isMovingRight = _isJumping = false;//初始化移動方向
 		_isPassed = false;								//初始化傳送門穿越狀態
 		_isGrounded = true;								//初始化落地狀態
 		_player_left.SetDelayCount(DelayCount);			//預設值
 		_player_right.SetDelayCount(DelayCount);		//預設值
+		_player_left_neg.SetDelayCount(DelayCount);			//預設值
+		_player_right_neg.SetDelayCount(DelayCount);		//預設值
 		//_player_left.SetTopLeft(x, y);
 
-		_maxSpeed = 20;									//初始化最高速度
+		_maxSpeed = 15;									//初始化最高速度
 		_speedX = 0;									//初始化水平速度
 		_speedY = 0;									//初始化垂直速度
 		_acceleration = 5;								//初始化加速度
-		_gravity = 5;									//初始化重力加速度
+		_gravity = 3;									//初始化重力加速度
 	}
 
 	Player::Player()									// 設定動畫播放速度為 10(越大越慢)
@@ -90,7 +92,7 @@ namespace game_framework
 			fileString1 >> fileChar1;
 			_player_left.AddBitmap(fileChar1, RGB(255, 255, 255));				//設白色為透明
 			delete[] fileChar1;
-			
+
 			//讀取往右動畫圖片
 			stringstream fileString2;
 			fileString2 << file << i << "_right.bmp";
@@ -98,6 +100,23 @@ namespace game_framework
 			fileString2 >> fileChar2;
 			_player_right.AddBitmap(fileChar2, RGB(255, 255, 255));				//設白色為透明
 			delete[] fileChar2;
+
+			//讀取往左動畫圖片
+			stringstream fileString3;
+			fileString3 << file << i << "_neg_left.bmp";
+			char* fileChar3 = new char[100];
+			fileString3 >> fileChar3;
+			_player_left_neg.AddBitmap(fileChar3, RGB(255, 255, 255));				//設白色為透明
+			delete[] fileChar3;
+			
+			//讀取往右動畫圖片
+			stringstream fileString4;
+			fileString4 << file << i << "_neg_right.bmp";
+			char* fileChar4 = new char[100];
+			fileString4 >> fileChar4;
+			_player_right_neg.AddBitmap(fileChar4, RGB(255, 255, 255));				//設白色為透明
+			delete[] fileChar4;
+
 		}
 	}
 
@@ -143,7 +162,7 @@ namespace game_framework
 			if (!_isPassed)
 				_speedY += _gravity;
 			else if (_speedY == 0)
-				_speedY += 25 * _gravity / abs(_gravity);
+				_speedY += 15 * _gravity / abs(_gravity);
 		}
 		else
 		{
@@ -156,61 +175,112 @@ namespace game_framework
 			{
 				//_speedY = 5;
 				if (_gravity > 0)
-					_speedY = -50;
-				else _speedY = 50;
+					_speedY = -30;
+				else _speedY = 30;
 			}
 		}
 		//有往任意方向移動
 		if (_isMovingLeft || _isMovingRight || _isJumping || (!_isGrounded))
 		{
-			//移動的動畫
-			_player_left.OnMove();
-			_player_right.OnMove();
+			if (_gravity > 0) {
+				//移動的動畫
+				_player_left.OnMove();
+				_player_right.OnMove();
+			}
+			else {
+				_player_left_neg.OnMove();
+				_player_right_neg.OnMove();
+			}
 		}
 		else
 		{
-			//站著不動的狀態
-			_player_left.Reset();
-			_player_right.Reset();
+			if (_gravity > 0) {
+				//站著不動的狀態
+				_player_left.Reset();
+				_player_right.Reset();
+			}
+			else {
+				_player_left_neg.Reset();
+				_player_right_neg.Reset();
+			}
 		}
-		
+
 		Offset(_speedX, _speedY);
 	}
 
 	void Player::OnShow()								// 玩家顯示
 	{
 		int x = GetX(), y = GetY();
-		//往左走
-		if (_isMovingLeft)
-		{
-			//顯示往左動畫
-			_player_left.SetTopLeft(GetX(), GetY());
-			_player_left.OnShow();
-			//不顯示往右動畫
-		}
-		//往右走
-		else if (_isMovingRight)
-		{
-			//不顯示往左動畫
-			//顯示往右動畫
-			_player_right.SetTopLeft(GetX(), GetY());
-			_player_right.OnShow();
-		}
-		//停下或往上下
-		{
-			//最後往左
-			if (_endLeftRight)
+		if (_gravity > 0) {
+			//往左走
+			if (_isMovingLeft)
 			{
 				//顯示往左動畫
 				_player_left.SetTopLeft(GetX(), GetY());
 				_player_left.OnShow();
+				//不顯示往右動畫
 			}
-			//最後往右
-			else
+			//往右走
+			else if (_isMovingRight)
 			{
+				//不顯示往左動畫
 				//顯示往右動畫
 				_player_right.SetTopLeft(GetX(), GetY());
 				_player_right.OnShow();
+			}
+			//停下或往上下
+			else
+			{
+				//最後往左
+				if (_endLeftRight)
+				{
+					//顯示往左動畫
+					_player_left.SetTopLeft(GetX(), GetY());
+					_player_left.OnShow();
+				}
+				//最後往右
+				else
+				{
+					//顯示往右動畫
+					_player_right.SetTopLeft(GetX(), GetY());
+					_player_right.OnShow();
+				}
+			}
+		}
+		else {
+			//往左走
+			if (_isMovingLeft)
+			{
+				//顯示往左動畫
+				_player_left_neg.SetTopLeft(GetX(), GetY());
+				_player_left_neg.OnShow();
+				//不顯示往右動畫
+			}
+			//往右走
+			else if (_isMovingRight)
+			{
+				//不顯示往左動畫
+				//顯示往右動畫
+				_player_right_neg.SetTopLeft(GetX(), GetY());
+				_player_right_neg.OnShow();
+			}
+			//停下或往上下
+			else
+			{
+				//最後往左
+				if (_endLeftRight)
+				{
+					//顯示往左動畫
+					_player_left_neg.SetTopLeft(GetX(), GetY());
+					_player_left_neg.OnShow();
+				}
+				//最後往右
+				else
+				{
+					//顯示往右動畫
+					_player_right_neg.SetTopLeft(GetX(), GetY());
+					_player_right_neg.OnShow();
+				}
 			}
 		}
 	}

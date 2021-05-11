@@ -1,5 +1,6 @@
 #pragma once
 #include "Shape.h"
+#include "Entity.h"
 #include "GenerateBitmap.h"
 
 namespace game_framework
@@ -25,7 +26,7 @@ namespace game_framework
 		void LoadBitmapMonster(char* file);	// 從路徑 file 新增圖形
 		//Offset 移動地板座標
 		//SetXY 設定地板座標
-		bool isCollision(ShapeF& shape);		//判斷是否碰到地板
+		bool isCollision(Entity entity);		//判斷是否碰到地板
 		void OnShow();							// 地板顯示
 
 		void Offset(int dx, int dy);

@@ -12,8 +12,8 @@ namespace game_framework
 	void Gate::Init(int x, int y, int width, int height, int DelayCount)
 	{
 		_type = 0;
-		_shape = RectangleF((float)width, (float)height);				//重設碰撞箱
-		_shape.SetLeftTop((float)x, (float)y);			//重設座標
+		_shape = RectangleF((float)width, (float)height-2);//重設碰撞箱
+		_shape.SetLeftTop((float)x, (float)y+1);			//重設座標
 		_Gate.SetDelayCount(DelayCount);				//預設值
 	}
 

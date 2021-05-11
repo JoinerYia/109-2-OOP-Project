@@ -9,13 +9,11 @@
 
 namespace game_framework
 {
-	void MonsterGo::Init(int x, int y, int type, int DelayCount)
+	void MonsterGo::Init(int x, int y, int DelayCount)
 	{
-		_type = type;
-		if (_type == 2)
-			_shape = RectangleF(45, 60);
-		else _shape = RectangleF(45, 50);				//重設碰撞箱
-		_shape.SetLeftTop((float)x, (float)y);			//重設座標
+
+		_shape = new RectangleF(45, 50);				//重設碰撞箱
+		_shape->SetLeftTop((float)x, (float)y);			//重設座標
 
 		_isMovingLeft = true;							//一開始要往左走
 		_isMovingRight = _isJumping = false;			//初始化移動方向
@@ -31,24 +29,27 @@ namespace game_framework
 		_acceleration = 5;								//初始化加速度
 		_gravity = 5;									//初始化重力加速度
 		_startX = x;									//初始化一開始的 X 座標
+		_moveSpace = 150;								//初始化左右移動的距離
 	}
 
 	MonsterGo::MonsterGo()									// 設定動畫播放速度為 10(越大越慢)
 	{
-		Init(0, 0, 0, 10);
-		_moveSpace = 150;								//初始化左右移動的距離
+		Init(0, 0, 10);
 	}
 
-	MonsterGo::MonsterGo(int type)							// 設定動畫播放速度的常數(越大越慢)
+	MonsterGo::MonsterGo(int DelayCount)			// 設定動畫播放速度的常數(越大越慢)
 	{
-		Init(0, 0, type, 3);
-		_moveSpace = 150;								//初始化左右移動的距離
+		Init(0, 0, DelayCount);
 	}
 
-	MonsterGo::MonsterGo(int type, int DelayCount)			// 設定動畫播放速度的常數(越大越慢)
+	MonsterGo::MonsterGo(int x, int y)
 	{
-		Init(0, 0, type, DelayCount);
-		_moveSpace = 150;								//初始化左右移動的距離
+		Init(x, y, 10);
+	}
+
+	MonsterGo::MonsterGo(int x, int y, int DelayCount)
+	{
+		Init(x, y, DelayCount);
 	}
 
 	MonsterGo::~MonsterGo() {	}
