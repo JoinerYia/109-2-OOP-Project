@@ -210,10 +210,9 @@ namespace game_framework {
 		}
 
 		MonsterGo tmpMonGo;
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 4; i++)
 		{
-			tmpMonGo = MonsterGo(1320 - i * 100, 50);
-			tmpMonGo.SetStartX(1100 - i * 100);
+			tmpMonGo = MonsterGo(1350 + i * 70, SIZE_Y / 2 - 45);
 			_monsterGo.push_back(tmpMonGo);
 		}
 
@@ -334,11 +333,26 @@ namespace game_framework {
 			}
 		}//*/
 
-		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
+		numberOfMonster = _monsterGo.end() - _monsterGo.begin();
+		vector<MonsterGo>::iterator monsterGo;
+		for (int i = 0; i < numberOfMonster; i++)
 		{
-			//monGo->SetGrounded(monGo->GetY() > SIZE_Y / 2);
-			monGo->OnMove();
-		}
+			monsterGo = _monsterGo.begin() + i;
+			//monJump->SetGrounded(monJump->GetY() > SIZE_Y / 2 - 15);
+			monsterGo->OnMove();
+			typeOfPlayer1Collision = monsterGo->isCollision(player1);
+			typeOfPlayer2Collision = monsterGo->isCollision(player2);
+			if (typeOfPlayer1Collision > 1 || typeOfPlayer2Collision > 1) {
+				_monsterGo.erase(monsterGo);
+				i--;
+				numberOfMonster--;
+			}
+			else if (typeOfPlayer1Collision + typeOfPlayer2Collision > 0)
+			{
+				player1.Spawn();
+				player2.Spawn();
+			}
+		}//*/
 
 	}
 
@@ -375,7 +389,7 @@ namespace game_framework {
 
 		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
 		{
-			monGo->LoadBitmapMonster("./RES/monster/monster_1_up", 1);
+			monGo->LoadBitmapEntity();
 		}
 		//floor1.LoadBitmapPlayer("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
 		/*for (int i = 0; i < _monsterJumpCount; i++)

@@ -6,8 +6,8 @@ class Entity
 {
 protected:
 	ShapeF* _shape;
-	int _speedX, _speedY;
-	int _maxSpeed, _acceleration, _gravity;
+	int _speedX = 0, _speedY = 0;
+	int _maxSpeed = 0, _acceleration = 0, _gravity = 0;
 	int _type = 0;
 public:
 

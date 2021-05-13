@@ -13,7 +13,7 @@ namespace game_framework
 	{
 		_shape = new CircleF(31);						// 重設碰撞箱
 		_shape->SetLeftTop((float)x, (float)y);			// 重設座標
-		_yCenter = SIZE_Y / 2 - 125;
+		_yCenter = SIZE_Y / 2 - 65;
 		_shadow = new CircleF(31);
 		_shadow->SetLeftTop((float)x, (float)SIZE_Y - _shape->GetBottom());
 
@@ -58,8 +58,8 @@ namespace game_framework
 
 	void MonsterJump::OnMove()												// 設定怪物座標
 	{
-		int y = _yCenter;
-		_isGrounded = this->GetY() > y;
+		int yCenter = _yCenter;
+		_isGrounded = this->GetY() > yCenter;
 		if (_isGrounded)
 		{
 			//_speedY = 0;/*
@@ -72,16 +72,16 @@ namespace game_framework
 			_speedY += _gravity;
 		}
 		_shape->Offset((float)_speedX, (float)_speedY);
-		_shadow->SetLeftTop(_shape->GetLeft(), y * 2 - _shape->GetBottom() + 210);
+		_shadow->SetLeftTop(_shape->GetLeft(), yCenter * 2 - _shape->GetBottom()+150);
 		//_MonsterBall.SetTopLeft(x, _yCenter * 2 - y - _MonsterBall.Height());
 	}
 
 	void MonsterJump::OnShow()								// 怪物顯示
 	{
 		//顯示圖片
-		_Monster.SetTopLeft(_shape->GetX(), _shape->GetY());
+		_Monster.SetTopLeft((int)_shape->GetLeft(), (int)_shape->GetTop());
 		_Monster.ShowBitmap();
-		_MonsterBall.SetTopLeft(_shadow->GetX(), _shadow->GetY());
+		_MonsterBall.SetTopLeft((int)_shadow->GetLeft(), (int)_shadow->GetTop());
 		_MonsterBall.ShowBitmap();
 	}
 
