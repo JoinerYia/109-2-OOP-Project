@@ -97,7 +97,8 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		const int		NUMBALLS;		// 球的總數
+		bool isResetting;
+		//const int		NUMBALLS;		// 球的總數
 		CMovingBitmap	background;		// 背景圖
 		//CMovingBitmap	help;			// 說明圖
 		//CMovingBitmap	corner;			// 角落圖
@@ -110,7 +111,7 @@ namespace game_framework {
 		Player			player1, player2;//玩家
 		vector<Gate>	gates;			//傳送門
 		vector<Floor>	floors;			//地板
-		vector<MonsterJump>_monsterJump;// 會跳躍的怪物列表
+		vector<Entity*>	_monster;		// 怪物列表
 		vector<MonsterGo>_monsterGo;	// 會左右移動的怪物列表
 	};
 

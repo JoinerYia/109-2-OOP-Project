@@ -191,7 +191,7 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateRun::CGameStateRun(CGame* g)
-		: CGameState(g), NUMBALLS(28)
+		: CGameState(g)
 	{
 		//ball = new CBall [NUMBALLS];
 		//testX = testY = 0;
@@ -206,7 +206,7 @@ namespace game_framework {
 
 		for (int i = 0; i < 4; i++)
 		{
-			_monsterJump.push_back(MonsterJump(640 + 100 * i, SIZE_Y / 2 - 100));
+			_monster.push_back(new MonsterJump(640 + 100 * i, SIZE_Y / 2 - 100));
 		}
 
 		MonsterGo tmpMonGo;
@@ -232,6 +232,7 @@ namespace game_framework {
 			_monsterGo[i].SetStartX(1100 - i * 100);
 		}
 		//*/
+
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -302,6 +303,7 @@ namespace game_framework {
 		{
 			isPlayer1Passed |= gate->isCollision(player1);
 			isPlayer2Passed |= gate->isCollision(player2);
+			gate->OnMove();
 		}
 		player1.SetGrounded(isPlayer1Grouded && !isPlayer1Passed);
 		player2.SetGrounded(isPlayer2Grouded && !isPlayer2Passed);
@@ -310,33 +312,34 @@ namespace game_framework {
 		player1.OnMove();
 		player2.OnMove();
 
-		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
+		int typeOfPlayer1Collision, typeOfPlayer2Collision;
+		int numberOfMonster = _monster.end() - _monster.begin();
+		vector<Entity*>::iterator monster;
+		for (int i = 0; i < numberOfMonster; i++)
 		{
-			gate->OnMove();
-		}
-
-		for (vector<MonsterJump>::iterator monJump = _monsterJump.begin(); monJump != _monsterJump.end(); monJump++)
-		{
+			monster = _monster.begin() + i;
 			//monJump->SetGrounded(monJump->GetY() > SIZE_Y / 2 - 15);
-			monJump->OnMove();
-		}
+			(*monster)->OnMove();
+			typeOfPlayer1Collision = (*monster)->isCollision(player1);
+			typeOfPlayer2Collision = (*monster)->isCollision(player2);
+			if (typeOfPlayer1Collision > 1 || typeOfPlayer2Collision > 1) {
+				_monster.erase(monster);
+				i--;
+				numberOfMonster--;
+			}
+			else if (typeOfPlayer1Collision + typeOfPlayer2Collision > 0)
+			{
+				player1.Spawn();
+				player2.Spawn();
+			}
+		}//*/
 
 		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
 		{
 			//monGo->SetGrounded(monGo->GetY() > SIZE_Y / 2);
 			monGo->OnMove();
 		}
-		/*
-		for (int i = 0; i < _monsterJumpCount; i++)
-		{
-			_monsterJump[i].SetGrounded(_monsterJump[i].GetY() > SIZE_Y / 2);
-			_monsterJump[i].OnMove();
-		}
-		for (int i = 0; i < _monsterGoCount; i++)
-		{
-			_monsterGo[i].SetGrounded(_monsterGo[i].GetY() > SIZE_Y / 2);
-			_monsterGo[i].OnMove();
-		}//*/
+
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -365,10 +368,9 @@ namespace game_framework {
 			gate->LoadBitmapGate("RES/gate/gate_1_", 5);
 		}
 
-
-		for (vector<MonsterJump>::iterator monJump = _monsterJump.begin(); monJump != _monsterJump.end(); monJump++)
+		for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
 		{
-			monJump->LoadBitmapMonster("./RES/monster/monster_2");
+			(*monster)->LoadBitmapEntity();
 		}
 
 		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
@@ -459,6 +461,18 @@ namespace game_framework {
 		{
 			player1.Spawn();
 			player2.Spawn();
+
+			_monster.clear();
+			for (int i = 0; i < 4; i++)
+			{
+				_monster.push_back(new MonsterJump(640 + 100 * i, SIZE_Y / 2 - 100));
+			}
+			for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
+			{
+				(*monster)->LoadBitmapEntity();
+			}
+			//*/
+
 		}
 	}
 
@@ -571,9 +585,9 @@ namespace game_framework {
 		//test.ShowBitmap();
 		//c_test.OnShow();
 
-		for (vector<MonsterJump>::iterator monJump = _monsterJump.begin(); monJump != _monsterJump.end(); monJump++)
+		for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
 		{
-			monJump->OnShow();
+			(*monster)->OnShow();
 		}
 
 		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)

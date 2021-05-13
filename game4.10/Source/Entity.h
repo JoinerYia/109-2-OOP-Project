@@ -11,11 +11,13 @@ protected:
 	int _type = 0;
 public:
 
+	virtual void LoadBitmapEntity();
 	virtual void OnShow();
 	virtual void OnMove();
 
 	void Offset(int dx, int dy);
 	void SetXY(int x, int y);
+	virtual int isCollision(Entity entity);
 
 	int GetX();
 	int GetY();

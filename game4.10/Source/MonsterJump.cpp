@@ -13,7 +13,9 @@ namespace game_framework
 	{
 		_shape = new CircleF(31);						// 重設碰撞箱
 		_shape->SetLeftTop((float)x, (float)y);			// 重設座標
-		_yCenter = SIZE_Y / 2;
+		_yCenter = SIZE_Y / 2 - 125;
+		_shadow = new CircleF(31);
+		_shadow->SetLeftTop((float)x, (float)SIZE_Y - _shape->GetBottom());
 
 		_isGrounded = true;								// 初始化落地狀態
 		//_Monster_left.SetTopLeft(x, y);
@@ -37,9 +39,10 @@ namespace game_framework
 
 	MonsterJump::~MonsterJump() {	}
 
-	void MonsterJump::LoadBitmapMonster(string file)	// 從路徑 "file" 新增圖形
+	void MonsterJump::LoadBitmapEntity()	// 從路徑 "file" 新增圖形
 	{
 		//讀取圖片
+		string file = "./RES/monster/monster_2";
 		stringstream fileString1, fileString2;
 		fileString1 << file << ".bmp";
 		char* fileChar1 = new char[100];
@@ -55,7 +58,8 @@ namespace game_framework
 
 	void MonsterJump::OnMove()												// 設定怪物座標
 	{
-		_isGrounded = this->GetY() > SIZE_Y / 2 - 125;
+		int y = _yCenter;
+		_isGrounded = this->GetY() > y;
 		if (_isGrounded)
 		{
 			//_speedY = 0;/*
@@ -67,17 +71,25 @@ namespace game_framework
 		{
 			_speedY += _gravity;
 		}
-
 		_shape->Offset((float)_speedX, (float)_speedY);
+		_shadow->SetLeftTop(_shape->GetLeft(), y * 2 - _shape->GetBottom() + 210);
+		//_MonsterBall.SetTopLeft(x, _yCenter * 2 - y - _MonsterBall.Height());
 	}
 
 	void MonsterJump::OnShow()								// 怪物顯示
 	{
-		int x = _shape->GetX(), y = _shape->GetY();
 		//顯示圖片
-		_Monster.SetTopLeft(x, y);
+		_Monster.SetTopLeft(_shape->GetX(), _shape->GetY());
 		_Monster.ShowBitmap();
-		_MonsterBall.SetTopLeft(x, SIZE_Y - y - _MonsterBall.Height());
+		_MonsterBall.SetTopLeft(_shadow->GetX(), _shadow->GetY());
 		_MonsterBall.ShowBitmap();
+	}
+
+	int MonsterJump::isCollision(Entity entity)
+	{
+		int result = 0;
+		if (_shadow->isShapeFCover(entity.GetShape()))result += 2;
+		if (_shape->isShapeFCover(entity.GetShape()))result += 1;
+		return result;
 	}
 }

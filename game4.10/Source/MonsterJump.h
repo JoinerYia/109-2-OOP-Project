@@ -15,13 +15,15 @@ namespace game_framework
 		MonsterJump(int x, int y);					// 設定怪物位置
 		~MonsterJump();
 
-		void LoadBitmapMonster(string file);		// 從路徑 "file" 新增圖形
+		void LoadBitmapEntity() override;			// 從路徑 "file" 新增圖形
 		void OnMove() override;						// 設定怪物座標
 		void OnShow() override;						// 怪物顯示
+		int isCollision(Entity entity) override;
 
 	private:
 		//RectangleF		 _shape;					// 怪物的中心座標及大小
 		CMovingBitmap	_Monster, _MonsterBall;		// 怪物圖片、與怪物對應的球圖片
+		ShapeF*			_shadow;
 		bool			_isGrounded;				// 是否已經落地
 		int				_yCenter;					//怪物與怪物對應的球的中心
 		//int			_type;						// 是幾號怪物
