@@ -55,21 +55,18 @@ namespace game_framework
 
 	void MonsterJump::OnMove()												// 設定怪物座標
 	{
-		_isGrounded = GetY() > SIZE_Y / 2 - 15;
+		_isGrounded = this->GetY() > SIZE_Y / 2 - 125;
 		if (_isGrounded)
 		{
-			//_speedY = 5;
+			//_speedY = 0;/*
 			if (_gravity > 0)
 				_speedY = -50;
-			else _speedY = 50;
+			else _speedY = 50;//*/
 		}
 		else
 		{
 			_speedY += _gravity;
 		}
-		//移動的動畫
-		_Monster.SetTopLeft(_shape->GetX(), _shape->GetY());
-		_MonsterBall.SetTopLeft(_shape->GetX(), SIZE_Y - _shape->GetY() + _MonsterBall.Height());
 
 		_shape->Offset((float)_speedX, (float)_speedY);
 	}
@@ -80,12 +77,7 @@ namespace game_framework
 		//顯示圖片
 		_Monster.SetTopLeft(x, y);
 		_Monster.ShowBitmap();
-		_MonsterBall.SetTopLeft(x, SIZE_Y - y + _MonsterBall.Height());
+		_MonsterBall.SetTopLeft(x, SIZE_Y - y - _MonsterBall.Height());
 		_MonsterBall.ShowBitmap();
-	}
-
-	void MonsterJump::SetGrounded(bool flag)
-	{
-		_isGrounded = flag;
 	}
 }

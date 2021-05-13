@@ -21,11 +21,6 @@ namespace game_framework
 		void OnMove() override;						// 怪物依頻率更換bitmap
 		void OnShow() override;						// 怪物顯示
 
-		void SetMovingLeft(bool flag);				// 設定是否正在往左移動
-		void SetMovingRight(bool flag);				// 設定是否正在往右移動
-		void SetJumping(bool flag);					// 設定是否正在跳躍
-		void SetGrounded(bool flag);				// 設定是否已經落地
-		void SetPassed(bool flag);					// 設定是否已經通過傳送門
 		void SetStartX(int x);						// 設定一開始的 X 座標
 
 		void ChangeGravity();						// 反轉重力
@@ -34,9 +29,6 @@ namespace game_framework
 		CAnimation		_Monster_left, _Monster_right;// 怪物動畫
 		bool			_isMovingLeft;				// 是否正在往左移動
 		bool			_isMovingRight;				// 是否正在往右移動
-		bool			_isJumping;					// 是否正在跳躍
-		bool			_isGrounded;				// 是否已經落地
-		bool			_isPassed;					// 是否已經通過傳送門
 		bool			_endLeftRight;				// 最後是往左還是往右(true 表示左)
 		int				_startX;					// 一開始的 X 座標
 		int				_moveSpace;					// 左右移動的距離

@@ -190,15 +190,13 @@ namespace game_framework {
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 	/////////////////////////////////////////////////////////////////////////////
 
-	CGameStateRun::CGameStateRun(CGame *g)
+	CGameStateRun::CGameStateRun(CGame* g)
 		: CGameState(g), NUMBALLS(28)
 	{
 		//ball = new CBall [NUMBALLS];
 		//testX = testY = 0;
-		player1 = Player(1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
-		player2 = Player(2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
-		player1.SetXY(0, SIZE_Y / 2 - 100);
-		player2.SetXY(0, SIZE_Y / 2 - 100);
+		player1 = Player(0, SIZE_Y / 2 - 100, 1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
+		player2 = Player(0, SIZE_Y / 2 - 100, 2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		gates.push_back(Gate(300, SIZE_Y / 2 - 30));// 門動畫播放速度的常數用預設值(越大越慢)
 		gates.push_back(Gate(1080, SIZE_Y / 2 - 30));
 
@@ -208,7 +206,7 @@ namespace game_framework {
 
 		for (int i = 0; i < 4; i++)
 		{
-			_monsterJump.push_back(MonsterJump(640 + 100*i, 50));
+			_monsterJump.push_back(MonsterJump(640 + 100 * i, SIZE_Y / 2 - 100));
 		}
 
 		MonsterGo tmpMonGo;
@@ -325,7 +323,7 @@ namespace game_framework {
 
 		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
 		{
-			monGo->SetGrounded(monGo->GetY() > SIZE_Y / 2);
+			//monGo->SetGrounded(monGo->GetY() > SIZE_Y / 2);
 			monGo->OnMove();
 		}
 		/*
@@ -457,6 +455,11 @@ namespace game_framework {
 		{
 			player2.SetMovingRight(true);
 		}
+		if (nChar == 'R')
+		{
+			player1.Spawn();
+			player2.Spawn();
+		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) //處理鍵盤按鍵釋放的動作 
@@ -567,6 +570,17 @@ namespace game_framework {
 		//corner.ShowBitmap();
 		//test.ShowBitmap();
 		//c_test.OnShow();
+
+		for (vector<MonsterJump>::iterator monJump = _monsterJump.begin(); monJump != _monsterJump.end(); monJump++)
+		{
+			monJump->OnShow();
+		}
+
+		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
+		{
+			monGo->OnShow();
+		}
+		
 		player1.OnShow();
 		player2.OnShow();
 
@@ -579,16 +593,6 @@ namespace game_framework {
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
 			floor->OnShow();
-		}
-
-		for (vector<MonsterJump>::iterator monJump = _monsterJump.begin(); monJump != _monsterJump.end(); monJump++)
-		{
-			monJump->OnShow();
-		}
-
-		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
-		{
-			monGo->OnShow();
 		}
 
 	}

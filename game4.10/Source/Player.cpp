@@ -47,10 +47,13 @@ namespace game_framework
 			_shape = new RectangleF(45, 60);
 		else _shape = new RectangleF(45, 50);				//重設碰撞箱
 		_shape->SetLeftTop((float)x, (float)y);				//重設座標
+		_xSpawnPoint = x;
+		_ySpawnPoint = y;
 
 		_isMovingLeft = _isMovingRight = _isJumping = false;//初始化移動方向
 		_isPassed = false;								//初始化傳送門穿越狀態
 		_isGrounded = true;								//初始化落地狀態
+		_delayTime = DelayCount;
 		_player_left.SetDelayCount(DelayCount);			//預設值
 		_player_right.SetDelayCount(DelayCount);		//預設值
 		_player_left_neg.SetDelayCount(DelayCount);			//預設值
@@ -77,6 +80,16 @@ namespace game_framework
 	Player::Player(int type, int DelayCount)			// 設定動畫播放速度的常數(越大越慢)
 	{
 		Init(0, 0, type, DelayCount);
+	}
+
+	Player::Player(int x, int y, int type)							// 設定動畫播放速度的常數(越大越慢)
+	{
+		Init(x, y, type, 3);
+	}
+
+	Player::Player(int x, int y, int type, int DelayCount)			// 設定動畫播放速度的常數(越大越慢)
+	{
+		Init(x, y, type, DelayCount);
 	}
 
 	Player::~Player() {	}
@@ -144,9 +157,10 @@ namespace game_framework
 				if (_speedX < -_maxSpeed)
 					_speedX = -_maxSpeed;
 			}
+			if (_shape->isLinePass(9999, 0))_speedX = 0;
 			_endLeftRight = true;
 		}
-		if (_isMovingRight)
+		else if (_isMovingRight)
 		{
 			if (_speedX < _maxSpeed)
 			{
@@ -154,6 +168,7 @@ namespace game_framework
 				if (_speedX > _maxSpeed)
 					_speedX = _maxSpeed;
 			}
+			if (_shape->isLinePass(9999, -9999 * SIZE_X))_speedX = 0;
 			_endLeftRight = false;
 		}
 
@@ -314,9 +329,20 @@ namespace game_framework
 		_isPassed = flag;
 	}
 
+	void Player::SetSpawnPoint(int x, int y)
+	{
+		_xSpawnPoint = x;
+		_ySpawnPoint = x;
+	}
+
 	void Player::ChangeGravity()								// 反轉重力
 	{
 		_gravity *= -1;
+	}
+
+	void Player::Spawn()
+	{
+		Init(_xSpawnPoint, _ySpawnPoint, _type, _delayTime);
 	}
 
 	/*

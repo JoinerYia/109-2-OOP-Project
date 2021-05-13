@@ -28,6 +28,8 @@ namespace game_framework
 		Player();									// 設定動畫播放速度為 10(越大越慢)
 		Player(int type);							// 設定玩家類別 及 動畫播放速度為 10(越大越慢)
 		Player(int type, int DelayCount);			// 設定玩家類別 及 動畫播放速度的常數(越大越慢)
+		Player(int x, int y, int type);				// 設定玩家類別 及 動畫播放速度為 10(越大越慢)
+		Player(int x, int y, int type, int DelayCount);// 設定玩家類別 及 動畫播放速度的常數(越大越慢)
 		~Player();
 
 		void LoadBitmapPlayer(string file, int n);	// 從路徑 "file(1 ~ n)" 新增 n 張圖形
@@ -39,8 +41,10 @@ namespace game_framework
 		void SetJumping(bool flag);					// 設定是否正在跳躍
 		void SetGrounded(bool flag);				// 設定是否已經落地
 		void SetPassed(bool flag);					// 設定是否已經通過傳送門
+		void SetSpawnPoint(int x, int y);			//設置玩家重生點
 
 		void ChangeGravity();						// 反轉重力
+		void Spawn();								// 重生玩家
 	private:
 		//ShapeF*			_shape;						// 玩家的中心座標及大小
 		CAnimation		_player_left, _player_right;// 玩家動畫
@@ -51,6 +55,8 @@ namespace game_framework
 		bool			_isGrounded;				// 是否已經落地
 		bool			_isPassed;					// 是否已經通過傳送門
 		bool			_endLeftRight;				// 最後是往左還是往右(true 表示左)
+		int				_xSpawnPoint, _ySpawnPoint;	//怪物與怪物對應的球的中心
+		int				_delayTime;
 		//int			_type;						// 是幾號玩家
 		void Init(int x, int y, int type, int DelayCount);//初始化設定
 		//Offset									//移動玩家座標

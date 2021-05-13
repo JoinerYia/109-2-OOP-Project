@@ -19,8 +19,6 @@ namespace game_framework
 		void OnMove() override;						// 設定怪物座標
 		void OnShow() override;						// 怪物顯示
 
-		void SetGrounded(bool flag);				// 設定是否已經落地
-
 	private:
 		//RectangleF		 _shape;					// 怪物的中心座標及大小
 		CMovingBitmap	_Monster, _MonsterBall;		// 怪物圖片、與怪物對應的球圖片
