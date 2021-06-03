@@ -12,10 +12,10 @@ namespace game_framework
 	void platform::Init(int x, int y, int DelayCount)
 	{
 
-		_shape = new RectangleF(63, 31);				//重設碰撞箱
+		_shape = new RectangleF(65, 64);				//重設碰撞箱
 		_shape->SetLeftTop((float)x, (float)y);			//重設座標
 		_yCenter = SIZE_Y / 2 - 125;
-		_shadow = new RectangleF(63, 31);
+		_shadow = new RectangleF(65, 64);
 
 		_isRightOrLeft = true;
 		_platform_left.SetDelayCount(DelayCount);		//預設值
@@ -75,7 +75,7 @@ namespace game_framework
 		_shadow->SetLeftTop((float)_shape->GetLeft(), (float)SIZE_Y - _shape->GetBottom());
 	}
 
-	void platform::OnMove()													// 玩家依頻率更換bitmap
+	void platform::OnMove()													// 平台依頻率更換bitmap
 	{
 		int yCenter = _yCenter;
 		if (_isRightOrLeft)
@@ -113,7 +113,7 @@ namespace game_framework
 		_shadow->SetLeftTop(_shape->GetLeft(), SIZE_Y - _shape->GetBottom());
 	}
 
-	void platform::OnShow()								// 玩家顯示
+	void platform::OnShow()								// 平台顯示
 	{
 		int x = (int)_shape->GetLeft(), y = (int)_shape->GetTop();
 		//往左走
