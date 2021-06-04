@@ -50,6 +50,7 @@ namespace game_framework
 		bool isMovingRight();						// 取得是否正在向右移動
 		bool isJumping();							// 取得是否正在跳躍
 		bool isGrounded();							// 取得是否已經落地
+		int GetGravity();							// 取得重力加速度
 	private:
 		//ShapeF*			_shape;						// 玩家的中心座標及大小
 		CAnimation		_player_left, _player_right;// 玩家動畫

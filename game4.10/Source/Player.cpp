@@ -366,6 +366,11 @@ namespace game_framework
 		return _isGrounded;
 	}
 
+	int Player::GetGravity()
+	{
+		return _gravity;
+	}
+
 	/*
 	CGameMap::CGameMap() : testX(20), testY(40), MW(48), MH(48)	//給予地圖左上角座標及每張圖寬高
 	{

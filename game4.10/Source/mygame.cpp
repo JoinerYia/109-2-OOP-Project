@@ -217,8 +217,7 @@ namespace game_framework {
 		MonsterGo tmpMonGo;
 		for (int i = 0; i < 4; i++)
 		{
-			tmpMonGo = MonsterGo(1350 + i * 70, SIZE_Y / 2 - 45);
-			_monsterGo.push_back(tmpMonGo);
+			_monster.push_back(new MonsterGo(1350 + i * 70, SIZE_Y / 2 - 45));
 		}
 
 		platform tmpPlatformGo;
@@ -312,25 +311,96 @@ namespace game_framework {
 		//*
 		if (player1.isJumping() || player2.isJumping())
 		{
-			if (player1.isJumping()|| player2.GetY() - player1.GetY() > 45)
-			{
-				if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 2)) {
-					if (player2.GetY() - player1.GetY() > 45)
-						isPlayer1Grouded = true;
-					else if (player1.GetY() - player2.GetY() > 55)
-						isPlayer2Grouded = true;
+			if (player1.GetGravity() > 0) {
+				if (player1.isJumping() || player2.GetY() - player1.GetY() > 45)
+				{
+					if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 2)) {
+						if (player2.GetY() - player1.GetY() > 45)
+						{
+							isPlayer1Grouded = true;
+							if (!player1.isMoving()) {
+								player1.SetMovingLeft(player2.isMovingLeft());
+								player1.SetMovingRight(player2.isMovingRight());
+							}
+						}
+						else if (player1.GetY() - player2.GetY() > 55)
+						{
+							isPlayer2Grouded = true;
+							if (!player2.isMoving()) {
+								player2.SetMovingLeft(player1.isMovingLeft());
+								player2.SetMovingRight(player1.isMovingRight());
+							}
+						}
+					}
 				}
 			}
-			if (player2.isJumping()|| player1.GetY() - player2.GetY() > 55)
-			{
-				if (player2.GetShape()->isShapeCoverWithDepart(player1.GetShape(), 2)) {
-					if (player2.GetY() - player1.GetY() > 45)
-					{
-						isPlayer1Grouded = true;
+			else {
+				if (player1.isJumping() || player1.GetY() - player2.GetY() > 55)
+				{
+					if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 2)) {
+						if (player1.GetY() - player2.GetY() > 55)
+						{
+							isPlayer1Grouded = true;
+							if (!player1.isMoving()) {
+								player1.SetMovingLeft(player2.isMovingLeft());
+								player1.SetMovingRight(player2.isMovingRight());
+							}
+						}
+						else if (player2.GetY() - player1.GetY() > 45)
+						{
+							isPlayer2Grouded = true;
+							if (!player2.isMoving()) {
+								player2.SetMovingLeft(player1.isMovingLeft());
+								player2.SetMovingRight(player1.isMovingRight());
+							}
+						}
 					}
-					else if (player1.GetY() - player2.GetY() > 55)
-					{
-						isPlayer2Grouded = true;
+				}
+			}
+
+			if (player2.GetGravity() > 0) {
+				if (player2.isJumping() || player1.GetY() - player2.GetY() > 55)
+				{
+					if (player2.GetShape()->isShapeCoverWithDepart(player1.GetShape(), 2)) {
+						if (player2.GetY() - player1.GetY() > 45)
+						{
+							isPlayer1Grouded = true;
+							if (!player1.isMoving()) {
+								player1.SetMovingLeft(player2.isMovingLeft());
+								player1.SetMovingRight(player2.isMovingRight());
+							}
+						}
+						else if (player1.GetY() - player2.GetY() > 55)
+						{
+							isPlayer2Grouded = true;
+							if (!player2.isMoving()) {
+								player2.SetMovingLeft(player1.isMovingLeft());
+								player2.SetMovingRight(player1.isMovingRight());
+							}
+						}
+					}
+				}
+			}
+			else {
+				if (player2.isJumping() || player2.GetY() - player1.GetY() > 45)
+				{
+					if (player2.GetShape()->isShapeCoverWithDepart(player1.GetShape(), 2)) {
+						if (player1.GetY() - player2.GetY() > 55)
+						{
+							isPlayer1Grouded = true;
+							if (!player1.isMoving()) {
+								player1.SetMovingLeft(player2.isMovingLeft());
+								player1.SetMovingRight(player2.isMovingRight());
+							}
+						}
+						else if (player2.GetY() - player1.GetY() > 45)
+						{
+							isPlayer2Grouded = true;
+							if (!player2.isMoving()) {
+								player2.SetMovingLeft(player1.isMovingLeft());
+								player2.SetMovingRight(player1.isMovingRight());
+							}
+						}
 					}
 				}
 			}
@@ -339,30 +409,45 @@ namespace game_framework {
 			if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 3)) {
 				if (player2.GetY() - player1.GetY() > 45)
 				{
-					isPlayer1Grouded = true;
-					if (!player1.isMoving()) {
-						player1.SetMovingLeft(player2.isMovingLeft());
-						player1.SetMovingRight(player2.isMovingRight());
+					if (player1.GetGravity() > 0)
+					{
+						isPlayer1Grouded = true;
+						if (!player1.isMoving()) {
+							player1.SetMovingLeft(player2.isMovingLeft());
+							player1.SetMovingRight(player2.isMovingRight());
+						}
+					}
+					if (player2.GetGravity() < 0)
+					{
+						isPlayer2Grouded = true;
+						if (!player2.isMoving()) {
+							player2.SetMovingLeft(player1.isMovingLeft());
+							player2.SetMovingRight(player1.isMovingRight());
+						}
 					}
 				}
 				else if (player1.GetY() - player2.GetY() > 55)
 				{
-					isPlayer2Grouded = true;
-					if (!player2.isMoving()) {
-						player2.SetMovingLeft(player1.isMovingLeft());
-						player2.SetMovingRight(player1.isMovingRight());
+					if (player2.GetGravity() > 0)
+					{
+						isPlayer2Grouded = true;
+						if (!player2.isMoving()) {
+							player2.SetMovingLeft(player1.isMovingLeft());
+							player2.SetMovingRight(player1.isMovingRight());
+						}
+					}
+					if (player1.GetGravity() < 0)
+					{
+						isPlayer1Grouded = true;
+						if (!player1.isMoving()) {
+							player1.SetMovingLeft(player2.isMovingLeft());
+							player1.SetMovingRight(player2.isMovingRight());
+						}
 					}
 				}
 			}
 		}//*/
 
-		/*
-		if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 3)) {
-			if (player2.GetY() - player1.GetY() > 45)
-				isPlayer1Grouded = true;
-			else if (player1.GetY() - player2.GetY() > 55)
-				isPlayer2Grouded = true;
-		}//*/
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
 			isPlayer1Grouded |= floor->isCollision(player1);
@@ -378,25 +463,6 @@ namespace game_framework {
 		player2.SetGrounded(isPlayer2Grouded && !isPlayer2Passed);
 		player1.SetPassed(isPlayer1Passed);
 		player2.SetPassed(isPlayer2Passed);
-
-		#pragma region PlayerCollision
-
-		/*if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 3)) {
-			if (player1.isMoving()) {
-				if (player2.isMoving()) {
-
-
-				}
-				else {
-
-				}
-			}
-			else {
-				
-			}
-		}//*/
-
-		#pragma endregion
 
 		player1.OnMove();
 		player2.OnMove();
@@ -415,33 +481,11 @@ namespace game_framework {
 		for (int i = 0; i < numberOfMonster; i++)
 		{
 			monster = _monster.begin() + i;
-			//monJump->SetGrounded(monJump->GetY() > SIZE_Y / 2 - 15);
 			(*monster)->OnMove();
 			typeOfPlayer1Collision = (*monster)->isCollision(player1);
 			typeOfPlayer2Collision = (*monster)->isCollision(player2);
 			if (typeOfPlayer1Collision > 1 || typeOfPlayer2Collision > 1) {
 				_monster.erase(monster);
-				i--;
-				numberOfMonster--;
-			}
-			else if (typeOfPlayer1Collision + typeOfPlayer2Collision > 0)
-			{
-				player1.Spawn();
-				player2.Spawn();
-			}
-		}//*/
-
-		numberOfMonster = _monsterGo.end() - _monsterGo.begin();
-		vector<MonsterGo>::iterator monsterGo;
-		for (int i = 0; i < numberOfMonster; i++)
-		{
-			monsterGo = _monsterGo.begin() + i;
-			//monJump->SetGrounded(monJump->GetY() > SIZE_Y / 2 - 15);
-			monsterGo->OnMove();
-			typeOfPlayer1Collision = monsterGo->isCollision(player1);
-			typeOfPlayer2Collision = monsterGo->isCollision(player2);
-			if (typeOfPlayer1Collision > 1 || typeOfPlayer2Collision > 1) {
-				_monsterGo.erase(monsterGo);
 				i--;
 				numberOfMonster--;
 			}
@@ -492,24 +536,11 @@ namespace game_framework {
 			(*monster)->LoadBitmapEntity();
 		}
 
-		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
-		{
-			monGo->LoadBitmapEntity();
-		}
-
 		for (vector<platform>::iterator platformGo = _platformGo.begin(); platformGo != _platformGo.end(); platformGo++)
 		{
 			platformGo->LoadBitmapEntity();
 		}
 		//floor1.LoadBitmapPlayer("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
-		/*for (int i = 0; i < _monsterJumpCount; i++)
-		{
-			_monsterJump[i].LoadBitmapMonster("./RES/monster/monster_2");
-		}
-		for (int i = 0; i < _monsterGoCount; i++)
-		{
-			_monsterGo[i].LoadBitmapMonster("./RES/monster/monster_1_up", 1);
-		}//*/
 		//gameMap.LoadBitmap();
 		//
 		// 完成部分Loading動作，提高進度
@@ -547,22 +578,18 @@ namespace game_framework {
 		const char KEY_D = 0x44;		// keyboard D
 		if (nChar == KEY_LEFT)
 		{
-			//eraser.SetMovingLeft(true);
 			player1.SetMovingLeft(true);
 		}
 		if (nChar == KEY_RIGHT)
 		{
-			//eraser.SetMovingRight(true);
 			player1.SetMovingRight(true);
 		}
 		if (nChar == KEY_UP)
 		{
-			//eraser.SetMovingUp(true);
 			player1.SetJumping(true);
 		}
 		if (nChar == KEY_DOWN)
 		{
-			//eraser.SetMovingDown(true);
 			player1.SetJumping(true);
 		}
 		if (nChar == KEY_W)
@@ -590,6 +617,10 @@ namespace game_framework {
 			for (int i = 0; i < 4; i++)
 			{
 				_monster.push_back(new MonsterJump(640 + 100 * i, SIZE_Y / 2 - 100));
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				_monster.push_back(new MonsterGo(1350 + i * 70, SIZE_Y / 2 - 45));
 			}
 			for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
 			{
@@ -712,11 +743,6 @@ namespace game_framework {
 		for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
 		{
 			(*monster)->OnShow();
-		}
-
-		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
-		{
-			monGo->OnShow();
 		}
 
 		for (vector<platform>::iterator platformGo = _platformGo.begin(); platformGo != _platformGo.end(); platformGo++)

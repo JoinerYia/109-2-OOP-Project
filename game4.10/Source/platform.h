@@ -28,7 +28,6 @@ namespace game_framework
 	private:
 		//RectangleF		 _shape;					// 平台的中心座標及大小
 		CAnimation		_platform_left, _platform_right;// 平台動畫
-		ShapeF* _shadow;
 		bool			_isRightOrLeft;				// False往右移動 True往左移動
 		int				_startX;					// 一開始的 X 座標
 		int				_moveSpace;					// 左右移動的距離
