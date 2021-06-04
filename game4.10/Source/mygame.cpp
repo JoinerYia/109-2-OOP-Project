@@ -212,7 +212,7 @@ namespace game_framework {
 		MonsterGo tmpMonGo;
 		for (int i = 0; i < 4; i++)
 		{
-			tmpMonGo = MonsterGo(1350 + i * 70, SIZE_Y / 2 - 78);
+			tmpMonGo = MonsterGo(1350 + i * 70, SIZE_Y / 2 - 45);
 			_monsterGo.push_back(tmpMonGo);
 		}
 
