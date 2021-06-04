@@ -21,6 +21,7 @@
     <ClCompile Include="Source\Monster.cpp" />
     <ClCompile Include="Source\MonsterJump.cpp" />
     <ClCompile Include="Source\MonsterGo.cpp" />
+    <ClCompile Include="Source\platform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource1.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="Source\Monster.h" />
     <ClInclude Include="Source\MonsterJump.h" />
     <ClInclude Include="Source\MonsterGo.h" />
+    <ClInclude Include="Source\platform.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

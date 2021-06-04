@@ -221,6 +221,13 @@ namespace game_framework {
 			_monsterGo.push_back(tmpMonGo);
 		}
 
+		platform tmpPlatformGo;
+		for (int i = 0; i < 2; i++)
+		{
+			tmpPlatformGo = platform(550 + i * 70, SIZE_Y / 2 - 78);
+			_platformGo.push_back(tmpPlatformGo);
+		}
+
 		/*
 		_monsterJump = new MonsterJump[_monsterJumpCount];
 		for (int i = 0; i < _monsterJumpCount; i++)
@@ -445,6 +452,13 @@ namespace game_framework {
 			}
 		}//*/
 
+		int numberOfPlatform = _platformGo.end() - _platformGo.begin();
+		vector<platform>::iterator platformGo;
+		for (int i = 0; i < numberOfPlatform; i++)
+		{
+			platformGo = _platformGo.begin() + i;
+			platformGo->OnMove();
+		}
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -481,6 +495,11 @@ namespace game_framework {
 		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
 		{
 			monGo->LoadBitmapEntity();
+		}
+
+		for (vector<platform>::iterator platformGo = _platformGo.begin(); platformGo != _platformGo.end(); platformGo++)
+		{
+			platformGo->LoadBitmapEntity();
 		}
 		//floor1.LoadBitmapPlayer("E:/X/臺北科技大學/109-2-OOP-Project/game4.10/rgb.bmp");
 		/*for (int i = 0; i < _monsterJumpCount; i++)
@@ -698,6 +717,11 @@ namespace game_framework {
 		for (vector<MonsterGo>::iterator monGo = _monsterGo.begin(); monGo != _monsterGo.end(); monGo++)
 		{
 			monGo->OnShow();
+		}
+
+		for (vector<platform>::iterator platformGo = _platformGo.begin(); platformGo != _platformGo.end(); platformGo++)
+		{
+			platformGo->OnShow();
 		}
 		
 		player1.OnShow();

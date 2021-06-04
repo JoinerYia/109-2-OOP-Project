@@ -45,6 +45,7 @@
 #include "Floor.h"
 #include "MonsterJump.h"
 #include "MonsterGo.h"
+#include "platform.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -112,6 +113,7 @@ namespace game_framework {
 		vector<Floor>	floors;			//地板
 		vector<Entity*>	_monster;		// 怪物列表
 		vector<MonsterGo>_monsterGo;	// 會左右移動的怪物列表
+		vector<platform>_platformGo;	// 會左右移動的平台列表
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
