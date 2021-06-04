@@ -66,6 +66,11 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
 	/////////////////////////////////////////////////////////////////////////////
+	int Abs(int value) {
+		if (value < 0)
+			return -value;
+		else return value;
+	}
 	
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
@@ -196,7 +201,7 @@ namespace game_framework {
 		//ball = new CBall [NUMBALLS];
 		//testX = testY = 0;
 		player1 = Player(0, SIZE_Y / 2 - 100, 1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
-		player2 = Player(0, SIZE_Y / 2 - 100, 2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
+		player2 = Player(50, SIZE_Y / 2 - 100, 2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		gates.push_back(Gate(300, SIZE_Y / 2 - 30));// 門動畫播放速度的常數用預設值(越大越慢)
 		gates.push_back(Gate(1080, SIZE_Y / 2 - 30));
 
@@ -289,10 +294,68 @@ namespace game_framework {
 		//
 		//bball.OnMove();
 		//c_test.OnMove();
-		bool	isPlayer1Grouded = false,
+		bool isPlayer1Grouded = false,
 			isPlayer2Grouded = false,
 			isPlayer1Passed = false,
 			isPlayer2Passed = false;
+		bool isP1R = player1.isMovingRight(),
+			isP1L = player1.isMovingLeft(),
+			isP2R = player2.isMovingRight(),
+			isP2L = player2.isMovingLeft();
+		//*
+		if (player1.isJumping() || player2.isJumping())
+		{
+			if (player1.isJumping()|| player2.GetY() - player1.GetY() > 45)
+			{
+				if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 2)) {
+					if (player2.GetY() - player1.GetY() > 45)
+						isPlayer1Grouded = true;
+					else if (player1.GetY() - player2.GetY() > 55)
+						isPlayer2Grouded = true;
+				}
+			}
+			if (player2.isJumping()|| player1.GetY() - player2.GetY() > 55)
+			{
+				if (player2.GetShape()->isShapeCoverWithDepart(player1.GetShape(), 2)) {
+					if (player2.GetY() - player1.GetY() > 45)
+					{
+						isPlayer1Grouded = true;
+					}
+					else if (player1.GetY() - player2.GetY() > 55)
+					{
+						isPlayer2Grouded = true;
+					}
+				}
+			}
+		}
+		else {
+			if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 3)) {
+				if (player2.GetY() - player1.GetY() > 45)
+				{
+					isPlayer1Grouded = true;
+					if (!player1.isMoving()) {
+						player1.SetMovingLeft(player2.isMovingLeft());
+						player1.SetMovingRight(player2.isMovingRight());
+					}
+				}
+				else if (player1.GetY() - player2.GetY() > 55)
+				{
+					isPlayer2Grouded = true;
+					if (!player2.isMoving()) {
+						player2.SetMovingLeft(player1.isMovingLeft());
+						player2.SetMovingRight(player1.isMovingRight());
+					}
+				}
+			}
+		}//*/
+
+		/*
+		if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 3)) {
+			if (player2.GetY() - player1.GetY() > 45)
+				isPlayer1Grouded = true;
+			else if (player1.GetY() - player2.GetY() > 55)
+				isPlayer2Grouded = true;
+		}//*/
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
 			isPlayer1Grouded |= floor->isCollision(player1);
@@ -308,8 +371,36 @@ namespace game_framework {
 		player2.SetGrounded(isPlayer2Grouded && !isPlayer2Passed);
 		player1.SetPassed(isPlayer1Passed);
 		player2.SetPassed(isPlayer2Passed);
+
+		#pragma region PlayerCollision
+
+		/*if (player1.GetShape()->isShapeCoverWithDepart(player2.GetShape(), 3)) {
+			if (player1.isMoving()) {
+				if (player2.isMoving()) {
+
+
+				}
+				else {
+
+				}
+			}
+			else {
+				
+			}
+		}//*/
+
+		#pragma endregion
+
 		player1.OnMove();
 		player2.OnMove();
+
+		#pragma region Reset
+		player1.SetMovingRight(isP1R);
+		player1.SetMovingLeft(isP1L);
+		player2.SetMovingRight(isP2R);
+		player2.SetMovingLeft(isP2L);
+		#pragma endregion
+
 
 		int typeOfPlayer1Collision, typeOfPlayer2Collision;
 		int numberOfMonster = _monster.end() - _monster.begin();

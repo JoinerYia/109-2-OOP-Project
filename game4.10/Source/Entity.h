@@ -12,8 +12,8 @@ protected:
 public:
 
 	virtual void LoadBitmapEntity();
-	virtual void OnShow();
 	virtual void OnMove();
+	virtual void OnShow();
 
 	void Offset(int dx, int dy);
 	void SetXY(int x, int y);

@@ -12,24 +12,24 @@ namespace game_framework
 	void Gate::Init(int x, int y, int width, int height, int DelayCount)
 	{
 		_type = 0;
-		_shape = RectangleF((float)width, (float)height-2);//重設碰撞箱
-		_shape.SetLeftTop((float)x, (float)y+1);			//重設座標
+		_shape = RectangleF((float)width-80, (float)height-2);//重設碰撞箱
+		_shape.SetLeftTop((float)x+40, (float)y+1);			//重設座標
 		_Gate.SetDelayCount(DelayCount);				//預設值
 	}
 
 	Gate::Gate()										// 設定動畫播放速度為 10(越大越慢)
 	{
-		Init(0, 0, 210, 60, 10);
+		Init(0, 0, 240, 60, 10);
 	}
 
 	Gate::Gate(int DelayCount)							// 設定動畫播放速度的常數(越大越慢)
 	{
-		Init(0, 0, 210, 60, DelayCount);
+		Init(0, 0, 240, 60, DelayCount);
 	}
 
 	Gate::Gate(int x, int y)							// 設定動畫播放速度為 10(越大越慢)
 	{
-		Init(x, y, 210, 60, 10);
+		Init(x, y, 240, 60, 10);
 	}
 
 	Gate::~Gate() {	}
@@ -72,7 +72,7 @@ namespace game_framework
 		_shape.Offset((float)(x - GetX()), (float)(y - GetY()));
 	}
 
-	int Gate::GetX() const { return (int)_shape.GetLeft(); }
+	int Gate::GetX() const { return (int)_shape.GetLeft()-40; }
 	int Gate::GetY() const { return (int)_shape.GetTop(); }
 	ShapeF Gate::GetShapeF() { return _shape; }
 }

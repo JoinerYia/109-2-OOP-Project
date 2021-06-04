@@ -44,8 +44,8 @@ namespace game_framework
 	{
 		_type = type;
 		if(_type == 2)
-			_shape = new RectangleF(45, 60);
-		else _shape = new RectangleF(45, 50);				//重設碰撞箱
+			_shape = new RectangleF(55, 65);
+		else _shape = new RectangleF(55, 55);				//重設碰撞箱
 		_shape->SetLeftTop((float)x, (float)y);				//重設座標
 		_xSpawnPoint = x;
 		_ySpawnPoint = y;
@@ -60,7 +60,7 @@ namespace game_framework
 		_player_right_neg.SetDelayCount(DelayCount);		//預設值
 		//_player_left.SetTopLeft(x, y);
 
-		_maxSpeed = 15;									//初始化最高速度
+		_maxSpeed = 8;									//初始化最高速度
 		_speedX = 0;									//初始化水平速度
 		_speedY = 0;									//初始化垂直速度
 		_acceleration = 5;								//初始化加速度
@@ -225,22 +225,18 @@ namespace game_framework
 
 	void Player::OnShow()								// 玩家顯示
 	{
-		int x = GetX(), y = GetY();
+		int x = GetX() + 5, y = GetY() + 5;
 		if (_gravity > 0) {
 			//往左走
 			if (_isMovingLeft)
 			{
-				//顯示往左動畫
-				_player_left.SetTopLeft(GetX(), GetY());
+				_player_left.SetTopLeft(x, y);
 				_player_left.OnShow();
-				//不顯示往右動畫
 			}
 			//往右走
 			else if (_isMovingRight)
 			{
-				//不顯示往左動畫
-				//顯示往右動畫
-				_player_right.SetTopLeft(GetX(), GetY());
+				_player_right.SetTopLeft(x, y);
 				_player_right.OnShow();
 			}
 			//停下或往上下
@@ -250,14 +246,14 @@ namespace game_framework
 				if (_endLeftRight)
 				{
 					//顯示往左動畫
-					_player_left.SetTopLeft(GetX(), GetY());
+					_player_left.SetTopLeft(x, y);
 					_player_left.OnShow();
 				}
 				//最後往右
 				else
 				{
 					//顯示往右動畫
-					_player_right.SetTopLeft(GetX(), GetY());
+					_player_right.SetTopLeft(x, y);
 					_player_right.OnShow();
 				}
 			}
@@ -322,7 +318,7 @@ namespace game_framework
 
 	void Player::SetPassed(bool flag)				// 設定是否已經通過傳送門
 	{
-		if (_isPassed && (!flag) && !_isGrounded)
+		if (_isPassed && (!flag))
 		{
 			ChangeGravity();
 		}
@@ -343,6 +339,31 @@ namespace game_framework
 	void Player::Spawn()
 	{
 		Init(_xSpawnPoint, _ySpawnPoint, _type, _delayTime);
+	}
+
+	bool Player::isMoving()
+	{
+		return _isMovingLeft || _isMovingRight;
+	}
+
+	bool Player::isMovingLeft()
+	{
+		return _isMovingLeft;
+	}
+
+	bool Player::isMovingRight()
+	{
+		return _isMovingRight;
+	}
+
+	bool Player::isJumping()
+	{
+		return _isJumping;
+	}
+
+	bool Player::isGrounded()
+	{
+		return _isGrounded;
 	}
 
 	/*
