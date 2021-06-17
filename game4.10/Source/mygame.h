@@ -114,6 +114,10 @@ namespace game_framework {
 		vector<Entity*>	_monster;		// 怪物列表
 		vector<MonsterGo>_monsterGo;	// 會左右移動的怪物列表
 		vector<platform>_platformGo;	// 會左右移動的平台列表
+		
+		bool isAutoDisplay;
+		int indexOfAutoDisplay;
+		void AutoDisplay();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -12,10 +12,9 @@ namespace game_framework
 	void platform::Init(int x, int y, int DelayCount)
 	{
 
-		_shape = new RectangleF(65, 64);				//重設碰撞箱
+		_shape = new RectangleF(65, 42);				//重設碰撞箱
 		_shape->SetLeftTop((float)x, (float)y);			//重設座標
 		_yCenter = SIZE_Y / 2 - 125;
-		_shadow = new RectangleF(65, 64);
 
 		_isRightOrLeft = true;
 		_platform_left.SetDelayCount(DelayCount);		//預設值
@@ -72,7 +71,6 @@ namespace game_framework
 		_platform_right.AddBitmap(fileChar2, RGB(255, 255, 255));			//設白色為透明
 		delete[] fileChar2;
 
-		_shadow->SetLeftTop((float)_shape->GetLeft(), (float)SIZE_Y - _shape->GetBottom());
 	}
 
 	void platform::OnMove()													// 平台依頻率更換bitmap
@@ -110,7 +108,6 @@ namespace game_framework
 		_platform_right.OnMove();
 
 		_shape->Offset((float)_speedX, (float)_speedY);
-		_shadow->SetLeftTop(_shape->GetLeft(), SIZE_Y - _shape->GetBottom());
 	}
 
 	void platform::OnShow()								// 平台顯示
@@ -131,6 +128,12 @@ namespace game_framework
 			_platform_right.SetTopLeft(x, y);
 			_platform_right.OnShow();
 		}
+
+		/*CDC* myDC = CDDraw::GetBackCDC();
+		myDC->SelectObject(GetStockObject(NULL_BRUSH));
+		//myDC->SelectObject(GetStock)
+		myDC->Rectangle((int)_shape->GetLeft(), (int)_shape->GetTop(), (int)_shape->GetRight(), (int)_shape->GetBottom());
+		CDDraw::ReleaseBackCDC();//*/
 	}
 
 	void platform::SetStartX(int x)			// 設定一開始的 X 座標
@@ -145,10 +148,15 @@ namespace game_framework
 
 	int platform::isCollision(Entity entity)
 	{
-		int result = 0;
-		if (_shadow->isShapeFCover(entity.GetShape()))result += 2;
-		if (_shape->isShapeFCover(entity.GetShape()))result += 1;
-		return result;
+		return 0;
+		int dHeight = (int)(entity.GetShape()->GetBottom() - _shape->GetTop());
+		if (dHeight < 0)dHeight = -dHeight;
+		if (dHeight < 15) {
+			if (_shape->isShapeFCover(entity.GetShape()))
+				return 1;
+			else return 0;
+		}
+		return 0;
 	}
 
 }

@@ -200,6 +200,9 @@ namespace game_framework {
 	{
 		//ball = new CBall [NUMBALLS];
 		//testX = testY = 0;
+
+		isAutoDisplay = false;
+
 		player1 = Player(0, SIZE_Y / 2 - 100, 1);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		player2 = Player(50, SIZE_Y / 2 - 100, 2);				// 玩家動畫播放速度的常數用預設值(越大越慢)
 		gates.push_back(Gate(300, SIZE_Y / 2 - 30));// 門動畫播放速度的常數用預設值(越大越慢)
@@ -223,7 +226,7 @@ namespace game_framework {
 		platform tmpPlatformGo;
 		for (int i = 0; i < 2; i++)
 		{
-			tmpPlatformGo = platform(550 + i * 70, SIZE_Y / 2 - 78);
+			tmpPlatformGo = platform(550 + i * 70, SIZE_Y / 2 - 57);
 			_platformGo.push_back(tmpPlatformGo);
 		}
 
@@ -285,6 +288,9 @@ namespace game_framework {
 		//
 		// 移動背景圖的座標
 		//
+
+		if (isAutoDisplay)
+			AutoDisplay();
 
 		background.SetTopLeft((SIZE_X - background.Width()) / 2, (SIZE_Y - background.Height()) / 2);
 
@@ -448,6 +454,16 @@ namespace game_framework {
 			}
 		}//*/
 
+		int numberOfPlatform = _platformGo.end() - _platformGo.begin();
+		vector<platform>::iterator platformGo;
+		for (int i = 0; i < numberOfPlatform; i++)
+		{
+			platformGo = _platformGo.begin() + i;
+			isPlayer1Grouded |= platformGo->isCollision(player1) == 1;
+			isPlayer2Grouded |= platformGo->isCollision(player2) == 1;
+			platformGo->OnMove();
+		}
+
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
 			isPlayer1Grouded |= floor->isCollision(player1);
@@ -496,13 +512,6 @@ namespace game_framework {
 			}
 		}//*/
 
-		int numberOfPlatform = _platformGo.end() - _platformGo.begin();
-		vector<platform>::iterator platformGo;
-		for (int i = 0; i < numberOfPlatform; i++)
-		{
-			platformGo = _platformGo.begin() + i;
-			platformGo->OnMove();
-		}
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -677,6 +686,19 @@ namespace game_framework {
 		{
 			player2.SetMovingRight(false);
 		}
+		if (nChar == 'P')
+		{
+			indexOfAutoDisplay = 0;
+			isAutoDisplay = !isAutoDisplay;
+			if (!isAutoDisplay) {
+				player1.SetMovingLeft(false);
+				player1.SetMovingRight(false);
+				player1.SetJumping(false);
+				player2.SetMovingLeft(false);
+				player2.SetMovingRight(false);
+				player2.SetJumping(false);
+			}
+		}
 	}
 
 	#pragma endregion
@@ -764,5 +786,111 @@ namespace game_framework {
 			floor->OnShow();
 		}
 
+	}
+
+	void CGameStateRun::AutoDisplay() {
+		if (indexOfAutoDisplay == 0) {
+			player1.Spawn();
+			player2.Spawn();
+
+			_monster.clear();
+			for (int i = 0; i < 4; i++)
+			{
+				_monster.push_back(new MonsterJump(640 + 100 * i, SIZE_Y / 2 - 100));
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				_monster.push_back(new MonsterGo(1350 + i * 70, SIZE_Y / 2 - 45));
+			}
+			for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
+			{
+				(*monster)->LoadBitmapEntity();
+			}
+		}
+		else if (indexOfAutoDisplay < 10) {
+			player2.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 20) {
+			player1.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 35) {
+			player1.SetJumping(true);
+			player2.SetMovingRight(false);
+		}
+		else if (indexOfAutoDisplay < 40) {
+			player2.SetJumping(true);
+		}
+		else if (indexOfAutoDisplay < 45) {
+			player1.SetMovingRight(true);
+			player1.SetJumping(true);
+		}
+		else if (indexOfAutoDisplay < 60) {
+			player1.SetJumping(false);
+			player2.SetMovingRight(true);
+			player2.SetJumping(true);
+		}
+		else if (indexOfAutoDisplay < 80) {
+			player1.SetMovingRight(true);
+			player2.SetJumping(false);
+		}
+		else if (indexOfAutoDisplay < 90) {
+			player1.SetMovingRight(false);
+			player2.SetMovingRight(false);
+		}
+		else if (indexOfAutoDisplay < 100) {
+			player1.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 140) {
+			player1.SetMovingRight(false);
+			player2.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 160) {
+			player1.SetMovingRight(true);
+			player2.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 170) {
+			player1.SetJumping(true);
+			player2.SetJumping(true);
+		}
+		else if (indexOfAutoDisplay < 200) {
+			player1.SetJumping(false);
+			player2.SetJumping(false);
+		}
+		else if (indexOfAutoDisplay < 220) {
+			player1.SetMovingRight(false);
+			player2.SetMovingRight(false);
+		}
+		else if (indexOfAutoDisplay < 230) { }
+		else if (indexOfAutoDisplay < 235) {
+			player1.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 240) { }
+		else if (indexOfAutoDisplay < 280) {
+			player1.SetMovingRight(false);
+			player2.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 300) {
+			player2.SetMovingRight(false);
+		}
+		else if (indexOfAutoDisplay < 340) {
+			player2.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 380) {
+			player1.SetMovingRight(true);
+		}
+		else if (indexOfAutoDisplay < 390) {
+			player1.SetMovingLeft(false);
+			player1.SetMovingRight(false);
+			player1.SetJumping(false);
+			player2.SetMovingLeft(false);
+			player2.SetMovingRight(false);
+			player2.SetJumping(false);
+		}
+		else if (indexOfAutoDisplay < 500) {}
+		else {
+			//isAutoDisplay = false;
+			indexOfAutoDisplay = -1;
+		}
+		indexOfAutoDisplay += 1;
 	}
 }
