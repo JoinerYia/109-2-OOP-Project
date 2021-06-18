@@ -211,6 +211,7 @@ namespace game_framework {
 		floors.push_back(Floor(-100, SIZE_Y / 2 - 15, 400, 30));
 		floors.push_back(Floor(540, SIZE_Y / 2 - 15, 540, 30));
 		floors.push_back(Floor(1320, SIZE_Y / 2 - 15, 810, 30));
+		floors.push_back(Floor(1320 + 810, SIZE_Y / 2 - 15, 2810, 30));
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -512,6 +513,39 @@ namespace game_framework {
 			}
 		}//*/
 
+
+		// 攝影機移動
+		int move_x = 0;
+		int moving_ratio = 10;
+		if (player1.GetX() > SIZE_X * (moving_ratio - 1) / moving_ratio && player2.GetX() > SIZE_X * (moving_ratio - 1) / moving_ratio)
+		{
+			move_x = 100;
+		}
+		else if (player1.GetX() < SIZE_X / moving_ratio && player2.GetX() < SIZE_X / moving_ratio)
+		{
+			move_x = -100;
+		}
+		player1.SetXY(player1.GetX() - move_x, player1.GetY());
+		player2.SetXY(player2.GetX() - move_x, player2.GetY());
+
+		for (int i = 0; i < numberOfPlatform; i++)
+		{
+			platformGo = _platformGo.begin() + i;
+			platformGo->SetXY(platformGo->GetX() - move_x, platformGo->GetY());
+		}
+
+		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
+		{
+			floor->SetXY(floor->GetX() - move_x, floor->GetY());
+		}
+		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
+		{
+			gate->SetXY(gate->GetX() - move_x, gate->GetY());
+		}
+		for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
+		{
+			(*monster)->SetXY((*monster)->GetX() - move_x, (*monster)->GetY());
+		}
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
