@@ -517,31 +517,38 @@ namespace game_framework {
 		// 攝影機移動
 		int move_x = 0;
 		int moving_ratio = 10;
+		// 玩家靠近右邊
 		if (player1.GetX() > SIZE_X * (moving_ratio - 1) / moving_ratio && player2.GetX() > SIZE_X * (moving_ratio - 1) / moving_ratio)
 		{
+			// 全部往左移
 			move_x = 100;
 		}
+		// 玩家靠近左邊
 		else if (player1.GetX() < SIZE_X / moving_ratio && player2.GetX() < SIZE_X / moving_ratio)
 		{
+			// 全部往右移
 			move_x = -100;
 		}
+		// 玩家移動
 		player1.SetXY(player1.GetX() - move_x, player1.GetY());
 		player2.SetXY(player2.GetX() - move_x, player2.GetY());
-
+		// 平台移動
 		for (int i = 0; i < numberOfPlatform; i++)
 		{
 			platformGo = _platformGo.begin() + i;
 			platformGo->SetXY(platformGo->GetX() - move_x, platformGo->GetY());
 		}
-
+		// 地板移動
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
 			floor->SetXY(floor->GetX() - move_x, floor->GetY());
 		}
+		// 門移動
 		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
 		{
 			gate->SetXY(gate->GetX() - move_x, gate->GetY());
 		}
+		// 怪物移動
 		for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
 		{
 			(*monster)->SetXY((*monster)->GetX() - move_x, (*monster)->GetY());
