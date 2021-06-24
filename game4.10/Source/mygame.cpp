@@ -1360,31 +1360,38 @@ namespace game_framework {
 		// 攝影機移動
 		int move_x = 0;
 		int moving_ratio = 10;
+		// 玩家靠近右邊
 		if (player1.GetX() > SIZE_X * (moving_ratio - 1) / moving_ratio && player2.GetX() > SIZE_X * (moving_ratio - 1) / moving_ratio)
 		{
+			// 全部往左移
 			move_x = 100;
 		}
+		// 玩家靠近左邊
 		else if (player1.GetX() < SIZE_X / moving_ratio && player2.GetX() < SIZE_X / moving_ratio)
 		{
+			// 全部往右移
 			move_x = -100;
 		}
+		// 玩家移動
 		player1.SetXY(player1.GetX() - move_x, player1.GetY());
 		player2.SetXY(player2.GetX() - move_x, player2.GetY());
-
+		// 平台移動
 		for (int i = 0; i < numberOfPlatform; i++)
 		{
 			platformGo = _platformGo.begin() + i;
 			platformGo->SetXY(platformGo->GetX() - move_x, platformGo->GetY());
 		}
-
+		// 地板移動
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
 			floor->SetXY(floor->GetX() - move_x, floor->GetY());
 		}
+		// 門移動
 		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
 		{
 			gate->SetXY(gate->GetX() - move_x, gate->GetY());
 		}
+		// 怪物移動
 		for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
 		{
 			(*monster)->SetXY((*monster)->GetX() - move_x, (*monster)->GetY());
@@ -1683,91 +1690,6 @@ namespace game_framework {
 			}
 		}
 
-		/*else if (indexOfAutoDisplay < 10) {//000010
-			player2.SetMovingRight(true);
-
-		}
-		else if (indexOfAutoDisplay < 20) {//010010
-			player1.SetMovingRight(true);
-		}
-		else if (indexOfAutoDisplay < 35) {//011000
-			player1.SetJumping(true);
-			player2.SetMovingRight(false);
-		}
-		else if (indexOfAutoDisplay < 40) {//010010
-			player2.SetJumping(true);
-		}
-		else if (indexOfAutoDisplay < 45) {
-			player1.SetMovingRight(true);
-			player1.SetJumping(true);
-		}
-		else if (indexOfAutoDisplay < 60) {
-			player1.SetJumping(false);
-			player2.SetMovingRight(true);
-			player2.SetJumping(true);
-		}
-		else if (indexOfAutoDisplay < 80) {
-			player1.SetMovingRight(true);
-			player2.SetJumping(false);
-		}
-		else if (indexOfAutoDisplay < 90) {
-			player1.SetMovingRight(false);
-			player2.SetMovingRight(false);
-		}
-		else if (indexOfAutoDisplay < 100) {
-			player1.SetMovingRight(true);
-		}
-		else if (indexOfAutoDisplay < 140) {
-			player1.SetMovingRight(false);
-			player2.SetMovingRight(true);
-		}
-		else if (indexOfAutoDisplay < 160) {
-			player1.SetMovingRight(true);
-			player2.SetMovingRight(true);
-		}
-		else if (indexOfAutoDisplay < 170) {
-			player1.SetJumping(true);
-			player2.SetJumping(true);
-		}
-		else if (indexOfAutoDisplay < 200) {
-			player1.SetJumping(false);
-			player2.SetJumping(false);
-		}
-		else if (indexOfAutoDisplay < 220) {
-			player1.SetMovingRight(false);
-			player2.SetMovingRight(false);
-		}
-		else if (indexOfAutoDisplay < 230) { }
-		else if (indexOfAutoDisplay < 235) {
-			player1.SetMovingRight(true);
-		}
-		else if (indexOfAutoDisplay < 240) { }
-		else if (indexOfAutoDisplay < 280) {
-			player1.SetMovingRight(false);
-			player2.SetMovingRight(true);
-		}
-		else if (indexOfAutoDisplay < 300) {
-			player2.SetMovingRight(false);
-		}
-		else if (indexOfAutoDisplay < 340) {
-			player2.SetMovingRight(true);
-		}
-		else if (indexOfAutoDisplay < 380) {
-			player1.SetMovingRight(true);
-		}
-		else if (indexOfAutoDisplay < 390) {
-			player1.SetMovingLeft(false);
-			player1.SetMovingRight(false);
-			player1.SetJumping(false);
-			player2.SetMovingLeft(false);
-			player2.SetMovingRight(false);
-			player2.SetJumping(false);
-		}
-		else if (indexOfAutoDisplay < 500) {}
-		else {
-			//isAutoDisplay = false;
-			indexOfAutoDisplay = -1;
-		}//*/
 		indexOfAutoDisplay += 1;
 	}
 
