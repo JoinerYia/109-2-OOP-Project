@@ -13,6 +13,7 @@ namespace game_framework
 		Gate();										// 設定動畫播放速度為 10(越大越慢)
 		Gate(int DelayCount);						// 設定動畫播放速度的常數(越大越慢)
 		Gate(int x, int y);							// 設定動畫播放速度為 10(越大越慢)
+		Gate(int x, int y, bool isVertical);		// 設定動畫播放速度為 10(越大越慢)
 		~Gate();
 		void LoadBitmapGate(string file, int n);	// 從路徑 "file(1 ~ n)" 新增 n 張圖形
 		void OnMove();								// 門依頻率更換bitmap

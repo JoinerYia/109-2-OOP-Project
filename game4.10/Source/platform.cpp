@@ -12,7 +12,7 @@ namespace game_framework
 	void platform::Init(int x, int y, int DelayCount)
 	{
 
-		_shape = new RectangleF(65, 42);				//重設碰撞箱
+		_shape = new RectangleF(42, 42);				//重設碰撞箱
 		_shape->SetLeftTop((float)x, (float)y);			//重設座標
 		_yCenter = SIZE_Y / 2 - 125;
 
@@ -76,6 +76,7 @@ namespace game_framework
 	void platform::OnMove()													// 平台依頻率更換bitmap
 	{
 		int yCenter = _yCenter;
+		if (_moveSpace == 0) return;
 		if (_isRightOrLeft)
 		{
 			if (_speedX > -_maxSpeed)
@@ -148,12 +149,17 @@ namespace game_framework
 
 	int platform::isCollision(Entity entity)
 	{
-		return 0;
-		int dHeight = (int)(entity.GetShape()->GetBottom() - _shape->GetTop());
-		if (dHeight < 0)dHeight = -dHeight;
-		if (dHeight < 15) {
-			if (_shape->isShapeFCover(entity.GetShape()))
+		//if (dHeight < 0)dHeight = -dHeight;
+		if (_shape->isShapeFCover(entity.GetShape()))
+		{
+			int dHeight = (int)(entity.GetShape()->GetBottom() - _shape->GetTop());
+			int dx = (int)(entity.GetShape()->GetX() - _shape->GetX());
+			if (dx < 0)dx = -dx;
+			if (dx > 21)_shape->isShapeCoverWithDepart(entity.GetShape(), 2);
+			else if (dHeight > 0) {
+				entity.Offset(0, -dHeight + 1);
 				return 1;
+			}
 			else return 0;
 		}
 		return 0;

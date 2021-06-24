@@ -81,6 +81,36 @@ namespace game_framework {
 	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
 
+	class CGameStateTeach : public CGameState {
+	public:
+		CGameStateTeach(CGame* g);
+		~CGameStateTeach();
+		void OnBeginState();							// 設定每次重玩所需的變數
+		void OnInit();  								// 遊戲的初值及圖形設定
+		void OnKeyDown(UINT, UINT, UINT);
+		void OnKeyUp(UINT, UINT, UINT);
+		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
+		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+	protected:
+		void OnMove();									// 移動遊戲元素
+		void OnShow();									// 顯示這個狀態的遊戲畫面
+	private:
+		CMovingBitmap	background;		// 背景圖
+		Player			player1, player2;//玩家
+		vector<Gate>	gates;			//傳送門
+		vector<Floor>	floors;			//地板
+		vector<Entity*>	_monster;		// 怪物列表
+		vector<platform>_platformGo;	// 會左右移動的平台列表
+		int state;
+
+		bool isAutoDisplay;
+		int indexOfAutoDisplay;
+		void AutoDisplay();
+	};//*/
+
 	class CGameStateRun : public CGameState {
 	public:
 		CGameStateRun(CGame *g);
@@ -112,12 +142,14 @@ namespace game_framework {
 		vector<Gate>	gates;			//傳送門
 		vector<Floor>	floors;			//地板
 		vector<Entity*>	_monster;		// 怪物列表
-		vector<MonsterGo>_monsterGo;	// 會左右移動的怪物列表
 		vector<platform>_platformGo;	// 會左右移動的平台列表
+		int cameraX, cameraY, minCameraX, maxCameraX;
 		
 		bool isAutoDisplay;
 		int indexOfAutoDisplay;
 		void AutoDisplay();
+		void CameraMove();
+		void CameraMoveImmediately(int x, int y);
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

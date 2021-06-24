@@ -32,6 +32,12 @@ namespace game_framework
 		Init(x, y, 240, 60, 10);
 	}
 
+	Gate::Gate(int x, int y, bool isVertical)
+	{
+		if(isVertical) Init(x, y, 60, 240, 10);
+		else Init(x, y, 240, 60, 10);
+	}
+
 	Gate::~Gate() {	}
 
 	void Gate::LoadBitmapGate(string file, int n)		// 從路徑 "file(1 ~ n)" 新增 n 張圖形
@@ -40,7 +46,9 @@ namespace game_framework
 		{
 			//讀取動畫圖片
 			stringstream fileString1;
-			fileString1 << file << i << ".bmp";
+			if (_shape.GetWidth() > _shape.GetHeight())
+				fileString1 << file << i << ".bmp";
+			else fileString1 << file << i << "_ver.bmp";
 			char* fileChar1 = new char[100];
 			fileString1 >> fileChar1;
 			_Gate.AddBitmap(fileChar1, RGB(255, 255, 255));				//設白色為透明
@@ -72,7 +80,15 @@ namespace game_framework
 		_shape.Offset((float)(x - GetX()), (float)(y - GetY()));
 	}
 
-	int Gate::GetX() const { return (int)_shape.GetLeft()-40; }
-	int Gate::GetY() const { return (int)_shape.GetTop(); }
+	int Gate::GetX() const { 
+		if (_shape.GetWidth() > _shape.GetHeight())
+			return (int)_shape.GetLeft() - 40;
+		else return (int)_shape.GetLeft();
+	}
+	int Gate::GetY() const {
+		if (_shape.GetWidth() > _shape.GetHeight())
+			return (int)_shape.GetTop();
+		else return (int)_shape.GetTop() - 40;
+	}
 	ShapeF Gate::GetShapeF() { return _shape; }
 }
