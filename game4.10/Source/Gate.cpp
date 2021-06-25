@@ -12,8 +12,15 @@ namespace game_framework
 	void Gate::Init(int x, int y, int width, int height, int DelayCount)
 	{
 		_type = 0;
-		_shape = RectangleF((float)width-80, (float)height-2);//重設碰撞箱
-		_shape.SetLeftTop((float)x+40, (float)y+1);			//重設座標
+
+		if (width > height) {
+			_shape = RectangleF((float)width - 80, (float)height - 2);//重設碰撞箱
+			_shape.SetLeftTop((float)x + 40, (float)y + 1);			//重設座標
+		}
+		else {
+			_shape = RectangleF((float)width - 2, (float)height - 80);//重設碰撞箱
+			_shape.SetLeftTop((float)x + 1, (float)y + 40);			//重設座標
+		}//*/
 		_Gate.SetDelayCount(DelayCount);				//預設值
 	}
 
@@ -65,6 +72,14 @@ namespace game_framework
 		//顯示動畫
 		_Gate.SetTopLeft(GetX(), GetY());
 		_Gate.OnShow();
+		/*
+		CDC* myDC = CDDraw::GetBackCDC();
+		myDC->SelectObject(GetStockObject(NULL_BRUSH));
+		//myDC->SelectObject(GetStock)
+		myDC->Rectangle((int)_shape.GetLeft(), (int)_shape.GetTop(), (int)_shape.GetRight(), (int)_shape.GetBottom());
+
+		CDDraw::ReleaseBackCDC();//*/
+
 	}
 
 	bool Gate::isCollision(Entity entity)

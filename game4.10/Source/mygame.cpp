@@ -161,7 +161,7 @@ namespace game_framework {
 	{
 		counter--;
 		if (counter < 0)
-			GotoGameState(GAME_STATE_INIT);
+			GotoGameState(GAME_STATE_TEACH);
 	}
 
 	void CGameStateOver::OnBeginState()
@@ -185,6 +185,7 @@ namespace game_framework {
 		//
 		ShowInitProgress(100);
 		GotoGameState(GAME_STATE_TEACH);
+
 	}
 
 	void CGameStateOver::OnShow()
@@ -196,7 +197,7 @@ namespace game_framework {
 		pDC->SetBkColor(RGB(0, 0, 0));
 		pDC->SetTextColor(RGB(255, 255, 0));
 		char str[80];								// Demo 數字對字串的轉換
-		sprintf(str, "Game Over ! (%d)", counter / 30);
+		sprintf(str, "Game Complete ! (%d)", counter / 30);
 		pDC->TextOut(240, 210, str);
 		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
@@ -274,28 +275,29 @@ namespace game_framework {
 
 	void CGameStateTeach::OnBeginState()
 	{
-		const int BALL_GAP = 90;
-		const int BALL_XY_OFFSET = 45;
-		const int BALL_PER_ROW = 7;
-		const int HITS_LEFT = 10;
-		const int HITS_LEFT_X = 590;
-		const int HITS_LEFT_Y = 0;
-		const int ANIMATION_SPEED = 15;
-		/*for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
-			int x_pos = i % BALL_PER_ROW;
-			int y_pos = i / BALL_PER_ROW;
-			ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
-			ball[i].SetDelay(x_pos);
-			ball[i].SetIsAlive(true);
+		isAutoDisplay = false;
+
+		//*/				// 設定背景的起始座標
+		background.SetTopLeft(0, 0);
+		player1.Spawn();
+		player2.Spawn();
+
+		_monster.clear();
+		for (int i = 0; i < 4; i++)
+		{
+			_monster.push_back(new MonsterJump(640 + 100 * i, SIZE_Y / 2 - 100));
 		}
-		eraser.Initialize();//*/
-		background.SetTopLeft(0, 0);				// 設定背景的起始座標
-		//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-		//hits_left.SetInteger(player1.GetX());					// 指定剩下的撞擊數
-		//hits_left.SetTopLeft(HITS_LEFT_X, HITS_LEFT_Y);		// 指定剩下撞擊數的座標
-		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
-		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
-		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
+		for (int i = 0; i < 4; i++)
+		{
+			_monster.push_back(new MonsterGo(1350 + i * 70, SIZE_Y / 2 - 45));
+		}
+		for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
+		{
+			(*monster)->LoadBitmapEntity();
+		}
+
+		state = 0;
+
 	}
 
 	void CGameStateTeach::OnMove()							// 移動遊戲元素
@@ -993,6 +995,7 @@ namespace game_framework {
 		//testX = testY = 0;
 
 		isAutoDisplay = false;
+		isDebugMode = false;
 
 		int tmpX, tmpY;
 		cameraX = SIZE_X / 2;
@@ -1005,7 +1008,7 @@ namespace game_framework {
 			cout << "Stage1FloorData.txt not exist!";
 		else {
 			int x1, y1, x2, y2;
-			int portalX, portalY;
+			int portalX = 0, portalY = 0;
 			file >> x1 >> y1;
 			tmpX = x1; tmpY = y1;
 			minCameraX = x1 + SIZE_X / 2;
@@ -1014,9 +1017,15 @@ namespace game_framework {
 			while (file >> x2 >> y2)
 			{
 				if (x1 == -1) {
-					if (y2 < portalY) gates.push_back(Gate(portalX - 30, portalY, true));
-					else if (y2 > portalY) gates.push_back(Gate(portalX, portalY, true));
-					else gates.push_back(Gate(portalX, portalY));
+					if (y2 < portalY) {
+						gates.push_back(Gate(portalX - 60, y2 - 30, true));
+						x2 -= 60;
+					}
+					else if (y2 > portalY) {
+						gates.push_back(Gate(portalX - 60, portalY, true));
+						x2 -= 60;
+					}
+					else gates.push_back(Gate(portalX, portalY-15));
 				}
 				else if (x2 == -1) {
 					portalX = x1;
@@ -1149,8 +1158,8 @@ namespace game_framework {
 		//
 		//bball.OnMove();
 		//c_test.OnMove();
-		bool isPlayer1Grouded = false,
-			isPlayer2Grouded = false,
+		bool isPlayer1Grouded = isDebugMode,
+			isPlayer2Grouded = isDebugMode,
 			isPlayer1Passed = false,
 			isPlayer2Passed = false;
 		bool isP1R = player1.isMovingRight(),
@@ -1309,8 +1318,13 @@ namespace game_framework {
 
 		for (vector<Floor>::iterator floor = floors.begin(); floor != floors.end(); floor++)
 		{
-			isPlayer1Grouded |= floor->isCollision(player1);
-			isPlayer2Grouded |= floor->isCollision(player2);
+			int dx = floor->GetX();
+			if (dx < 0) dx = -dx;
+			if (dx < 2000) {
+				if (isPlayer1Grouded && isPlayer2Grouded) break;
+				isPlayer1Grouded |= floor->isCollision(player1);
+				isPlayer2Grouded |= floor->isCollision(player2);
+			}
 		}
 		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
 		{
@@ -1397,6 +1411,9 @@ namespace game_framework {
 			(*monster)->SetXY((*monster)->GetX() - move_x, (*monster)->GetY());
 		}
 		//*/
+
+		if (cameraX > 25000)
+			GotoGameState(GAME_STATE_OVER);
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -1472,43 +1489,49 @@ namespace game_framework {
 		const char KEY_D = 0x44;		// keyboard D
 		if (nChar == KEY_LEFT)
 		{
+			if (isDebugMode) player1.Offset(-120, 0);
 			player1.SetMovingLeft(true);
 		}
 		if (nChar == KEY_RIGHT)
 		{
+			if (isDebugMode) player1.Offset(120, 0);
 			player1.SetMovingRight(true);
 		}
 		if (nChar == KEY_UP)
 		{
-			player1.SetJumping(true);
+			if (isDebugMode) player1.Offset(0, -60);
+			else player1.SetJumping(true);
 		}
 		if (nChar == KEY_DOWN)
 		{
-			player1.SetJumping(true);
+			if (isDebugMode) player1.Offset(0, 60);
+			else player1.SetJumping(true);
 		}
 		if (nChar == KEY_W)
 		{
-			player2.SetJumping(true);
+			if (isDebugMode) player2.Offset(0, -60);
+			else player2.SetJumping(true);
 		}
 		if (nChar == KEY_S)
 		{
-			player2.SetJumping(true);
+			if (isDebugMode) player2.Offset(0, 60);
+			else player2.SetJumping(true);
 		}
 		if (nChar == KEY_A)
 		{
+			if (isDebugMode) player2.Offset(-120, 0);
 			player2.SetMovingLeft(true);
 		}
 		if (nChar == KEY_D)
 		{
+			if (isDebugMode) player2.Offset(120, 0);
 			player2.SetMovingRight(true);
 		}
 		if (nChar == 'R')
 		{
-			player1.Spawn();
-			player2.Spawn();
-
+			//player1.Spawn();
+			//player2.Spawn();
 			//*/
-
 		}
 	}
 
@@ -1558,10 +1581,22 @@ namespace game_framework {
 		{
 			player2.SetMovingRight(false);
 		}
+		if (nChar == 'O')
+		{
+			isDebugMode = !isDebugMode;
+			isAutoDisplay = false;
+			player1.SetMovingLeft(false);
+			player1.SetMovingRight(false);
+			player1.SetJumping(false);
+			player2.SetMovingLeft(false);
+			player2.SetMovingRight(false);
+			player2.SetJumping(false);
+		}
 		if (nChar == 'P')
 		{
 			indexOfAutoDisplay = 0;
 			isAutoDisplay = !isAutoDisplay;
+			isDebugMode = false;
 			if (!isAutoDisplay) {
 				player1.SetMovingLeft(false);
 				player1.SetMovingRight(false);
@@ -1649,6 +1684,9 @@ namespace game_framework {
 
 		for (vector<Gate>::iterator gate = gates.begin(); gate != gates.end(); gate++)
 		{
+			int dx = gate->GetX();
+			if (dx < 0) dx = -dx;
+			if (dx < 2000)
 			gate->OnShow();
 		}
 
@@ -1661,6 +1699,7 @@ namespace game_framework {
 				floor->OnShow();
 		}
 		//*/
+
 	}
 
 	const int triggerDistance[] =
@@ -1670,27 +1709,10 @@ namespace game_framework {
 	int tmpIndex = 0;
 
 	void CGameStateRun::AutoDisplay() {
-		return;
-		if (indexOfAutoDisplay == 0) {
-			player1.Spawn();
-			player2.Spawn();
-
-			_monster.clear();
-			for (int i = 0; i < 4; i++)
-			{
-				_monster.push_back(new MonsterJump(640 + 100 * i, SIZE_Y / 2 - 100));
-			}
-			for (int i = 0; i < 4; i++)
-			{
-				_monster.push_back(new MonsterGo(1350 + i * 70, SIZE_Y / 2 - 45));
-			}
-			for (vector<Entity*>::iterator monster = _monster.begin(); monster != _monster.end(); monster++)
-			{
-				(*monster)->LoadBitmapEntity();
-			}
-		}
-
-		indexOfAutoDisplay += 1;
+		player1.SetMovingRight(true);
+		player1.SetJumping(true);
+		player2.SetMovingRight(true);
+		player2.SetJumping(true);
 	}
 
 	void CGameStateRun::CameraMove() {

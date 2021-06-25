@@ -146,6 +146,7 @@ namespace game_framework {
 		int cameraX, cameraY, minCameraX, maxCameraX;
 		
 		bool isAutoDisplay;
+		bool isDebugMode;
 		int indexOfAutoDisplay;
 		void AutoDisplay();
 		void CameraMove();
