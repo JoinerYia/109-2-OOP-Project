@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "GenerateBitmap.h"
 
 namespace game_framework

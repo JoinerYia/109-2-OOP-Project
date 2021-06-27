@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "Entity.h"
 
 void Entity::LoadBitmapEntity() {}

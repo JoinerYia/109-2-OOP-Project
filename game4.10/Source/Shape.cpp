@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "Shape.h"
 
 float distanceToPoint(float x1, float y1, float x2, float y2) {
